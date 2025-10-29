@@ -13,3 +13,5 @@ Thumbs.db
 build/
 dist/
 __pycache__/
+# Ignorar ficheiros de ambiente (ex: chaves API)
+.env
