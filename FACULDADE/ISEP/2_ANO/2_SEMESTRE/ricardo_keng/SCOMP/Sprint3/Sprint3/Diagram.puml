@@ -1,0 +1,98 @@
+@startuml
+title Diagrama de Componentes - Simulação de Drones
+
+skinparam componentStyle rectangle
+skinparam package {
+  BorderColor Black
+  BackgroundColor White
+  FontSize 15
+}
+skinparam defaultTextAlignment center
+skinparam nodesep 100
+skinparam ranksep 70
+
+
+' ========== FICHEIROS FONTE ==========
+package "Ficheiros Fonte (.c)" {
+  [main.c]
+  [geradorDrones.c]
+  [simulacao_drone.c]
+  [collision.c]
+  [environment.c]
+  [report.c]
+
+}
+
+' ========== THREADS ==========
+package "Threads" {
+  [collision_thread]
+  [report_thread]
+  [environment_thread]
+}
+
+' ========== PROCESSOS ==========
+package "Processos" {
+  [Processo Principal (pai)]
+  [Processo Drone(i)]
+
+}
+
+' ========== FICHEIROS TEXTO ==========
+package "Ficheiros (.txt)" {
+  [vento.txt]
+  [drone_i.txt]
+  [relatorio_simulacao.txt]
+}
+
+' ========== MEMÓRIA PARTILHADA ==========
+package "Memória Partilhada " {
+  [Drones]
+  [Tick]
+  [Vento]
+}
+
+
+' ========== SEMÁFOROS ==========
+package "Semáforos" {
+  [Barreira de Sincronização] <<mechanism>>
+  [sem_excl]
+  [sem_barrier_in]
+  [sem_barrier_out]
+}
+
+
+' ========== MUTEX E VARIÁVEIS DE CONDIÇÃO ==========
+package "Sincronização" {
+  [mutex_colisoes]
+  [cond_colisao]
+}
+
+[main.c] --> [Processo Principal (pai)]
+[main.c] --> [Processo Drone(i)]
+[geradorDrones.c] -->[drone_i.txt]
+[geradorDrones.c] -->[vento.txt]
+[simulacao_drone.c] --> [Processo Drone(i)]
+[collision.c] --> [collision_thread]
+[report.c] --> [report_thread]
+[environment.c] --> [environment_thread]
+[report_thread] --> [relatorio_simulacao.txt]
+[environment_thread] --> [vento.txt]
+[Processo Drone(i)] --> [drone_i.txt]
+[collision_thread] --> [Drones]
+[collision_thread] --> [Tick]
+[environment_thread] --> [Vento]
+[Processo Drone(i)] --> [Drones]
+[collision_thread] --> [Barreira de Sincronização]
+[environment_thread] --> [Barreira de Sincronização]
+[Processo Drone(i)] --> [Barreira de Sincronização]
+[Barreira de Sincronização] ---> [sem_excl]
+[Barreira de Sincronização] ---> [sem_barrier_in]
+[Barreira de Sincronização] ---> [sem_barrier_out]
+[collision_thread] --> [mutex_colisoes]
+[report_thread] --> [mutex_colisoes]
+[collision_thread] --> [cond_colisao]
+[report_thread] --> [cond_colisao]
+
+
+
+@enduml

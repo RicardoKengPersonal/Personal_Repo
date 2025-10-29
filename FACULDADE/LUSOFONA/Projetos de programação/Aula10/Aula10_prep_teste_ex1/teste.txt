@@ -1,0 +1,10 @@
+Linha 1/10 - Valor: 15
+Linha 2/10 - Valor: 2678
+Linha 3/10 - Valor: 323
+Linha 4/10 - Valor: 17
+Linha 5/10 - Valor: 3
+Linha 6/10 - Valor: 18
+Linha 7/10 - Valor: 12
+Linha 8/10 - Valor: 1
+Linha 9/10 - Valor: 2
+Linha 10/10 - Valor: 10

@@ -1,0 +1,12 @@
+=== Relatório de Simulação ===
+Total de Drones: 5
+
+
+--- Estado Final dos Drones ---
+Drone 1: Ativo na posição (19, 13, 30)
+Drone 2: Ativo na posição (17, -6, 20)
+Drone 3: Ativo na posição (12, 25, 12)
+Drone 4: Ativo na posição (24, 12, 11)
+Drone 5: Ativo na posição (16, 5, -1)
+
+Resultado da Validação: PASS

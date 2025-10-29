@@ -1,0 +1,6 @@
+POR
+Ronaldo;jogo1,23;jogo1,45;jogo7,21
+Pepe;jogo7,23;jogo12,45
+ESP
+FRA
+Mbappe;jogo4,10;jogo4,20;jogo10,34

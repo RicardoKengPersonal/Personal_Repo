@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1686864745 source:c:\users\ricar\onedrive\ambiente de trabalho\projetos de programação\aula10_ex1\ex1.c
+	<stdio.h>
+	<stdlib.h>
+
+1686864777 source:c:\users\ricar\onedrive\ambiente de trabalho\projetos de programação\aula10_ex1\leitura_apemas.c
+	<stdio.h>
+	<stdlib.h>
+

@@ -1,0 +1,16 @@
+Simulation Report
+-----------------
+Total number of drones: 5
+
+Drone Execution Status:
+Drone 0 (PID 760): Terminated
+Drone 1 (PID 761): Terminated
+Drone 2 (PID 762): Terminated
+Drone 3 (PID 763): Terminated
+Drone 4 (PID 764): Terminated
+
+Collisions:
+Time Step 0: Collision at (0, 0, 0) between Drone 0 and Drone 1
+Time Step 0: Collision at (0, 0, 0) between Drone 0 and Drone 2
+
+Validation Result: Simulation failed due to excessive collisions

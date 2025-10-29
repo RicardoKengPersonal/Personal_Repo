@@ -1,0 +1,15 @@
+# Ignorar configurações e extensões do VSCode remoto
+.vscode-server/
+
+# Ignorar ficheiros temporários e cache
+*.log
+*.tmp
+
+# Ignorar diretórios do sistema
+.DS_Store
+Thumbs.db
+
+# Ignorar pastas de build (exemplo de projetos C/C++ ou Python)
+build/
+dist/
+__pycache__/

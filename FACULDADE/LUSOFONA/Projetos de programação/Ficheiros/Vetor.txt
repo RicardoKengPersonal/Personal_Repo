@@ -1,0 +1,1 @@
+vec[0] = 0vec[1] = 1vec[2] = 2vec[3] = 3vec[4] = 4vec[5] = 5vec[6] = 6vec[7] = 7vec[8] = 8vec[9] = 9

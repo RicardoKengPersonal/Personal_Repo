@@ -1,0 +1,7 @@
+This was made for exercise 3 of PL3.
+
+Hello, this is a test.
+The pipe communication is working!
+This is the third line of text.
+
+

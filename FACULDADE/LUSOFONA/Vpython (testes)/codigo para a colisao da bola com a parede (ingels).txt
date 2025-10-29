@@ -1,0 +1,95 @@
+from vpython import *
+from math import cos, sin, radians
+
+# Create the scene
+scene = canvas(title='Colisão de Bola com Parede e Chão', width=800, height=600)
+
+# Define the constants
+g = vector(0, -9.8, 0)  # Acceleration due to gravity
+v0 = 20  # Initial velocity
+angle = 45  # Launch angle
+d = 10  # Distance from the wall
+
+# Properties of the ball
+radius = 0.5
+mass = 1.0
+bounciness = 0.8  # Coefficient of restitution
+drag_coefficient = 0.1  # Air resistance coefficient
+
+# Calculate the horizontal and vertical components of the initial velocity
+v0x = v0 * cos(radians(angle))
+v0y = v0 * sin(radians(angle))
+
+# Create the projectile as a sphere
+proj = sphere(pos=vector(0, 0, 0), radius=radius, color=color.red)
+
+# Create the wall
+wall = box(pos=vector(d, 0, 0), size=vector(0.2, 15, 10), color=color.green)
+
+# Create the ground
+ground = box(pos=vector(0, -1, 0), size=vector(80, 0.1, 10), color=color.gray(0.5))
+
+# Define the initial velocity of the projectile
+v = vector(v0x, v0y, 0)
+
+# Define the initial time
+t = 0
+
+# Animation control variable
+animation_active = True
+
+# Time control variables
+time_start_restart = -1
+restart_requested = False
+
+# Function to restart the animation
+def restart_animation():
+    global animation_active, time_start_restart, restart_requested
+    animation_active = True
+    time_start_restart = -1
+    proj.pos = vector(0, 0, 0)
+    v.x = v0x
+    v.y = v0y
+    restart_requested = False
+
+# Keyboard event handler
+def key_input(evt):
+    global restart_requested
+    if evt.key == 'r' or evt.key == 'R':
+        restart_requested = True
+
+# Bind the keyboard event handler
+scene.bind('keydown', key_input)
+
+# Animation loop
+while animation_active:
+    rate(60)  # Limit the animation update rate
+
+    # Check for restart request
+    if restart_requested:
+        restart_animation()
+
+    # Update the position of the projectile
+    proj.pos += v * 0.01
+
+    # Update the velocity of the projectile considering gravity and air resistance
+    drag_force = -drag_coefficient * v.mag2 * norm(v)
+    v += (g + drag_force / mass) * 0.01
+
+    # Check for collision with the wall
+    if proj.pos.x >= wall.pos.x - proj.radius:
+        v.x = -v.x * bounciness  # Invert and reduce the velocity in the x direction due to wall collision
+
+    # Check for collision with the ground
+    if proj.pos.y - proj.radius <= ground.pos.y + ground.size.y / 2:
+        v.y = -v.y * bounciness  # Invert and reduce the velocity in the y direction due to ground collision
+        if v.y < 1:
+            if time_start_restart == -1:
+                time_start_restart = time.time()  # Mark the start time for restart
+            elif time.time() - time_start_restart > 2:  # Stop animation after the ball hits the ground twice
+                restart_animation()
+                continue
+
+    # Check if the animation should be restarted
+    if time_start_restart != -1 and time.time() - time_start_restart > 2:
+        restart_animation()

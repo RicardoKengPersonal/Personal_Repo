@@ -1,0 +1,10 @@
+ans23 "António Silva"
+AAA32 "Algoritmos" 3 125 12
+MAT33 "Matemática I" 1 445 8
+ANF42 "Análise Financeira" 5 12 4
+
+abc34
+ABC33 "Engenharia" 2 55 12
+XYZ "Materiais" 125           <-- Erro nesta linha (falta ano/carga)
+NHL96 "Circuitos Elétricos" 2 178 9
+FMI69 "Teoria de Empréstimos" 5 22 3
