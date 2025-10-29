@@ -1,0 +1,21 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram for US27
+
+autonumber
+
+actor "Green Space Manager" as GSM
+participant ":System" as System
+
+activate GSM
+
+    GSM -> System : requests list of all green spaces managed by them
+    activate System
+
+    System --> GSM : displays a list of all the green spaces managed by the GSM sorted by size in descending order
+    deactivate System
+
+@enduml

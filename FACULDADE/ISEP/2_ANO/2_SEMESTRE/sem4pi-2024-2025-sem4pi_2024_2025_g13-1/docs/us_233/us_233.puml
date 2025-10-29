@@ -1,0 +1,33 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #F9E79F
+  BorderColor Black
+}
+
+actor "Show Designer" as SD
+participant "AddFigureCatalogueUI" as UI
+participant "AddFigureCatalogueController" as Controller
+participant "FigureService" as Service
+participant "FigureRepository" as Repo
+
+    SD -> UI : asks to add a figure to the catalogue
+    UI -> SD : asks to enter the code, description, version, dsl version, visibility, category, keywords
+    SD -> UI : insert the figure information
+    UI -> Controller :  addFigure(code, description, version, dsl version, visibility, category, keywords)
+    Controller -> Service : registerFigure(code, desc, version, versionDSL, visibility, categoryId, keywords)
+    alt figure with this code already exists
+        Service -> Repo : isPresent()
+        Repo --> Service : Existing figure found
+        Service --> Controller : throw IllegalArgumentException
+        Controller --> UI : Show error message
+        UI -> SD : Display error
+    else figure with unique code
+        Service -> Repo : save(newFigure)
+        Repo --> Service : confirmation
+        Service --> Controller : success
+        Controller --> UI : success message
+        UI -> SD : display success
+    end
+
+@enduml

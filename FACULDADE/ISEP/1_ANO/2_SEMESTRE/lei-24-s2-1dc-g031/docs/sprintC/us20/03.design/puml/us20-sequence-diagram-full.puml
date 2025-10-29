@@ -1,0 +1,149 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Green Space Manager \n(GSM)" as ADM
+participant ":RegisterGreenSpaceGUI" as UI
+participant "greenSpaceDTO:GreenSpaceDTO" as GSD
+participant ":RegisterGreenSpaceController" as CTRL
+participant "address:Address" as AD
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "greenSpaceRepository:GreenSpaceRepository" as GSR
+participant "mapper:GreenSpaceMapper" as Mapper
+participant "greenSpace:\nGreenSpace" as GS
+
+
+
+activate ADM
+
+        ADM -> UI : request registration of a green space
+
+        activate UI
+
+        UI -> CTRL** : create
+        activate CTRL
+
+        CTRL -> Mapper**: create
+        deactivate
+
+loop ultil all data is validated
+
+
+        UI --> ADM : asks the name of green spaces
+
+        deactivate UI
+
+        ADM -> UI : selects requested data
+        activate UI
+
+        UI --> ADM : requests the address (street, zipcode, city) \nof the green space
+        deactivate UI
+
+
+         ADM -> UI : select the address
+        activate UI
+
+        UI -> AD**: create
+
+
+        UI -> CTRL : getGreenSpaceSizeList()
+        activate CTRL
+
+        CTRL -> RepositorySingleton : getInstance()
+        activate RepositorySingleton
+
+        RepositorySingleton --> CTRL : repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getGreenSpaceSizeRepository()
+        activate PLAT
+
+        PLAT --> CTRL : getGreenSpaceSizeRepository
+
+        deactivate PLAT
+
+        CTRL -> GSR : getGreenSpaceSizeList()
+        activate GSR
+
+        GSR --> CTRL : getGreenSpaceSizeList
+        deactivate GSR
+
+        CTRL --> UI : getGreenSpaceSizeList
+        deactivate CTRL
+
+        UI --> ADM :  asks the size of the green space (garden, \nmedium-sized park or large-sized park)
+        deactivate UI
+end
+
+loop ultil all data is validated
+
+         ADM -> UI : select green space size
+
+         activate UI
+
+         UI --> ADM : requests the area of the green space
+         deactivate UI
+
+         ADM -> UI : insert the area of the respective green space
+         activate UI
+
+         UI --> ADM : provides all data and solicits verification
+         deactivate UI
+
+         ADM -> UI : validates the data
+         activate UI
+
+        UI -> GSD** : create(greenSpaceDTO)
+
+        UI -> CTRL : registerGreenSpace (greenSpaceDTO)
+        activate CTRL
+
+
+                 CTRL -> RepositorySingleton : getInstance()
+                 activate RepositorySingleton
+
+                 RepositorySingleton --> CTRL : repositories
+
+                 deactivate RepositorySingleton
+
+
+                 CTRL -> PLAT : getGreenSpaceRepository()
+
+                 activate PLAT
+
+                 PLAT --> CTRL : GreenSpaceRepository
+
+                 deactivate PLAT
+
+                 CTRL -> Mapper: toDomain(greenSpaceDTO)
+                 activate Mapper
+
+                 Mapper-> GS**: create
+
+                 Mapper --> CTRL: greenSpace
+                 deactivate Mapper
+
+        CTRL -> GSR : registerGreenSpace(greenSpace)
+
+        activate GSR
+
+
+        GSR -> GSR : validateGreenSpace(greenSpace)
+
+        GSR --> CTRL : true/false
+        deactivate GSR
+
+        CTRL --> UI : true/false
+        deactivate CTRL
+
+        end
+
+        UI --> ADM : displays operation success
+        deactivate UI
+
+@enduml

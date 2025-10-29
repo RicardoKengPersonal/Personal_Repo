@@ -1,0 +1,59 @@
+CREATE OR REPLACE PROCEDURE GetTopProductByOperations
+AS
+    -- Declaração do cursor para buscar os produtos com mais operações
+    CURSOR top_products_cursor IS
+        SELECT
+            p.product_name,
+            v.variant_id,
+            COUNT(boo.operation_id) AS operation_count
+        FROM
+            "Bill of Operations" boo
+        JOIN
+            Variants v ON boo.finished_variant_id = v.variant_id
+        JOIN
+            Product p ON v.product_id = p.product_id
+        GROUP BY
+            p.product_name, v.variant_id
+        HAVING
+            COUNT(boo.operation_id) = (
+                SELECT MAX(operation_count)
+                FROM (
+                    SELECT COUNT(boo.operation_id) AS operation_count
+                    FROM "Bill of Operations" boo
+                    JOIN Variants v ON boo.finished_variant_id = v.variant_id
+                    JOIN Product p ON v.product_id = p.product_id
+                    GROUP BY p.product_name
+                )
+            );
+
+    -- Variáveis para armazenar os dados retornados pelo cursor
+    product_name      VARCHAR2(255);
+    variant_id        NUMBER;
+    operation_count   NUMBER;
+BEGIN
+    -- Abre o cursor para buscar os produtos com mais operações
+    OPEN top_products_cursor;
+    FETCH top_products_cursor INTO product_name, variant_id, operation_count;
+
+    -- Verifica se há registros
+    IF top_products_cursor%NOTFOUND THEN
+        DBMS_OUTPUT.PUT_LINE('No products or operations found.');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Products with the most operations:');
+        -- Itera pelos registros do cursor
+        LOOP
+            -- Imprime os detalhes de cada produto encontrado
+            DBMS_OUTPUT.PUT_LINE(
+                'Product Name: ' || product_name ||
+                ', Variant ID: ' || variant_id ||
+                ', Operations: ' || operation_count
+            );
+            FETCH top_products_cursor INTO product_name, variant_id, operation_count;
+            EXIT WHEN top_products_cursor%NOTFOUND;
+        END LOOP;
+    END IF;
+
+    -- Fecha o cursor
+    CLOSE top_products_cursor;
+END;
+/

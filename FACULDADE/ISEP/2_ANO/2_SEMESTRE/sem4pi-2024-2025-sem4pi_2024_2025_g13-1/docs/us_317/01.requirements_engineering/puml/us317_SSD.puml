@@ -1,0 +1,13 @@
+@startuml
+actor "CRM Collaborator" as CRM
+participant ":System" as System
+
+activate CRM
+CRM -> System : asks to login
+activate System
+System --> CRM : Authentication successful
+deactivate System
+CRM -> System : Mark proposal as accepted (proposalId)
+activate System
+System --> CRM : displays operation success
+@enduml

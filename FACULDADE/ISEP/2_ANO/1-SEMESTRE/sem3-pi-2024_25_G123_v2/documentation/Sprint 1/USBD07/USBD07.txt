@@ -1,0 +1,18 @@
+SELECT
+    bill_of_materials.child_variant_id AS component_id,
+    variants.variant_name AS component_name,
+    SUM(bill_of_materials.quantity * ordered_items.quantity) AS total_quantity_needed
+FROM
+    "Production Order" production_order
+JOIN
+    "Ordered Items" ordered_items ON production_order.Orderorder_id = ordered_items.Orderorder_id  -- Join to get order item quantity
+JOIN
+    "Bill of materials" bill_of_materials ON production_order.Variantsvariant_id = bill_of_materials.parent_variant_id
+JOIN
+    Variants variants ON bill_of_materials.child_variant_id = variants.variant_id
+WHERE
+    production_order.production_order_id = 2  -- Replace with actual production order ID
+GROUP BY
+    bill_of_materials.child_variant_id, variants.variant_name
+ORDER BY
+    bill_of_materials.child_variant_id;

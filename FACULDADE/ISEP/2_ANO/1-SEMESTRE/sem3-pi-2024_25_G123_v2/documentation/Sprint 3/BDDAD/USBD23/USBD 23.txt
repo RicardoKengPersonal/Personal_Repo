@@ -1,0 +1,20 @@
+CREATE OR REPLACE TRIGGER trg_check_execution_time
+BEFORE INSERT OR UPDATE ON operation
+FOR EACH ROW
+DECLARE
+    v_max_execution_time NUMBER;
+BEGIN
+    -- Get the minimum maximum execution time across all workstation types where the operation type is compatible
+    SELECT MIN(wt.maximumExecutionTime)
+    INTO v_max_execution_time
+    FROM operationTypeWorkstationTypeCompatibility otwt
+    JOIN workstationType wt
+    ON otwt.idWorkstationType = wt.idWorkstationType
+    WHERE otwt.idOperationType = :NEW.idOperationType;
+
+    -- Check if the new expected execution time exceeds the limit
+    IF :NEW.expectedExecutionTime > v_max_execution_time THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Expected execution time exceeds the maximum allowed for the compatible workstation types.');
+    END IF;
+END;
+/

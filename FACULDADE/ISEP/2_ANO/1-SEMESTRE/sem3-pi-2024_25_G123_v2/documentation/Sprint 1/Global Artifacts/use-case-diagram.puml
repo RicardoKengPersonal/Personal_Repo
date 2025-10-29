@@ -1,0 +1,48 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+'skinparam shadowing false
+
+'title Use Case Diagram Example
+
+rectangle "System Actors" as actors {
+    actor PO
+    actor PM
+    actor PFM
+    actor ADM
+}
+
+left to right direction
+
+actor "Product Owner" as PO
+actor "Production Manager" as PM
+actor "Plant Floor\n Manager" as PFM
+actor "Administrator" as ADM
+
+usecase "UCBD1 - I want a data dictionary/glossary to be created" as UCBD1
+usecase "UCBD2 - I want the relational model to be created (logical level)" as UCBD2
+usecase "UCBD3 - I want the relational model to be instantiated (physical level)" as UCBD3
+usecase "UCBD4 - I want to import data from a legacy system and deliver it on a spreadsheet" as UCBD4
+usecase "UCBD5 - I want to know, for each product, the orders to be delivered (customer, product, quantity, date) within a given time frame" as UCBD5
+usecase "UCBD6 - I want to know the types of workstations used in a given order " as UCBD6
+usecase "UCBD7 - I want to know the materials/components to be ordered to fulfill a given production order, including the quantity of each material/component" as UCBD7
+usecase "UCBD8 - I want to know the different operations the factory supports" as UCBD8
+usecase "UCBD9 - I want to get the operations sequence as well as get the respective type of workstation, from a BOO of a given product" as UCBD9
+usecase "UCLP01 - I want the domain model to be created (conceptual level). This model will be an essential communication element between all the stakeholders. The domain model diagram is a ”dynamic” document, which should continuously reflect the stakeholders’ shared understanding of the domain" as UCLP01
+usecase "UCLP02 - I intend to present the simulation tools’ functionality and results through a user-friendly text-based interface" as UCLP02
+usecase "UCLP03 - I want the visualize the Product Struture (graphically) for a given article" as UCLP03
+
+PO ---> UCBD1
+PO ---> UCBD2
+PO ---> UCBD3
+PO ---> UCBD4
+PM ---> UCBD5
+PM ---> UCBD6
+PM ---> UCBD7
+PFM ---> UCBD8
+PFM ---> UCBD9
+PO ---> UCLP01
+PO ---> UCLP02
+PO ---> UCLP03
+
+@enduml

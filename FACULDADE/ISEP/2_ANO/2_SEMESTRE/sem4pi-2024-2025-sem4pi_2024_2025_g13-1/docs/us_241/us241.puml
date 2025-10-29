@@ -1,0 +1,40 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #F9E79F
+  BorderColor Black
+}
+
+actor "Drone Tech" as DT
+participant "DroneRegistrationUI" as UI
+participant "DroneRegistrationController" as Controller
+participant "DroneInventoryService" as Service
+participant "DroneRepository" as Repo
+participant "DroneModelRepository" as ModelRepo
+
+loop While drone serial number is invalid (duplicate)
+    DT -> UI : Insert Drone serial number\n+ select drone model\n+ acquisition date
+    UI -> Controller : registerDrone(serialNumber, modelId, acquisitionDate)
+    Controller -> Service : registerDrone(serialNumber, modelId, acquisitionDate)
+    Service -> Repo : findBySerialNumber(serialNumber)
+    alt serial number exists
+        Service -> Controller : throw DuplicateDroneException
+        Controller -> UI : error message
+        UI -> DT : display error
+    else
+        Service -> ModelRepo : findById(modelId)
+        alt model not found
+            Service -> Controller : throw UnknownModelException
+            Controller -> UI : error message
+            UI -> DT : display error
+        else
+            Service -> Repo : save(new Drone(serialNumber, model, acquisitionDate, state=ACTIVE))
+            Repo --> Service : confirmation
+            Service --> Controller : success
+            Controller --> UI : success message
+            UI -> DT : display success
+            break
+        end
+    end
+end
+@enduml

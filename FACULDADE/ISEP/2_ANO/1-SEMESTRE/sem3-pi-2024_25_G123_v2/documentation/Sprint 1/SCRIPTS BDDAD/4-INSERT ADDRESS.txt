@@ -1,0 +1,5 @@
+INSERT INTO "ADDRESS"(address_id,street,ZipCode,Town,City,Country) VALUES (1,'Tv. Augusto Lessa 23','4200-047','Porto','Porto','Portugal');
+INSERT INTO "ADDRESS"(address_id,street,ZipCode,Town,City,Country) VALUES (2,'R. Dr. Barros 93','4465-219','São Mamede de Infesta','Porto','Portugal');
+INSERT INTO "ADDRESS"(address_id,street,ZipCode,Town,City,Country) VALUES (3,'EDIFICIO CRISTAL lj18, R. António Correia de Carvalho 88','4400-023','Vila Nova de Gaia','Porto','Portugal');
+INSERT INTO "ADDRESS"(address_id,street,ZipCode,Town,City,Country) VALUES (4,'Křemencova 11','110 00','Nové Město','Prague','Czechia');
+select * FROM "ADDRESS"

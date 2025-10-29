@@ -1,0 +1,34 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #AED6F1
+  BorderColor Black
+}
+
+actor "CRM Collaborator" as CRM
+participant "EditShowRequestUI" as UI
+participant "EditShowRequestController" as Controller
+participant "ShowRequestService" as Service
+participant "ShowRequestRepository" as Repo
+
+loop While show request is not editable or customer inactive
+    CRM -> UI : Enter show request ID and new data
+    UI -> Controller : editRequest(id, data)
+    Controller -> Service : editShowRequest(id, data)
+    Service -> Repo : findById(id)
+    alt Request not found or not editable
+        Service -> Controller : throw InvalidEditException
+        Controller -> UI : show error message
+        UI -> CRM : display error
+    else
+        Service -> ShowRequest : validate and apply changes
+        ShowRequest -> Service : return success
+        Service -> Repo : save(updatedRequest)
+        Repo --> Service : confirmation
+        Service --> Controller : success
+        Controller --> UI : success message
+        UI -> CRM : display success
+        break
+    end
+end
+@enduml

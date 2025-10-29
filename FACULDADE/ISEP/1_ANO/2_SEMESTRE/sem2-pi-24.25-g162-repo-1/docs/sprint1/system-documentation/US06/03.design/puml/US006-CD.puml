@@ -1,0 +1,70 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class GameScreen {
+    +getBuildingUpgrades() : List<BuildingUpgradeDTO>
+    +upgradeStation(stationDTO, upgradeDTO) : void
+}
+
+class GameController {
+    +getBuildingUpgrades() : List<BuildingUpgradeDTO>
+    +upgradeStation(stationDTO, upgradeDTO) : void
+}
+
+
+class UpgradeCatalog {
+    +getUpgradesCatalog() : List<BuildingUpgrade>
+}
+
+class BuildingUpgradeMapper {
+    +toDTOList(upgrades: List<BuildingUpgrade>) : List<BuildingUpgradeDTO>
+    +toDTO(upgrade: BuildingUpgrade) : BuildingUpgradeDTO
+}
+
+class BuildingUpgradeDTO {
+    <<DTO>>
+    +name : String
+    +description : String
+    +cost : double
+}
+
+class BuildingUpgrade {
+    +name : String
+    +description : String
+    +cost : double
+    +getCost() : double
+}
+
+class CurrentGame {
+    +upgradeStation(stationDTO, upgradeDTO) : void
+    +checkIfPlayerHasEnoughResources(cost: double) : boolean
+}
+
+class Map {
+    +upgradeStation(stationDTO, upgradeDTO) : void
+}
+
+class Stations {
+    +upgradeStation(stationDTO, upgradeDTO) : void
+    +getStation(stationDTO) : Station
+}
+
+class Station {
+    +name : String
+    +upgrades : List<BuildingUpgrade>
+    +addUpgrade(upgradeDTO) : void
+}
+
+GameScreen --> GameController
+GameController --> UpgradeCatalog
+GameController --> BuildingUpgradeMapper
+GameController --> CurrentGame
+GameController --> BuildingUpgradeDTO
+UpgradeCatalog --> BuildingUpgrade
+BuildingUpgradeMapper --> BuildingUpgradeDTO
+CurrentGame --> Map
+Map --> Stations
+Stations --> Station
+Station --> BuildingUpgrade
+
+@enduml

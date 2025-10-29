@@ -1,0 +1,54 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "DroneTech" as DroneTech
+participant ":MaintenanceTypeCreationAction" as Action
+participant ":MaintenanceTypeCreationUI" as UI
+participant ":MaintenanceTypeCreationController" as CTRL
+participant ":DroneInventoryService" as SRVC
+participant ":JpaMaintenanceTypeRepository" as REPO
+participant ":MaintenanceType" as MT
+
+    DroneTech -> Action : asks to add a maintenance type
+    activate Action
+        Action -> UI : show()
+    deactivate Action
+            activate UI
+            UI -> DroneTech : requests data (name,description)
+            deactivate UI
+            DroneTech -> UI : provides data
+            activate UI
+            UI --> CTRL** : create()
+            activate CTRL
+                CTRL -> SRVC : addMaintenanceType(name,description)
+                activate SRVC
+                loop
+                    SRVC -> SRVC : checks if name is valid
+                end
+                    SRVC -> REPO : findByNameIgnoreCase(name)
+                    activate REPO
+                        REPO -> REPO : checks for duplicate names
+                        REPO -> SRVC : name
+                    deactivate REPO
+                        SRVC -> MT : MaintenanceType(name,description)
+                        activate MT
+                        MT -> SRVC : validates parameters
+                        deactivate MT
+                        SRVC -> REPO : save(newType)
+                            activate REPO
+                            REPO -> SRVC : newType
+                            deactivate REPO
+                        SRVC -> CTRL : newType
+                deactivate SRVC
+                CTRL -> UI : newType
+            deactivate CTRL
+            UI -> DroneTech : (In)Success Message
+        deactivate UI
+deactivate DroneTech
+
+@enduml

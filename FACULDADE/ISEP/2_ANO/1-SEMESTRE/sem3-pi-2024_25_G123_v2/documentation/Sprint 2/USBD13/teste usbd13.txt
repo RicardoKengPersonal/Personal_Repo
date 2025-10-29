@@ -1,0 +1,75 @@
+--Testes para a função getProductOperations
+
+--Caso 1: Sucesso
+
+-- Test
+--DECLARE
+--    v_cursor SYS_REFCURSOR;
+--    v_operation_id NUMBER;
+--    v_operation_desc VARCHAR2(100);
+--    v_workstation_type_id NUMBER;
+--    v_workstation_type_name VARCHAR2(100);
+--BEGIN
+--    v_cursor := GetProductOperations(13);
+--
+--    LOOP
+--        FETCH v_cursor INTO v_operation_id, v_operation_desc, v_workstation_type_id, v_workstation_type_name;
+--        EXIT WHEN v_cursor%NOTFOUND;
+--        DBMS_OUTPUT.PUT_LINE('Operation ID: ' || v_operation_id || 
+--                             ', Description: ' || v_operation_desc || 
+--                             ', Workstation ID: ' || v_workstation_type_id || 
+--                             ', Workstation Name: ' || v_workstation_type_name);
+--    END LOOP;
+--
+--    CLOSE v_cursor;
+--END;
+
+/*
+--Caso 2: Passar NULL
+
+DECLARE
+    v_cursor SYS_REFCURSOR;
+    v_operation_id NUMBER;
+    v_operation_desc VARCHAR2(100);
+    v_workstation_type_id NUMBER;
+    v_workstation_type_name VARCHAR2(100);
+BEGIN
+    v_cursor := GetProductOperations(NULL);
+
+    LOOP
+        FETCH v_cursor INTO v_operation_id, v_operation_desc, v_workstation_type_id, v_workstation_type_name;
+        EXIT WHEN v_cursor%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('Operation ID: ' || v_operation_id || 
+                             ', Description: ' || v_operation_desc || 
+                             ', Workstation ID: ' || v_workstation_type_id || 
+                             ', Workstation Name: ' || v_workstation_type_name);
+    END LOOP;
+
+    CLOSE v_cursor;
+END;
+*/
+
+/*
+--Caso 3: Produto que não tem BOO
+
+DECLARE
+    v_cursor SYS_REFCURSOR;
+    v_operation_id NUMBER;
+    v_operation_desc VARCHAR2(100);
+    v_workstation_type_id NUMBER;
+    v_workstation_type_name VARCHAR2(100);
+BEGIN
+    v_cursor := GetProductOperations(999);
+
+    LOOP
+        FETCH v_cursor INTO v_operation_id, v_operation_desc, v_workstation_type_id, v_workstation_type_name;
+        EXIT WHEN v_cursor%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('Operation ID: ' || v_operation_id || 
+                             ', Description: ' || v_operation_desc || 
+                             ', Workstation ID: ' || v_workstation_type_id || 
+                             ', Workstation Name: ' || v_workstation_type_name);
+    END LOOP;
+
+    CLOSE v_cursor;
+END;
+*/

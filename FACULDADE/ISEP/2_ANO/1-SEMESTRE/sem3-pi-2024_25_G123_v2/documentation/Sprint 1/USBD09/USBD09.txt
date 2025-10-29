@@ -1,0 +1,19 @@
+SELECT 
+    "Bill of Operations".operation_number AS operation_sequence,
+    Operation.operation_id,
+    Operation.operation_description,
+    "Workstation Type".workstation_type_id,
+    "Workstation Type".workstation_type_name
+FROM 
+    "Bill of Operations"
+JOIN 
+    Operation ON "Bill of Operations".operation_id = Operation.operation_id
+JOIN 
+    "Operation_Workstation Compatibility" ON Operation.operation_id = "Operation_Workstation Compatibility".operation_id
+JOIN 
+    "Workstation Type" ON "Operation_Workstation Compatibility".workstation_type_id = "Workstation Type".workstation_type_id
+WHERE 
+    -- Replace with the family_id you are searching for
+    "Bill of Operations".family_id = 3
+ORDER BY 
+    "Bill of Operations".operation_number;

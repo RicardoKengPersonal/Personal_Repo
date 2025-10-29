@@ -1,0 +1,18 @@
+INSERT INTO "PRODUCT"(product_id,product_name,product_description, product_legacy_id,family_id) VALUES (1,'La Belle 22 5l pot','5l 22 cm aluminium and teflon non stick pot', 'AS12945T22',2);
+INSERT INTO "PRODUCT"(product_id,product_name,product_description, product_legacy_id,family_id) VALUES (2,'Pro 22 5l pot','5l 22 cm stainless steel pot', 'AS12945S22',1);
+INSERT INTO "PRODUCT"(product_id,product_name,product_description, product_legacy_id,family_id) VALUES (3,'Pro 20 3l pot','3l 20 cm stainless steel pot', 'AS12945S20',1);
+INSERT INTO "PRODUCT"(product_id,product_name,product_description, product_legacy_id,family_id) VALUES (4,'Pro 17 2l pot','2l 17 cm stainless steel pot', 'AS12945S17',1);
+INSERT INTO "PRODUCT"(product_id,product_name,product_description, product_legacy_id,family_id) VALUES (5,'Pro 17 2l sauce pan','2l 17 cm stainless steel sauce pan', 'AS12945P17',3);
+INSERT INTO "PRODUCT"(product_id,product_name,product_description, product_legacy_id,family_id) VALUES (6,'Pro 17 lid','17 cm stainless steel lid', 'AS12945S48',4);
+INSERT INTO "PRODUCT"(product_id,product_name,product_description, product_legacy_id,family_id) VALUES (7,'Pro Clear 17 lid','17 cm glass lid', 'AS12945S48',5);
+INSERT INTO "PRODUCT"(product_id,product_name,product_legacy_id) VALUES (8,'Screw M6 35 mm','PN12344A21');
+INSERT INTO "PRODUCT"(product_id,product_name,product_legacy_id) VALUES (9,'300x300 mm 5mm stainless steel sheet','PN52384R50');
+INSERT INTO "PRODUCT"(product_id,product_name,product_legacy_id) VALUES (10,'300x300 mm 1mm stainless steel sheet','PN52384R10');
+INSERT INTO "PRODUCT"(product_id,product_name,product_legacy_id) VALUES (11,'Rivet 6 mm','PN18544A21');
+INSERT INTO "PRODUCT"(product_id,product_name,product_legacy_id) VALUES (12,'Stainless steel handle model U6','PN18544C21');
+INSERT INTO "PRODUCT"(product_id,product_name,product_legacy_id) VALUES (13,'Stainless steel handle model R12','PN18324C54');
+INSERT INTO "PRODUCT"(product_id,product_name,product_legacy_id) VALUES (14,'Stainless steel handle model R11','PN18324C51');
+INSERT INTO "PRODUCT"(product_id,product_name,product_legacy_id) VALUES (15,'250x250 mm 5mm stainless steel sheet','PN52384R45');
+INSERT INTO "PRODUCT"(product_id,product_name,product_legacy_id) VALUES (16,'250x250 mm 1mm stainless steel sheet','PN52384R12');
+INSERT INTO "PRODUCT"(product_id,product_name,product_legacy_id) VALUES (17,'Stainless steel handle model S26','PN18324C91');
+select * FROM "PRODUCT"

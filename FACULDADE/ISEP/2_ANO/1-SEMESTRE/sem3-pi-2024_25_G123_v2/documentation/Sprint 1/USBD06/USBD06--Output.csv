@@ -1,0 +1,9 @@
+ORDER_ID,WORKSTATION_TYPE_ID,WORKSTATION_TYPE_NAME
+7,1,600t cold forging stamping press
+7,2,600t cold forging precision stamping press
+7,3,1000t cold forging precision stamping press
+7,4,Handle rivet
+7,5,Packaging
+7,7,Border trimming
+7,10,Stainless steel polishing
+7,11,Assembly T1

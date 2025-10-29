@@ -1,0 +1,252 @@
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+!
+!
+!
+!
+ip dhcp pool B1_F0
+ network 10.22.13.0 255.255.255.192
+ default-router 10.22.13.1
+ dns-server 8.8.8.8
+ domain-name rcomp-24-25-dc-g3
+ip dhcp pool B1_F1
+ network 10.22.12.192 255.255.255.192
+ default-router 10.22.12.193
+ dns-server 8.8.8.8
+ domain-name rcomp-24-25-dc-g3
+ip dhcp pool B1_WiFi
+ network 10.22.11.0 255.255.255.128
+ default-router 10.22.11.1
+ dns-server 8.8.8.8
+ domain-name rcomp-24-25-dc-g3
+ip dhcp pool B1_VoIP
+ network 10.22.11.128 255.255.255.128
+ default-router 10.22.11.129
+ option 150 ip 10.22.11.129
+ domain-name rcomp-24-25-dc-g3
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO2811/K9 sn FTX1017W124-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 87.5.127.70 255.255.255.252
+ ip nat outside
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/0.356
+ encapsulation dot1Q 356
+ no ip address
+!
+interface FastEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface FastEthernet1/0
+ ip address 10.22.14.1 255.255.255.192
+!
+interface FastEthernet1/0.356
+ encapsulation dot1Q 356
+ ip address 10.22.13.1 255.255.255.192
+!
+interface FastEthernet1/0.357
+ encapsulation dot1Q 357
+ ip address 10.22.12.193 255.255.255.192
+!
+interface FastEthernet1/0.358
+ encapsulation dot1Q 358
+ ip address 10.22.11.1 255.255.255.128
+!
+interface FastEthernet1/0.359
+ encapsulation dot1Q 359
+ ip address 10.22.9.129 255.255.255.128
+ ip nat inside
+!
+interface FastEthernet1/0.360
+ encapsulation dot1Q 360
+ ip address 10.22.11.129 255.255.255.128
+!
+interface FastEthernet1/0.361
+ encapsulation dot1Q 361
+ ip address 10.22.10.129 255.255.255.128
+!
+interface FastEthernet1/0.362
+ encapsulation dot1Q 362
+ ip address 10.22.10.1 255.255.255.128
+!
+interface FastEthernet1/0.363
+ encapsulation dot1Q 363
+ ip address 10.22.2.1 255.255.255.0
+!
+interface FastEthernet1/0.364
+ encapsulation dot1Q 364
+ ip address 10.22.12.1 255.255.255.192
+!
+interface FastEthernet1/0.365
+ encapsulation dot1Q 365
+ ip address 10.22.8.129 255.255.255.128
+!
+interface FastEthernet1/0.366
+ encapsulation dot1Q 366
+ ip address 10.22.9.1 255.255.255.128
+!
+interface FastEthernet1/0.367
+ encapsulation dot1Q 367
+ ip address 10.22.7.1 255.255.255.0
+!
+interface FastEthernet1/0.368
+ encapsulation dot1Q 368
+ ip address 10.22.1.1 255.255.255.0
+!
+interface FastEthernet1/0.369
+ encapsulation dot1Q 369
+ ip address 10.22.12.65 255.255.255.192
+!
+interface FastEthernet1/0.370
+ encapsulation dot1Q 370
+ ip address 10.22.4.1 255.255.255.0
+!
+interface FastEthernet1/0.371
+ encapsulation dot1Q 371
+ ip address 10.22.8.1 255.255.255.128
+!
+interface FastEthernet1/0.372
+ encapsulation dot1Q 372
+ ip address 10.22.5.1 255.255.255.0
+!
+interface FastEthernet1/0.373
+ encapsulation dot1Q 373
+ ip address 10.22.3.1 255.255.255.0
+!
+interface FastEthernet1/0.374
+ encapsulation dot1Q 374
+ ip address 10.22.12.129 255.255.255.192
+!
+interface FastEthernet1/0.375
+ encapsulation dot1Q 375
+ ip address 10.22.6.1 255.255.255.0
+!
+interface FastEthernet1/0.377
+ encapsulation dot1Q 377
+ ip address 10.22.0.1 255.255.255.0
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ log-adjacency-changes
+ network 10.22.9.128 0.0.0.127 area 1
+ network 10.22.11.0 0.0.0.127 area 1
+ network 10.22.11.128 0.0.0.127 area 1
+ network 10.22.12.192 0.0.0.63 area 1
+ network 10.22.13.0 0.0.0.63 area 1
+ network 10.22.0.0 0.0.0.255 area 0
+ default-information originate
+!
+router rip
+!
+ip nat inside source static tcp 10.22.9.130 80 87.5.127.70 80 
+ip nat inside source static tcp 10.22.9.130 443 87.5.127.70 443 
+ip classless
+ip route 0.0.0.0 0.0.0.0 87.5.127.69 
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+dial-peer voice 2 voip
+ destination-pattern 3..
+ session target ipv4:10.22.8.129
+!
+dial-peer voice 4 voip
+ destination-pattern 4...
+ session target ipv4:10.22.6.1
+!
+telephony-service
+ max-ephones 10
+ max-dn 10
+ ip source-address 10.22.11.129 port 2000
+ auto assign 1 to 10
+!
+ephone-dn 1
+ number 1001
+!
+ephone-dn 2
+ number 1002
+!
+ephone 1
+ device-security-mode none
+ mac-address 0060.3EAB.4C7D
+ type 7960
+ button 1:1
+!
+ephone 2
+ device-security-mode none
+ mac-address 0060.47A9.C3BD
+ type 7960
+ button 1:2
+!
+ephone 3
+ device-security-mode none
+ mac-address 0030.A3AC.6750
+!
+ephone 4
+ device-security-mode none
+ mac-address 00E0.8F30.E800
+!
+ephone 5
+ device-security-mode none
+ mac-address 0002.1759.D0A9
+!
+ephone 6
+ device-security-mode none
+ mac-address 0001.9694.9D05
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+

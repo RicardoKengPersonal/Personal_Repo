@@ -1,0 +1,19 @@
+@startuml
+
+actor "Project Manager" as PM
+
+usecase " UC101 - Technical constraints" as UC101
+usecase " UC102 - Project repository" as UC102
+usecase " UC103 - Project structure" as UC103
+usecase " UC104 - Continuous integration server" as UC104
+usecase " UC105 - Automated deployment" as UC105
+usecase " UC110 - Domain model" as UC110
+
+PM --> UC101
+PM --> UC102
+PM --> UC103
+PM --> UC104
+PM --> UC105
+PM --> UC110
+
+@enduml

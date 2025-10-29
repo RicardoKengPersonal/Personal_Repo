@@ -1,0 +1,53 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "Product Owner" as ProductOwner
+participant ":System" as System
+
+activate ProductOwner
+
+    ProductOwner -> System : asks to create a new simulation
+
+    activate System
+
+        System --> ProductOwner : shows all the maps available & asks for selection
+
+    deactivate System
+
+    ProductOwner -> System : selects a map
+
+    activate System
+
+        System --> ProductOwner : displays map
+
+    deactivate System
+
+    loop While simulation is running
+
+        ProductOwner -> System : asks for cargo state
+
+        opt Wants to change state
+
+            ProductOwner -> System : asks to change state (selects play / pause)
+
+            activate System
+
+                System --> ProductOwner : changes simulation state
+
+            deactivate System
+
+        end
+
+        activate System
+
+            System --> ProductOwner : display new cargo arrival message
+
+        deactivate System
+
+    end
+
+@enduml

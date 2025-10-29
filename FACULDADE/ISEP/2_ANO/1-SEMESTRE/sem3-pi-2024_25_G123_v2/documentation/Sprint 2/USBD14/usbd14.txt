@@ -1,0 +1,61 @@
+CREATE OR REPLACE FUNCTION Get_Variant_Using_All_Workstations 
+RETURN SYS_REFCURSOR
+IS
+    -- Declara um cursor que será usado para retornar os resultados.
+    result_cursor SYS_REFCURSOR;
+BEGIN
+    -- Abre o cursor e executa uma query complexa usando Common Table Expressions (CTEs).
+    OPEN result_cursor FOR
+
+        -- Primeiro CTE: All_Workstation_Types
+        -- Obtém todos os IDs dos tipos de estações de trabalho da tabela "Workstation Type".
+        WITH All_Workstation_Types AS (
+            SELECT workstation_type_id
+            FROM "Workstation Type"
+        ),
+
+        -- Segundo CTE: Variant_Workstation_Types
+        -- Associa cada variante (variant_id) aos tipos de estações de trabalho (workstation_type_id)
+        -- compatíveis com as operações definidas na estrutura de produção (Bill of Operations).
+        Variant_Workstation_Types AS (
+            SELECT
+                v.variant_id,
+                wt.workstation_type_id
+            FROM
+                Variants v
+                -- Relaciona variantes com a tabela Bill of Operations.
+                JOIN "Bill of Operations" boo ON v.variant_id = boo.finished_variant_id
+                -- Relaciona operações com tipos de estações de trabalho compatíveis.
+                JOIN Operation_Workstation_Type_Compatibility ow ON boo.operation_id = ow.operation_id
+                -- Obtém detalhes do tipo de estação de trabalho.
+                JOIN "Workstation Type" wt ON ow.workstation_type_id = wt.workstation_type_id
+            -- Agrupa por variante e tipo de estação de trabalho para evitar duplicatas.
+            GROUP BY v.variant_id, wt.workstation_type_id
+        ),
+
+        -- Terceiro CTE: Variants_Using_All_Workstations
+        -- Identifica variantes que usam **todos os tipos de estações de trabalho** disponíveis.
+        Variants_Using_All_Workstations AS (
+            SELECT
+                vwt.variant_id
+            FROM
+                Variant_Workstation_Types vwt
+            -- Agrupa por variante para contar os tipos de estações associados.
+            GROUP BY vwt.variant_id
+            -- Seleciona apenas as variantes que têm associação com todos os tipos de estações.
+            HAVING COUNT(DISTINCT vwt.workstation_type_id) = (SELECT COUNT(*) FROM All_Workstation_Types)
+        )
+
+        -- Query principal: retorna os IDs e descrições das variantes que usam todas as estações de trabalho.
+        SELECT DISTINCT
+            v.variant_id,
+            v.variant_description
+        FROM
+            Variants v
+            -- Junta com o terceiro CTE para filtrar apenas as variantes desejadas.
+            JOIN Variants_Using_All_Workstations vua ON v.variant_id = vua.variant_id;
+
+    -- Retorna o cursor contendo os resultados da query.
+    RETURN result_cursor;
+END;
+/

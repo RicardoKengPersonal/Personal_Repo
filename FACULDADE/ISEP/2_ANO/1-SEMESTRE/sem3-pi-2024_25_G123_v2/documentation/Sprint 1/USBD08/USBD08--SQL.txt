@@ -1,0 +1,7 @@
+SELECT
+    o.operation_id,
+    o.operation_description,
+    wt.workstation_type_name
+FROM Operation o
+JOIN "Operation_Workstation Compatibility" ow ON o.operation_id = ow.operation_id
+JOIN "Workstation Type" wt ON ow.workstation_type_id = wt.workstation_type_id;

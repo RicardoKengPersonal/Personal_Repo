@@ -1,0 +1,44 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram for US29
+
+autonumber
+
+actor "Collaborator" as Collaborator
+participant ":System" as System
+
+activate Collaborator
+
+    Collaborator -> System : requests to consult assigned tasks between two dates
+    activate System
+loop until all information is validated
+
+    System --> Collaborator : prompts for start and end dates
+    deactivate System
+
+    Collaborator -> System : provides start and end dates
+    activate System
+
+
+
+        System --> Collaborator : asks to select the status
+    deactivate System
+
+    Collaborator -> System : selects status
+
+    activate System
+
+    System -> System: Validate information
+
+    end
+
+        System --> Collaborator : Displays a list containing details about the assigned\n tasks, including the name, date, and location
+        Collaborator -> System : Marks the task as done and provides the finish time
+
+        System -> System: Validate information
+        System --> Collaborator : Displays updated list containing details about the assigned\n tasks, including the name, date, and location
+    deactivate System
+@enduml

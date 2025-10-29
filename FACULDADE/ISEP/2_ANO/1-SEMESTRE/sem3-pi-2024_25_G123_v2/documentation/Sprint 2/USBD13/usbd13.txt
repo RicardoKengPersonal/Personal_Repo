@@ -1,0 +1,66 @@
+CREATE OR REPLACE FUNCTION GetProductOperations(p_variant_id NUMBER)
+RETURN SYS_REFCURSOR
+AS
+  -- Declara um cursor que será usado para retornar os resultados.
+  operations_cursor SYS_REFCURSOR;
+BEGIN
+  -- Abre o cursor para executar a consulta.
+  OPEN operations_cursor FOR
+
+    -- Primeiro CTE: RecursiveSubVariants
+    WITH RecursiveSubVariants (variant_id, product_id) AS (
+      -- Caso base: pega o `variant_id` e o `product_id` do parâmetro fornecido.
+      SELECT v.variant_id, v.product_id
+      FROM Variants v
+      WHERE v.variant_id = p_variant_id
+      UNION ALL
+      -- Caso recursivo: obtém variantes de subprodutos associados.
+      SELECT v.variant_id, v.product_id
+      FROM Variants v
+      JOIN RecursiveSubVariants rsv ON v.product_id = rsv.variant_id
+    ),
+
+    -- Segundo CTE: OperationsWithWorkstations
+    OperationsWithWorkstations (operation_id, operation_description, workstation_type_id, workstation_type_name) AS (
+      -- Busca operações e tipos de estações de trabalho associados às variantes (inclusive subprodutos).
+      SELECT
+        o.operation_id,                   -- ID da operação.
+        o.operation_description,          -- Descrição da operação.
+        wt.workstation_type_id,           -- ID do tipo de estação de trabalho.
+        wt.workstation_type_name          -- Nome do tipo de estação de trabalho.
+      FROM "Bill of Operations" boo       -- Associa operações a variantes (produto final).
+      JOIN Operation o ON boo.operation_id = o.operation_id
+      LEFT JOIN Operation_Workstation_Type_Compatibility owc
+        ON o.operation_id = owc.operation_id
+      LEFT JOIN "Workstation Type" wt
+        ON owc.workstation_type_id = wt.workstation_type_id
+      -- Filtra apenas operações associadas às variantes encontradas no CTE `RecursiveSubVariants`.
+      WHERE boo.finished_variant_id IN (
+        SELECT variant_id FROM RecursiveSubVariants
+      )
+    )
+
+    -- Query principal: retorna operações distintas com seus detalhes.
+    SELECT
+      DISTINCT
+      ow.operation_id,                    -- ID da operação.
+      ow.operation_description,           -- Descrição da operação.
+      ow.workstation_type_id,             -- ID do tipo de estação (se aplicável).
+      ow.workstation_type_name            -- Nome do tipo de estação (se aplicável).
+    FROM OperationsWithWorkstations ow
+    -- Ordena pelo ID da operação para organizar os resultados.
+    ORDER BY ow.operation_id;
+
+  -- Retorna o cursor com os dados da consulta.
+  RETURN operations_cursor;
+
+-- Tratamento de exceções.
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    -- Caso em que nenhuma operação é encontrada para o `variant_id` fornecido.
+    RAISE_APPLICATION_ERROR(-20001, 'No operations found for the specified variant.');
+  WHEN OTHERS THEN
+    -- Lida com erros inesperados, exibindo uma mensagem descritiva.
+    RAISE_APPLICATION_ERROR(-20002, 'An unexpected error occurred: ' || SQLERRM);
+END;
+/

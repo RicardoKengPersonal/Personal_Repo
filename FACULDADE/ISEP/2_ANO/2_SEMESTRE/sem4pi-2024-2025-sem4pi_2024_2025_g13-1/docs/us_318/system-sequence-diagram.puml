@@ -1,0 +1,34 @@
+@startuml
+actor "CRM Manager" as CRM
+participant "System" as System
+title System Sequence Diagram (SSD) - US318 Templates for show proposals
+
+CRM --> System : Requests to configure a show proposal
+
+alt No proposals
+    System -> CRM : Show message "No proposals ready to be tested"
+else there are proposals
+    System -> CRM : list all proposals
+    System -> CRM : Ask to select a proposal
+    CRM -> System : Select a proposal
+
+    alt Invalid selection
+        System -> CRM : Show a message "Invalid selection"
+        else Valid answer
+        System -> CRM : Show proposal models (1-3)
+        CRM -> System : Select a model
+
+            loop while invalid model selection
+                System -> CRM : Ask again to select one show proposal model available (1-3)
+                CRM -> System : Select again a show proposal model
+            end
+
+            alt Proposal not in TESTED status
+                System -> CRM : Show error "Proposal not ready to be configured"
+            else Successful configuration
+                System -> CRM : Show success message "Proposal configured"
+            end
+end
+
+
+@enduml

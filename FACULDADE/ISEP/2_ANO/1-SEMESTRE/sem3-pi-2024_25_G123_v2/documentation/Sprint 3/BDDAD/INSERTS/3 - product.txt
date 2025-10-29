@@ -1,0 +1,111 @@
+-- Component Inserts
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'PN12344A21'), 'Screw M6 35 mm', 6, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'PN52384R50'), '300x300 mm 5 mm stainless steel sheet', 7, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'PN52384R10'), '300x300 mm 1 mm stainless steel sheet', 7, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'PN18544A21'), 'Rivet 6 mm', 8, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'PN18544C21'), 'Stainless steel handle model U6', 9, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'PN18324C54'), 'Stainless steel handle model R12', 9, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'PN52384R45'), '250x250 mm 5mm stainless steel sheet', 7, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'PN52384R12'), '250x250 mm 1mm stainless steel sheet', 7, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'PN18324C91'), 'Stainless steel handle model S26', 9, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'PN18324C51'), 'Stainless steel handle model R11', 9, 1);
+
+-- Product Inserts
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'AS12945T22'), '5l 22 cm aluminium and teflon non-stick pot', 2, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'AS12945S22'), '5l 22 cm stainless steel pot', 1, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'AS12946S22'), '5l 22 cm stainless steel pot bottom', 1, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'AS12947S22'), '22 cm stainless steel lid', 4, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'AS12945S20'), '3l 20 cm stainless steel pot', 1, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'AS12946S20'), '3l 20 cm stainless steel pot bottom', 1, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'AS12947S20'), '20 cm stainless steel lid', 4, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'AS12945S17'), '2l 17 cm stainless steel pot', 1, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'AS12945P17'), '2l 17 cm stainless steel sauce pan', 3, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'AS12945S48'), '17 cm stainless steel lid', 4, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'AS12945G48'), '17 cm glass lid', 5, 1);
+
+-- Intermediate Product Inserts
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12945A01'), '250 mm 5 mm stainless steel disc', 10, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12945A02'), '220 mm pot base phase 1', 1, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12945A03'), '220 mm pot base phase 2', 1, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12945A04'), '220 mm pot base final', 1, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12947A01'), '250 mm 1 mm stainless steel disc', 10, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12947A02'), '220 mm lid pressed', 4, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12947A03'), '220 mm lid polished', 4, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12947A04'), '220 mm lid with handle', 4, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12945A32'), '200 mm pot base phase 1', 1, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12945A33'), '200 mm pot base phase 2', 1, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12945A34'), '200 mm pot base final', 1, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12947A32'), '200 mm lid pressed', 4, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12947A33'), '200 mm lid polished', 4, 1);
+
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'IP12947A34'), '200 mm lid with handle', 4, 1);
+
+-- Raw Material Insert
+INSERT INTO product (idLegacyIdentification, description, idProductFamily, idUnit) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'PN94561L67'), 'Coolube 2210XP', 11, 2);

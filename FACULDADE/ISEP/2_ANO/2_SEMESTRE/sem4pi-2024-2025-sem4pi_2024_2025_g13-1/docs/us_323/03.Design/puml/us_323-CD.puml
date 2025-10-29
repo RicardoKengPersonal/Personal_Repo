@@ -1,0 +1,116 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+'left to right direction
+
+class EditMaintenanceTypeAction{
+}
+
+class EditMaintenanceTypeUI {
+}
+
+class EditMaintenanceTypeController {
+    - AuthorizationService : authzAuthorizationService
+    - service : DroneInventoryService
+    + findMaintenanceTypeById(Long id) : Optional<MaintenanceType>
+    + canEditMaintenanceType(MaintenanceType maintenanceType) : boolean
+    + editMaintenanceType(Long id, String newName, String newDescription) : void
+}
+
+class DroneInventoryService {
+    - categoryRepository : DroneModelRepository
+    - droneRepository : DroneRepository
+    - maintenanceTypeRepository : MaintenanceTypeRepository
+    + editMaintenanceType(Long id, String newName, String newDescription) : void
+    + findMaintenanceTypeById(Long id) : Optional<MaintenanceType>
+    + existsMaintenanceRecordsByType(MaintenanceType maintenanceType) : boolean
+}
+
+class JpaMaintenanceTypeRepository {
+    + JpaMaintenanceTypeRepository(puname)
+    + JpaMaintenanceTypeRepository(autoTx)
+    + findAllTypes() : Iterable<MaintenanceType>
+}
+
+class JpaRepositoryFactory {
+    + maintenanceType() : MaintenanceTypeRepository
+    + maintenanceType(autoTX) : MaintenanceTypeRepository
+}
+
+class MaintenanceType {
+    - id
+    - name
+    - description
+
+    + MaintenanceType(name,description)
+    + MaintenanceType()
+    + name() : String
+    + description() : String
+    + sameAs(Object other) : boolean
+    + identity() : Long
+    + hashCode() : int
+    + equals(Object o) : boolean
+    + toString() : String
+
+}
+
+class JpaDroneRepository {
+    + JpaDroneRepository(final String puname)
+    + JpaDroneRepository(final TransactionalContext autoTx)
+    + existsMaintenanceRecordsByType(MaintenanceType maintenanceType) : Optional<Drone>
+}
+
+class Drone {
+    - id
+    - droneName
+    - model
+    - acquisitionDate
+    - status
+    - removalReason
+    - removalDate
+    - maintenanceRecords = List<DroneMaintenance>
+
+    + Drone()
+    + droneName() : String
+    + addMaintenanceRecord(DroneMaintenance record) : void
+    + maintenanceRecords() : List<DroneMaintenance>
+}
+
+class DroneMaintenance {
+    - id
+    - drone
+    - maintenanceType
+    - date
+    + drone() : Drone
+    + maintenanceType() : MaintenanceType
+    + date() : LocalDate
+    + equals() : boolean
+    + hashCode() : int
+    + toString() : String
+}
+
+
+
+EditMaintenanceTypeAction .> EditMaintenanceTypeUI
+
+EditMaintenanceTypeUI --> EditMaintenanceTypeController
+
+EditMaintenanceTypeController -> DroneInventoryService
+
+DroneInventoryService --> JpaMaintenanceTypeRepository
+DroneInventoryService --> JpaDroneRepository
+
+JpaMaintenanceTypeRepository --> JpaRepositoryFactory
+JpaDroneRepository --> JpaRepositoryFactory
+JpaDroneRepository --> Drone
+JpaDroneRepository --> DroneMaintenance
+JpaMaintenanceTypeRepository --> MaintenanceType
+JpaMaintenanceTypeRepository --> DroneMaintenance
+
+@enduml

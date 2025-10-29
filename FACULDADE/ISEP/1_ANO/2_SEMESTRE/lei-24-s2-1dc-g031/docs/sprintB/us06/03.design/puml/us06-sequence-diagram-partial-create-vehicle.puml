@@ -1,0 +1,35 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber 3
+
+participant ":VehicleRepository" as VehicleRepository
+participant ":Vehicle" as Vehicle
+
+-> VehicleRepository: addVehicle(Brand, Model, Type, TareWeight, GrossWeight, CurrentKm, RegisterDate, AcquisitionDate, MaintenanceFrequency)
+
+activate VehicleRepository
+    group Create vehicle
+
+        VehicleRepository -> Vehicle**: addVehicle(Brand, Model, Type, TareWeight, GrossWeight, CurrentKm, RegisterDate, AcquisitionDate, MaintenanceFrequency)
+deactivate VehicleRepository
+
+        activate Vehicle
+            Vehicle -> Vehicle : verifyFilled()
+            activate Vehicle
+                Vehicle -> Vehicle : verifySpecialCharacters()
+            deactivate Vehicle
+
+            Vehicle --> VehicleRepository : vehicle
+        deactivate Vehicle
+        activate VehicleRepository
+
+            VehicleRepository -> VehicleRepository : check for duplicates
+        deactivate VehicleRepository
+    end
+
+    <-- VehicleRepository : vehicle
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+actor "User" as User
+participant "Drone" as System
+participant "DronesLexer" as Lexer
+participant "DronesParser" as Parser
+participant "DroneInterpreterVisitor" as Interpreter
+
+activate User
+activate System
+
+User -> System : load program file (grammar file)
+
+activate Lexer
+System -> Lexer : create lexer with file content
+Lexer -> Lexer : tokenize input
+Lexer --> System : tokens
+deactivate Lexer
+
+activate Parser
+System -> Parser : create parser with tokens
+Parser -> Parser : build parse tree
+Parser --> System : parse tree
+deactivate Parser
+
+activate Interpreter
+System -> Interpreter : visit parse tree and interpret
+Interpreter -> Interpreter : execute instructions
+Interpreter --> System : interpretation result
+deactivate Interpreter
+
+System -> User : show results or errors
+
+deactivate System
+deactivate User
+@enduml

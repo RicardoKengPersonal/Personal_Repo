@@ -1,0 +1,40 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "DroneTech" as DroneTech
+participant "MaintenanceTypesDTOPrinter" as PRINTER
+participant "ListMaintenanceTypesDTOUI" as UI
+participant "ListMaintenanceTypesDTOController" as CTRL
+participant "ListMaintenaceTypesDTOService" as SRVC
+participant "MaintenanceTypeRepository" as REPO
+
+activate DroneTech
+    DroneTech -> UI : asks to list maintenance types
+    activate UI
+        UI --> CTRL** : create()
+        UI -> CTRL : allTypes()
+        activate CTRL
+        CTRL --> SRVC** : create()
+        CTRL -> SRVC : listAllMaintenanceTypes()
+            activate SRVC
+            SRVC -> REPO : findAll()
+                activate REPO
+                REPO --> SRVC : List<MaintenanceTypeDTO>
+                deactivate REPO
+            SRVC --> CTRL : List<MaintenanceTypeDTO>
+            deactivate SRVC
+        CTRL --> UI : List<MaintenanceTypeDTO>
+        deactivate CTRL
+        UI --> PRINTER** : create()
+        UI --> PRINTER : maintenanceTypes
+    deactivate UI
+    activate PRINTER
+    PRINTER -> DroneTech : displays list
+    deactivate PRINTER
+deactivate DroneTech
+@enduml

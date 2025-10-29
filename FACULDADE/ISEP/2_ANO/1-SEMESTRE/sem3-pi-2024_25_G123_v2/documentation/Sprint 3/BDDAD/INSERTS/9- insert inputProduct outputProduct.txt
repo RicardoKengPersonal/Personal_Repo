@@ -1,0 +1,139 @@
+--Input Product
+
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (1, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN52384R50'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (2, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12945A01'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (2, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN94561L67'), 5);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (3, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12945A02'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (3, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN94561L67'), 5);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (4, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12945A03'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (5, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12945A04'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (5, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN18544A21'), 4);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (5, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN18544C21'), 2);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (6, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN52384R10'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (7, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12947A01'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (7, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN94561L67'), 5);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (8, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12947A02'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (9, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12947A03'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (9, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN18324C54'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (9, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN12344A21'), 3);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (10, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12947A04'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (11, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'AS12947S22'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (11, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'AS12946S22'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (12, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN52384R50'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (13, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12945A01'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (13, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN94561L67'), 5);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (14, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12945A32'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (14, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN94561L67'), 5);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (15, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12945A33'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (16, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12945A34'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (16, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN18544C21'), 2);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (16, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN18544A21'), 4);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (17, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN52384R10'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (18, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12947A01'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (18, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN94561L67'), 5);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (19, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12947A32'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (20, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'IP12947A33'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (20, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN18324C51'), 1);
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (20, (SELECT p.idProduct FROM product p JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = 'PN12344A21'), 3);
+
+--Output Product
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (1, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12945A01'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (2, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12945A02'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (3, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12945A03'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (4, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12945A04'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (5, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'AS12946S22'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (6, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12947A01'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (7, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12947A02'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (8, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12947A03'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (9, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12947A04'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (10, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'AS12947S22'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (11, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'AS12945S22'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (12, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12945A01'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (13, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12945A32'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (14, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12945A33'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (15, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12945A34'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (16, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'AS12946S20'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (17, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12947A01'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (18, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12947A32'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (19, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'IP12947A33'), 1);
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity) 
+VALUES (20, (SELECT p.idProduct FROM product p 
+            JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+            WHERE l.legacyCode = 'AS12947S20'), 1);

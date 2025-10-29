@@ -1,0 +1,24 @@
+# Let's create a test script for the procedure "ReserveMaterials" and save it as a .txt file
+
+test_script = """
+-- Test Case 1: Successful Reservation (Enough Stock)
+-- Setup: Ensure there are enough items in stock for all ordered variants in an order.
+-- Execution: Call the procedure ReserveMaterials(idOrder) for an order that has enough stock.
+-- Expected Outcome: Materials should be successfully reserved, and no errors should occur.
+
+BEGIN
+    -- Assuming idOrder = 1 exists and has enough stock
+    ReserveMaterials(1);
+END;
+/
+
+-- Test Case 2: Invalid Order ID (Non-Existent Order)
+-- Setup: Ensure the idOrder provided to the procedure does not exist in the customerOrder table.
+-- Execution: Call the procedure ReserveMaterials(idOrder) with a non-existent order ID.
+-- Expected Outcome: The procedure should raise an exception and output an error message indicating that the order does not exist.
+
+BEGIN
+    -- Assuming idOrder = 999 does not exist
+    ReserveMaterials(999);
+END;
+/

@@ -1,0 +1,264 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+
+autonumber
+
+actor "Editor" as EDITOR
+participant ":AddIndustryUI" as UI
+participant ":CreateIndustryController" as CTRL
+
+participant ":Repositories" as REPOS
+participant "repositories\n:Repositories" as REPOS_SINGLETON
+participant "ApplicationSession" as APP_SESSION
+participant "appSession\n:ApplicationSession" as APP_SESSION_SINGLETON
+participant "currentSession\n:UserSession" as CURRENT_SESSION
+
+participant "mapRepository\n:MapRepository" as MAP_REPO
+participant "Map\n:Map" as MAP
+
+participant "Location\n:Location" as COORDINATES
+
+participant "obj : ResourceTypes" as RESOURCE_TYPE
+participant "ListResourceType : List<ResourceType>" as RESOURCE_TYPE_LIST
+participant "ResourceTypeMapper" as RESOURCE_MAPPER
+
+participant "obj : IndustryTypes" as INDUSTRY_TYPE
+participant "ListIndustryTypes" as INDUSTRY_TYPE_LIST
+participant "IndustryTypeMapper" as INDUSTRY_TYPE_MAPPER
+
+participant "obj : GenerationFactors" as GEN_FAC
+participant "ListGenerationFactors" as GEN_FAC_LIST
+participant "GenerationFactorsMapper" as GEN_FAC_MAPPER
+
+participant "Industry\n:Industry" as IND
+participant "industryRepo\n:IndustryRepository" as IND_REPO
+participant "IndustryMapper" as IND_MAPPER
+participant "IndustryDTO" as IND_DTO
+
+participant "obj: Industry" as IND_OBJ
+
+activate EDITOR
+
+EDITOR -> UI : requests to add an industry
+
+    activate UI
+    UI --> CTRL** : create()
+    UI -> CTRL : showGrid()
+
+        activate CTRL
+        CTRL -> REPOS : getInstance()
+            activate REPOS
+            REPOS --> CTRL : repositories
+            deactivate REPOS
+
+        CTRL -> CTRL : getMapFromSession()
+        activate CTRL
+            CTRL -> APP_SESSION : getInstance()
+            activate APP_SESSION
+                APP_SESSION --> CTRL : appSession
+            deactivate APP_SESSION
+        CTRL -> APP_SESSION_SINGLETON : getCurrentSession()
+            activate APP_SESSION_SINGLETON
+            APP_SESSION_SINGLETON --> CTRL : currentSession
+            deactivate APP_SESSION_SINGLETON
+        CTRL -> CURRENT_SESSION : getCurrentMapName()
+            activate CURRENT_SESSION
+            CURRENT_SESSION --> CTRL : currentMapName
+            deactivate CURRENT_SESSION
+        CTRL -> REPOS : getInstance()
+            activate REPOS
+            REPOS --> CTRL : repositories
+            deactivate REPOS
+        CTRL -> REPOS_SINGLETON : getMapRepository()
+            activate REPOS_SINGLETON
+            REPOS_SINGLETON --> CTRL :mapRepository
+            deactivate REPOS_SINGLETON
+        CTRL -> MAP_REPO : getMapByName(mapName)
+            activate MAP_REPO
+            MAP_REPO --> CTRL : map
+            deactivate MAP_REPO
+        deactivate CTRL
+        CTRL -> MAP : showGrid()
+            activate MAP
+            MAP --> CTRL : grid
+            deactivate MAP
+        CTRL --> UI : grid
+        deactivate CTRL
+    UI -> EDITOR : displays grid and requests coordinates
+    deactivate UI
+
+EDITOR -> UI : types requested data
+    activate UI
+    UI -> CTRL : createLocation(x,y)
+        activate CTRL
+        CTRL -> MAP : createLocation(x,y)
+            activate MAP
+            MAP --> COORDINATES** : create(x,y)
+
+            MAP -> MAP : addLocation(location)
+            activate MAP
+                MAP -> MAP : validateLocation(location)
+                activate MAP
+                    MAP -> MAP : true
+                deactivate MAP
+                MAP -> MAP : true
+            deactivate MAP
+            MAP --> CTRL : location
+            deactivate MAP
+        CTRL --> UI : location
+        deactivate CTRL
+
+    UI -> CTRL : getListOfResourceTypes()
+        activate CTRL
+        CTRL -> MAP : getListOfResourceTypes()
+            activate MAP
+            MAP --> RESOURCE_TYPE_LIST** : create()
+            loop for each resource type
+            MAP -> RESOURCE_TYPE_LIST : getResourceType()
+                activate RESOURCE_TYPE_LIST
+                RESOURCE_TYPE_LIST --> RESOURCE_TYPE_LIST : addToList()
+            end loop
+                RESOURCE_TYPE_LIST --> MAP : resourceTypeList
+                deactivate RESOURCE_TYPE_LIST
+            MAP --> CTRL : resourceTypeList
+            deactivate MAP
+        CTRL -> RESOURCE_MAPPER : toDTO(resourceTypeList)
+            activate RESOURCE_MAPPER
+            ref over RESOURCE_MAPPER
+            SD_toDTO_ListResources
+            end ref
+            RESOURCE_MAPPER --> CTRL : listResourceTypesDTO
+            deactivate RESOURCE_MAPPER
+        CTRL --> UI : listResourceTypesDTO
+        deactivate CTRL
+    UI -> EDITOR : displays list of resource types and asks to select one
+    deactivate UI
+
+EDITOR -> UI : selects resource types
+    activate UI
+    UI -> CTRL : getResourceTypeByIndex(index)
+        activate CTRL
+        CTRL -> RESOURCE_TYPE_LIST : get(index)
+            activate RESOURCE_TYPE_LIST
+            RESOURCE_TYPE_LIST --> CTRL : resourceType
+            deactivate RESOURCE_TYPE_LIST
+        CTRL --> UI : resourceType
+        deactivate CTRL
+
+    UI -> CTRL : getIndustryTypes()
+        activate CTRL
+        CTRL -> MAP : getIndustryTypes()
+            activate MAP
+            MAP --> INDUSTRY_TYPE_LIST** : create()
+            loop for each industry type
+            MAP -> INDUSTRY_TYPE_LIST : getIndustryType()
+                activate INDUSTRY_TYPE_LIST
+                INDUSTRY_TYPE_LIST --> INDUSTRY_TYPE_LIST : addToList()
+            end loop
+                INDUSTRY_TYPE_LIST --> MAP : industryTypeList
+                deactivate INDUSTRY_TYPE_LIST
+            MAP --> CTRL : industryTypeList
+            deactivate MAP
+        CTRL -> INDUSTRY_TYPE_MAPPER : toDTO(industryTypeList)
+            activate INDUSTRY_TYPE_MAPPER
+            ref over INDUSTRY_TYPE_MAPPER
+            SD_toDTO_ListIndustriesTypes
+            end ref
+            INDUSTRY_TYPE_MAPPER --> CTRL : listIndustryTypesDTO
+            deactivate INDUSTRY_TYPE_MAPPER
+        CTRL --> UI : listIndustryTypesDTO
+        deactivate CTRL
+    UI -> EDITOR : displays list of industry types and asks to select one
+    deactivate UI
+
+EDITOR -> UI : selects industry type
+    activate UI
+    UI -> CTRL : getIndustryTypeByIndex(index)
+        activate CTRL
+        CTRL -> INDUSTRY_TYPE_LIST : get(index)
+            activate INDUSTRY_TYPE_LIST
+            INDUSTRY_TYPE_LIST --> CTRL : industryType
+            deactivate INDUSTRY_TYPE_LIST
+        CTRL --> UI : industryType
+        deactivate CTRL
+
+    UI -> CTRL : getListOfGenerationFactors()
+        activate CTRL
+        CTRL -> MAP : getListOfGenerationFactors()
+            activate MAP
+            MAP --> GEN_FAC_LIST** : create()
+            loop for each generation factor
+            MAP -> GEN_FAC_LIST : getGenerationFactors()
+                activate GEN_FAC_LIST
+                GEN_FAC_LIST --> GEN_FAC_LIST : addToList()
+            end loop
+                GEN_FAC_LIST --> MAP : generationFactorsList
+                deactivate GEN_FAC_LIST
+            MAP --> CTRL : generationFactorsList
+            deactivate MAP
+        CTRL -> GEN_FAC_MAPPER : toDTO(generationFactorsList)
+            activate GEN_FAC_MAPPER
+            ref over GEN_FAC_MAPPER
+            SD_toDTO_ListGenerationFactors
+            end ref
+            GEN_FAC_MAPPER --> CTRL : listGenerationFactorsDTO
+            deactivate GEN_FAC_MAPPER
+        CTRL --> UI : listGenerationFactorsDTO
+        deactivate CTRL
+    UI -> EDITOR : displays list of generation factors and asks to select one
+    deactivate UI
+
+EDITOR -> UI : selects generation factor
+    activate UI
+    UI -> CTRL : getGenerationFactorByIndex(index)
+        activate CTRL
+        CTRL -> GEN_FAC_LIST : get(index)
+            activate GEN_FAC_LIST
+            GEN_FAC_LIST --> CTRL : generationFactor
+            deactivate GEN_FAC_LIST
+        CTRL --> UI : generationFactor
+        deactivate CTRL
+
+    UI -> CTRL : createIndustry(dto)
+        activate CTRL
+        CTRL -> IND : obj = createIndustry(dto)
+            activate IND
+            IND -> IND_MAPPER : obj = toModel(dto)
+            deactivate IND
+                activate IND_MAPPER
+                IND_MAPPER -> IND_DTO : location = getLocation()
+                activate IND_DTO
+                deactivate IND_DTO
+
+                IND_MAPPER -> IND_DTO : resourceType = getResourceType()
+                activate IND_DTO
+                deactivate IND_DTO
+
+                IND_MAPPER -> IND_DTO : industryType = getIndustryType()
+                activate IND_DTO
+                deactivate IND_DTO
+
+                IND_MAPPER -> IND_DTO : industryGenerationFactor = getIndustryGenerationFactor()
+                activate IND_DTO
+                deactivate IND_DTO
+
+            IND_MAPPER --> IND_OBJ** : create(location,resourceType,industryType,industryGenerationFactor)
+            IND_MAPPER --> CTRL : industry
+            deactivate IND_MAPPER
+        CTRL -> IND_REPO : add(industry)
+            activate IND_REPO
+            IND_REPO -> IND_REPO : save(industry)
+            IND_REPO --> CTRL : industry
+            deactivate IND_REPO
+        CTRL -> MAP : addIndustry(industry)
+            activate MAP
+            MAP -> MAP : addIndustry(industry)
+            MAP -> CTRL : map
+            deactivate MAP
+        CTRL --> UI : industry
+        deactivate CTRL
+    UI -> EDITOR : displays operation success
+deactivate EDITOR
+@enduml

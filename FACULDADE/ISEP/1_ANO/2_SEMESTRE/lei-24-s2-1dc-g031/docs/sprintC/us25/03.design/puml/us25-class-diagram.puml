@@ -1,0 +1,84 @@
+@startuml
+class AgendaGUI {
+- agendaEntryList: ListView<AgendaEntry>
+- agendaController: AgendaController
+ + AgendaGUI(): void
+ + populateEntries(): void
+ + handleDeactivateButtonAction(): void
+}
+
+class AgendaController {
+- agenda: Agenda
++ getAgenda(): Agenda
++ cancelTask(Task task): void
+}
+
+class Agenda {
++ agendaEntries: ArrayList<AgendaEntry>
++ getActiveAgendaEntries(): ArrayList<AgendaEntry>
+}
+
+class Repositories {
+- instance: Repositories
+- agenda: Agenda
++ getAgenda(): Agenda
+}
+
+class AgendaEntry {
++ associatedTask: Task
++ team: Team
++ String date: String
++ vehicles: ArrayList<Vehicle>
++ setDescription(String description): void
++ setTeam(Team team): void
++ setDate(String newDate): void
++ getAssociatedTask(): Task
+}
+
+class AgendaEntryMapper {
++ toDto(agendaEntry: AgendaEntry): AgendaEntryDto
++ toDomain(selectedEntryDTO): AgendaEntry
+}
+
+class AgendaEntryDto {
++ associatedTask: Task
++ team: Team
++ String date: String
++ vehicles: ArrayList<Vehicle>
++ getVehicles(): ArrayList<Vehicle>
++ getDescription(): String
++ getTeam(): Team
++ getDate(): String
++ getAssociatedTask(): Task
+}
+
+class Task {
+- description: String
+- taskName: String
+- greenSpace: GreenSpace
+- estimatedDuration: int
+- taskStatus: TaskStatus
+- taskUrgencyDegree: TaskUrgencyDegree
++ getDescription(): String
++ setDescription(String description): void
++ getTaskName(): String
++ setTaskName(String taskName): void
++ getGreenSpace(): GreenSpace
++ setGreenSpace(GreenSpace greenSpace): void
++ getTaskStatus(): TaskStatus
++ setTaskStatus(TaskStatus taskStatus): void
++ getEstimatedDuration(): int
++ setEstimatedDuration(int estimatedDuration): void
+}
+
+Repositories --> Repositories : instance
+AgendaGUI ..> AgendaController
+Repositories "1" --|> "1" Agenda
+AgendaController ..> Repositories
+AgendaController --> AgendaEntryMapper
+AgendaEntry ..> Task
+AgendaEntryMapper ..> AgendaEntryDto
+AgendaEntryMapper ..> AgendaEntry
+
+
+@enduml

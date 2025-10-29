@@ -1,0 +1,58 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "Vehicle Fleet Manager" as VFM
+participant ":CreateVehicleUI" as VehicleUI
+participant ":CreateVehicleController" as VehicleCTRL
+participant "vehicleRepository:\nVehicleRepository" as VehicleRepository
+participant ":Vehicle" as Vehicle
+participant ":SkillRepository" as SkillRepository
+participant ":Skill" as Skill
+
+activate VFM
+
+    VFM -> VehicleUI : asks to create a vehicle
+    activate VehicleUI
+
+        VehicleUI -> VehicleCTRL** : create
+        VehicleUI -> VFM : asks for vehicle details
+        VFM -> VehicleUI : enters vehicle details
+        VehicleUI -> VehicleCTRL : addVehicle(Brand, Model, Type, TareWeight, GrossWeight, CurrentKm, RegisterDate, AcquisitionDate, MaintenanceFrequency)
+
+    deactivate VehicleUI
+
+    activate VehicleCTRL
+        ref over VehicleCTRL
+        Get Vehicle Repository
+        end ref
+
+        VehicleCTRL -> VehicleRepository : addVehicle(Brand, Model, Type, TareWeight, GrossWeight, CurrentKm, RegisterDate, AcquisitionDate, MaintenanceFrequency)
+    deactivate VehicleCTRL
+
+    deactivate VehicleCTRL
+
+    activate VehicleRepository
+        ref over VehicleRepository
+        Create Vehicle
+        end ref
+
+        VehicleCTRL <-- VehicleRepository : vehicle
+    deactivate VehicleRepository
+
+    activate VehicleCTRL
+
+        VehicleCTRL --> VehicleUI : vehicle
+    deactivate VehicleCTRL
+
+    activate VehicleUI
+
+        VehicleUI --> VFM : displays successful and unsuccessful operation
+    deactivate VehicleUI
+
+deactivate VFM
+
+@enduml

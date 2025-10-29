@@ -1,0 +1,176 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+autonumber
+
+actor "Green Spaces\nManager (GSM)" as GSM
+participant ":CreateAgendaEntryGUI" as UI
+participant ":AgendaController" as CTRL
+participant ":TaskMapper" as TaskMapper
+participant ":AgendaEntryMapper" as AEMapper
+participant ":Repositories" as REPS
+participant "repositories\n:Repositories" as REP
+participant "toDoListRepository\n:ToDoListRepository" as TDLREP
+participant "agendaEntryRepository\n:AgendaEntryRepository" as AREP
+participant "agendaEntry\n:AgendaEntry" as AE
+participant "taskEntryDTO\n:TaskEntryDTO" as TEDTO
+participant "agendaEntryDTO\n:AgendaEntryDTO" as AEDTO
+activate GSM
+
+    GSM -> UI : asks to add a new entry in the Agenda
+    activate UI
+
+    UI --> CTRL** : create()
+
+
+    UI -> CTRL : getToDoList()
+
+        activate CTRL
+
+                    CTRL -> REPS : getInstance()
+                    activate REPS
+
+                        REPS --> CTRL : repositories
+                    deactivate REPS
+
+                    CTRL -> REP : getToDoListRepository()
+                    activate REP
+
+                        REP --> CTRL : toDoListRepository
+                    deactivate REP
+
+                    CTRL -> TDLREP : getAllTasks()
+                    activate TDLREP
+
+                        TDLREP --> CTRL : taskEntryList
+                    deactivate TDLREP
+
+
+                    CTRL->TaskMapper: toDTO(taskEntryList)
+                    activate TaskMapper
+
+                    loop for each task
+                    TaskMapper-->TEDTO**:create(urgencyDegree, associatedGS, description, approximatedDuration, status)
+                    activate TEDTO
+
+                    TEDTO-->TaskMapper: taskEntryDTO
+                    deactivate TEDTO
+                    end
+
+
+                    TaskMapper-->CTRL: taskEntryListDTO
+                    deactivate TaskMapper
+
+
+                    CTRL --> UI : taskEntryListDTO
+                deactivate CTRL
+
+        UI --> GSM : It shows the entries from the To-Do List and requests \nfor the selection of one containing the specific task and\n its corresponding duration to assign to the new entry in the Agenda
+    deactivate UI
+
+    GSM -> UI :  chooses an entry from the To-Do List
+    activate UI
+
+
+
+
+        UI --> GSM : requests the date when the task is scheduled to start
+            deactivate UI
+
+            GSM -> UI : enters the starting date
+            activate UI
+
+
+        UI --> GSM : requests the starting time
+    deactivate UI
+
+    GSM -> UI : enters the starting time
+    activate UI
+
+
+    UI -> CTRL : combineStartDateAndTime(startingDate , startingTime)
+    activate CTRL
+
+    CTRL --> UI : startDateAndTime
+        deactivate CTRL
+
+    UI -> CTRL : calculateEndDateAndTime(startDateAndTime, predictedDuration)
+    activate CTRL
+
+    CTRL --> UI : endDateAndTime
+        deactivate CTRL
+
+
+
+        UI --> GSM : displays all information regarding the new entry in \n the Agenda and asks for confirmation
+            deactivate UI
+
+        GSM -> UI : confirms data
+        activate UI
+
+    UI->AEDTO**: create(selectedTask, startDateAndTime, endDateAndTime)
+    activate AEDTO
+
+    AEDTO-->UI: agendaEntryDTO
+    deactivate AEDTO
+
+
+    UI -> CTRL : addAgendaEntry(agendaEntryDTO)
+            activate CTRL
+
+
+                    CTRL -> REPS : getInstance()
+                    activate REPS
+
+                        REPS --> CTRL : repositories
+                    deactivate REPS
+
+                    CTRL -> REP : getAgendaRepository()
+                    activate REP
+
+                        REP --> CTRL : agendaRepository
+                    deactivate REP
+
+                    CTRL->AEMapper: toEntity(agendaEntryDTO)
+                    activate AEMapper
+
+                    AEMapper->AE**:create(selectedTask, startDateAndTime, endDateAndTime)
+                    activate AE
+
+                    AE-->AEMapper: agendaEntry
+                    deactivate AE
+
+                    AEMapper-->CTRL: agendaEntry
+                    deactivate AEMapper
+
+
+                CTRL -> AREP : addAgendaEntry(agendaEntry)
+                     activate AREP
+
+
+                    AREP -> AREP : addEntry(agendaEntry)
+                    activate AREP
+
+                        AREP -> AREP : validateAgendaEntry(agendaEntry)
+
+                        activate AREP
+
+                            AREP --> AREP : true/false
+                        deactivate AREP
+
+                        AREP --> AREP : true/false
+                    deactivate AREP
+
+                    AREP --> CTRL : true/false
+                deactivate AREP
+
+                CTRL --> UI : true/false
+            deactivate CTRL
+
+        UI --> GSM : displays operation success
+    deactivate UI
+
+@enduml

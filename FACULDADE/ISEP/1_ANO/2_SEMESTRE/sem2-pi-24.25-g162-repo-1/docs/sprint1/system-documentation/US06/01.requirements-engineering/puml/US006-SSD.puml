@@ -1,0 +1,39 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "Player" as Player 
+participant "System" as System
+
+activate Player
+
+Player -> System : Select existing Station to upgrade
+
+activate System
+
+System -> Player : Return Station Details (Present Buildings, Cargo Info)
+
+deactivate System
+
+Player -> System : Select Upgrade from list of available buildings
+
+activate System
+
+System -> System : Check if Player has enough resources
+
+System -> Player : Display Upgrade Confirmation
+
+deactivate System
+
+Player -> System : Confirm Upgrade
+
+activate System
+
+System -> Player : Display Upgrade Success
+
+deactivate System
+
+@enduml

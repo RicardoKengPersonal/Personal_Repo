@@ -1,0 +1,27 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US 315 Add video of simulation to the proposal
+
+autonumber
+
+actor "CRM Collaborator" as CRM
+participant ":System" as System
+
+activate CRM
+
+    CRM -> System : requests to add video link to proposal
+    activate System
+        System -> System : validates proposal ID
+        alt proposal exists
+            System -> System : updates proposal with video link
+            System --> CRM : confirms video link updated
+        else proposal not found
+            System --> CRM : shows error "Proposal not found"
+        end
+    deactivate System
+
+deactivate CRM
+@enduml

@@ -1,0 +1,360 @@
+-- Component Inserts
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'PN12344A21'),
+    1, 10, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'PN52384R50'),
+    1, 10, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'PN52384R10'),
+    1, 10, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'PN18544A21'),
+    1, 10, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'PN18544C21'),
+    1, 10, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'PN18324C54'),
+    1, 10, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'PN52384R45'),
+    1, 10, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'PN52384R12'),
+    1, 10, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'PN18324C91'),
+    1, 10, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'PN18324C51'),
+    1, 10, 10000
+);
+
+--Intermediate Products
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12945A01'),
+    3, 1, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12945A02'),
+    3, 1, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12945A03'),
+    3, 1, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12945A04'),
+    3, 1, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12947A01'),
+    3, 1, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12947A02'),
+    3, 1, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12947A03'),
+    3, 1, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12947A04'),
+    3, 1, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12945A32'),
+    3, 1, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12945A33'),
+    3, 1, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12945A34'),
+    3, 1, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12947A32'),
+    3, 1, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12947A33'),
+    3, 1, 10000
+);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'IP12947A34'),
+    3, 1, 10000
+);
+
+--Raw Materials
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'PN94561L67'),
+    2, 1, 10000
+);
+
+
+select * from part;
+
+--Finished Products
+
+INSERT INTO finishedProduct (idProduct) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'AS12945T22')
+);
+
+INSERT INTO finishedProduct (idProduct) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'AS12945S22')
+);
+
+INSERT INTO finishedProduct (idProduct) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'AS12946S22')
+);
+
+INSERT INTO finishedProduct (idProduct) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'AS12947S22')
+);
+
+INSERT INTO finishedProduct (idProduct) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'AS12945S20')
+);
+
+INSERT INTO finishedProduct (idProduct) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'AS12946S20')
+);
+
+INSERT INTO finishedProduct (idProduct) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'AS12947S20')
+);
+
+INSERT INTO finishedProduct (idProduct) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'AS12945S17')
+);
+
+INSERT INTO finishedProduct (idProduct) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'AS12945P17')
+);
+
+INSERT INTO finishedProduct (idProduct) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'AS12945S48')
+);
+
+INSERT INTO finishedProduct (idProduct) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p
+     JOIN legacyIdentification l 
+     ON p.idLegacyIdentification = l.idLegacyIdentification
+     WHERE l.legacyCode = 'AS12945G48')
+);
+
+select * from finishedProduct;

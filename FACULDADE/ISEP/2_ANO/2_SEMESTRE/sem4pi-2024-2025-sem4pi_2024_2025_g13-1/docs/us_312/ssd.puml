@@ -1,0 +1,30 @@
+Of course. Here is the corrected System Sequence Diagram (SSD) with all text translated into English.
+Corrected SSD
+
+Here is the corrected version of the SSD. The changes focus on the loop to more accurately describe the interactions.
+
+@startuml
+title US312 - Add Figures to a Proposal (Corrected SSD)
+
+actor "CRM Collaborator" as CRM
+participant "System" as System
+
+CRM -> System : initiatesAddFiguresProcess()
+System --> CRM : presentsEditableProposals(listOfProposals)
+CRM -> System : selectsProposal(proposalID)
+
+System --> CRM : requestsFigureSelectionMode()
+CRM -> System : suppliesSelectionMode(mode)
+
+loop while adding figures
+System --> CRM : displaysCurrentFleetState(fleetState) and availableFiguresList
+CRM -> System : selectsFigure(figureID)
+System --> CRM : requestsDroneMappingForFigure(requiredTypes, compatibleModels)
+CRM -> System : suppliesDroneMapping(mappings)
+System --> CRM : confirmsFigureAddition()
+end
+
+CRM -> System : finishesAddingFigures()
+System --> CRM : confirmsProposalSave(finalStatus)
+
+@enduml

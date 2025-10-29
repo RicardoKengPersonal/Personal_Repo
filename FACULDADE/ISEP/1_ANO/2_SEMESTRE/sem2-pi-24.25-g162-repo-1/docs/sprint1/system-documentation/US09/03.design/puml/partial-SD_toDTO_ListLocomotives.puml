@@ -1,0 +1,30 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant "LocomotiveMapper" as LOC_MAPPER
+participant "listLocomotives : List<Locomotive>" as LOC_LIST
+participant "listLocomotivesDTO : List<Locomotive>" as LOC_DTO
+participant "objDTO : LocomotiveDTO" as OBJ_DTO
+
+autonumber 21
+-> LOC_MAPPER
+autonumber 21.1
+    activate LOC_MAPPER
+    LOC_MAPPER --> LOC_DTO** : create()
+    loop for each object in listLocomotives
+        LOC_MAPPER -> LOC_LIST : obj = get(i)
+            activate LOC_LIST
+            deactivate LOC_LIST
+        LOC_MAPPER -> LOC_MAPPER : objDTO = toDTO(obj)
+        activate LOC_MAPPER
+        LOC_MAPPER --> OBJ_DTO** : create()
+        deactivate LOC_MAPPER
+        LOC_MAPPER -> LOC_LIST : add(objDTO)
+            activate LOC_LIST
+            deactivate LOC_LIST
+    end loop
+<- LOC_MAPPER : listLocomotivesDTO
+deactivate LOC_MAPPER
+@enduml

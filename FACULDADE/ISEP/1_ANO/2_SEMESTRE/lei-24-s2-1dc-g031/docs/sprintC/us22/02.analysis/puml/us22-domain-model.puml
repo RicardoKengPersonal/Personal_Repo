@@ -1,0 +1,43 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+
+class GreenSpacesManager {
+}
+
+class Agenda {
+
+}
+
+class AgendaEntry {
+    startingDate
+    finishingDate
+    status
+}
+
+class Task {
+    description
+    expectedDuration
+}
+
+
+class GreenSpaces {
+    type
+    area
+}
+
+GreenSpacesManager "1..*" - "1" Agenda:  assigned to <
+GreenSpacesManager "1" - "1..*" GreenSpaces: administer >
+Task "1" -- "1..*" GreenSpaces : executed within >
+Agenda "1" - "*" Task : coordinates >
+AgendaEntry "1" -- "1" Task : corresponds to >
+Team "1" -- "*" Task : is responsible >
+Agenda "1" -- "*" AgendaEntry : has >
+AgendaEntry "*" - "1" Team : is responsible <
+@enduml

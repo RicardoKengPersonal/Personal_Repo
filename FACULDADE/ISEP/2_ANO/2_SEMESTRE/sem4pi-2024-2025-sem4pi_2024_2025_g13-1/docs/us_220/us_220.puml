@@ -1,0 +1,21 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #AED6F1
+  BorderColor Black
+}
+
+actor "CRM_Collaborator" as CRM
+participant "CreateCustomerUI " as UI
+participant "CreateCustomerController" as Controller
+participant "CustomerService" as Service
+participant "CreateCustomerRepository" as registry
+
+
+    CRM -> UI : Asks to create customer
+    UI -> Controller : Sends customer data to controller
+    Controller -> Service :  Checks data
+    Service -> registry : Saves customer in  repository
+    registry -> CRM :  Returns operation result
+
+@enduml

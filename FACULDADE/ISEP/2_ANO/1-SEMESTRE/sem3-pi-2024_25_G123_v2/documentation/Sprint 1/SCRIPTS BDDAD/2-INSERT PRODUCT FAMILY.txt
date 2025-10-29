@@ -1,0 +1,6 @@
+INSERT INTO "Product Family"(family_id,family_name, family_legacy_id) VALUES (1,'Pro Line pots', 125);
+INSERT INTO "Product Family"(family_id,family_name, family_legacy_id) VALUES (2,'La Belle pots', 130);
+INSERT INTO "Product Family"(family_id,family_name, family_legacy_id) VALUES (3,'Pro Line pans', 132);
+INSERT INTO "Product Family"(family_id,family_name, family_legacy_id) VALUES (4,'Pro Line lids', 145);
+INSERT INTO "Product Family"(family_id,family_name, family_legacy_id) VALUES (5,'Pro Clear lids', 146);
+select * FROM "Product Family"

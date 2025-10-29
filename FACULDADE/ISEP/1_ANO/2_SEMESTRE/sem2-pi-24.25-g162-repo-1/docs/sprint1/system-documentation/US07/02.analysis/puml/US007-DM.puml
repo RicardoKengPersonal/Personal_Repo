@@ -1,0 +1,38 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+class User {
+  name
+  email
+  password
+}
+
+class Role{
+  name
+  description
+}
+
+class Map {
+  name
+  width
+  height
+}
+
+class Station {
+  name
+  location
+  upgrades
+}
+
+class StationType {
+  name
+  description
+}
+
+User "1" -- "*" Map: manages
+Map "1" -- "*" Station: contains
+Station "*" -- "1" StationType: has
+User "1" -- "*" Role: has
+@enduml

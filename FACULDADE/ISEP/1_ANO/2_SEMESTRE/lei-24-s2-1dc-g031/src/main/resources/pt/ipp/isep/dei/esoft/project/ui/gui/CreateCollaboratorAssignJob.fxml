@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="pt.ipp.isep.dei.esoft.project.ui.gui.CreateCollaboratorAssignJobGUI"
+          hgap="10" vgap="10"
+          stylesheets="@css/CreateCollaboratorAssignJob.css">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <!-- Form fields for collaborator's details -->
+    <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label"/>
+    <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+    <Label text="Birth Date:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="label"/>
+    <TextField fx:id="birthDateField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+    <Label text="Admission Date:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="label"/>
+    <TextField fx:id="admissionDateField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+    <Label text="Address:" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="label"/>
+    <TextField fx:id="addressField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+    <Label text="Mobile Number:" GridPane.columnIndex="0" GridPane.rowIndex="4" styleClass="label"/>
+    <TextField fx:id="mobileNumberField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+    <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="5" styleClass="label"/>
+    <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+    <Label text="Tax Payer Number:" GridPane.columnIndex="0" GridPane.rowIndex="6" styleClass="label"/>
+    <TextField fx:id="taxPayerNumberField" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+    <Label text="Document Type:" GridPane.columnIndex="0" GridPane.rowIndex="7" styleClass="label"/>
+    <ComboBox fx:id="documentTypeComboBox" GridPane.columnIndex="1" GridPane.rowIndex="7" prefWidth="200"/>
+
+    <Label text="Document Identification Number:" GridPane.columnIndex="0" GridPane.rowIndex="8" styleClass="label"/>
+    <TextField fx:id="documentIdentificationNumberField" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+
+    <Label text="Job:" GridPane.columnIndex="0" GridPane.rowIndex="9" styleClass="label"/>
+    <ComboBox fx:id="jobComboBox" GridPane.columnIndex="1" GridPane.rowIndex="9" prefWidth="200"/>
+
+    <!-- Submit and Go Back buttons -->
+    <Button fx:id="submitButton" text="Submit" onAction="#submit" GridPane.columnIndex="0" GridPane.rowIndex="10" GridPane.halignment="LEFT" styleClass="button"/>
+    <Button fx:id="goBackButton" text="Go Back" onAction="#goBack" GridPane.columnIndex="1" GridPane.rowIndex="10" GridPane.halignment="RIGHT" styleClass="button"/>
+</GridPane>

@@ -1,0 +1,59 @@
+-- Testes para a Procedure GetTopProductByOperations
+
+Sucesso - Um produto com mais operações
+
+-- Inserir um produto com várias operações
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (11, 1, 5, 8, 1);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (11, 2, 3, 7, 2);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (11, 3, 6, 9, 3);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (11, 4, 4, 2, 4);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (11, 5, 8, 3, 5);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (11, 6, 7, 5, 6);
+
+-- Executar
+
+BEGIN
+    GetTopProductByOperations;
+END;
+
+esperado:
+Products with the most operations:
+ Variant ID: 11, Operations: 6
+
+
+Empate - Dois produtos têm o mesmo número de operações
+
+-- Inserir operações para o segundo produto (já incluídas nos inserts fornecidos)
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (10, 1, 5, 8, 1);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (10, 2, 3, 7, 2);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (10, 3, 6, 9, 3);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (10, 4, 4, 2, 4);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (10, 5, 8, 3, 5);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (10, 6, 7, 5, 6);
+
+-- Executar
+
+BEGIN
+    GetTopProductByOperations;
+END;
+
+-- Esperado:
+Products with the most operations:
+Product Name: Variant ID: 11, Operations: 6
+Product Name: Variant ID: 10, Operations: 6
+
+Nenhum produto ou operação na base de dados
+
+-- Preparação dos dados:
+-- Apagar todos os registros das tabelas envolvidas
+
+DELETE FROM "Bill of Operations";
+
+-- Executar
+
+BEGIN
+    GetTopProductByOperations;
+END;
+
+-- Esperado:
+-- No products or operations found.

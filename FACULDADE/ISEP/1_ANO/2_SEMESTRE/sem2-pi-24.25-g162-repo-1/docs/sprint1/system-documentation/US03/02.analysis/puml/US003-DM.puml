@@ -1,0 +1,40 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide circle
+hide methods
+
+class User {
+    name
+    email
+    password
+}
+
+class Role {
+    name
+    description
+}
+
+class Map {
+    name
+    width
+    height
+}
+
+class City {
+    name
+    location
+    nBlocks
+}
+
+class House {
+}
+
+User "*" -- "1" Role : has
+User "1" -- "*" Map : manages
+
+Map "1" -- "*" City : contains
+City "1" -- "*" House : contains
+@enduml

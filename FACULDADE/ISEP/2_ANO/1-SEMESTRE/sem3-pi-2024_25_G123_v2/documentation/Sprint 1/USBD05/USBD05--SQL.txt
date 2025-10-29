@@ -1,0 +1,22 @@
+SELECT
+    Customer.customer_name,
+    Product.product_id,
+    Product.product_name,
+    "Ordered Items".quantity,
+    "Order".delivery_date
+FROM
+    "Order"
+JOIN
+    Customer ON "Order".Customercustomer_id = Customer.customer_id
+JOIN
+    "Ordered Items" ON "Order".order_id = "Ordered Items".Orderorder_id
+JOIN
+    Variants ON "Ordered Items".Variantsvariant_id = Variants.variant_id
+JOIN
+    Product ON Variants.product_id = Product.product_id
+WHERE
+    -- Replace with actual date range
+    "Order".delivery_date BETWEEN TO_DATE('2024-09-23', 'YYYY-MM-DD')
+    AND TO_DATE('2024-09-26', 'YYYY-MM-DD')
+ORDER BY
+    "Order".delivery_date;

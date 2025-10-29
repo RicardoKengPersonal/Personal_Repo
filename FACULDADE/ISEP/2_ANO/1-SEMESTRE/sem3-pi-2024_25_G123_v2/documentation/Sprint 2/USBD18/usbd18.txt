@@ -1,0 +1,41 @@
+CREATE OR REPLACE NONEDITIONABLE FUNCTION Deactivate_Customer_Function(
+    customer_identifier IN NUMBER -- ID do cliente a ser desativado
+) RETURN VARCHAR2
+AS
+    result_message VARCHAR2(255); -- Mensagem de retorno
+    undelivered_orders NUMBER;    -- Número de pedidos pendentes
+BEGIN
+    -- Verifica se há pedidos não entregues ou não cumpridos
+    SELECT COUNT(*)
+    INTO undelivered_orders
+    FROM "Order"
+    WHERE customer_id = customer_identifier
+      AND (order_status IS NULL OR order_status NOT IN ('Delivered', 'Fulfilled'));
+
+    -- Retorna erro se houver pedidos pendentes
+    IF undelivered_orders > 0 THEN
+        RETURN 'Error: Customer cannot be deactivated as there are undelivered orders.';
+    END IF;
+
+    -- Atualiza o tipo do cliente para 'Deactivated'
+    UPDATE Customer
+    SET customer_type = 'Deactivated'
+    WHERE customer_id = customer_identifier;
+
+    -- Verifica se alguma linha foi afetada pela atualização
+    IF SQL%ROWCOUNT = 0 THEN
+        -- Cliente não encontrado
+        result_message := 'Error: Customer ID not found.';
+    ELSE
+        -- Sucesso na desativação
+        result_message := 'Success: The customer has been deactivated successfully.';
+    END IF;
+
+    RETURN result_message;
+
+-- Tratamento de erros inesperados
+EXCEPTION
+    WHEN OTHERS THEN
+        RETURN 'Error: ' || SQLERRM; -- Retorna mensagem com o erro
+END Deactivate_Customer_Function;
+/

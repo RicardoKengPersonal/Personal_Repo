@@ -1,0 +1,203 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam classAttributeIconSize 0
+
+class ApplicationSession {
+    - ApplicationSession()
+    + {static} getInstance()
+    + getCurrentSession()
+}
+
+class UserSession {
+    + getCurrentMapName()
+    + getCurrentPlayer()
+}
+
+class Repositories {
+    - Repositories()
+    + {static} getInstance()
+    + getMapRepository()
+    + getLocomotiveRepository()
+}
+
+class MapRepository {
+    + getMapByName(name)
+}
+
+class LocomotiveRepository {
+    + getLocomotiveByName(name)
+}
+
+class Map {
+    - name : String
+    - industries : List<Industry>
+    - scenarios : List<Scenario>
+    - currentScenario : Scenario
+
+    + Map(name: String, width: int, length: int)
+    + Map(grid: String[][])
+
+    + getIndustries() : List<Industry>
+    + getScenarios() : List<Scenario>
+    + getCurrentScenario() : Scenario
+    + setCurrentScenario(scenario: Scenario) : void
+    + addScenario(scenario: Scenario) : void
+}
+
+
+
+class Scenario {
+    - name : String
+    - description : String
+    - map : Map
+    - dateRange : String
+    - industryTypes : List<ResourceType>
+    - locomotiveTypes : List<LocomotiveType>
+
+    + Scenario(name: String, description: String, dateRange: String, map: Map)
+
+    + validateMap(map: Map) : boolean
+    + setDateRange(dateRange: String) : void
+
+    - setIndustryType() : void
+    - setLocomotiveTypes() : void
+
+    + getIndustryTypes() : List<ResourceType>
+    + getLocomotiveTypes() : List<LocomotiveType>
+    + getDateRangeStart() : String
+    + getDateRangeEnd() : String
+}
+
+
+class Locomotive {
+    - name : String
+    - locomotiveType : LocomotiveType
+    - power : double
+    - acceleration : double
+    - topSpeed : double
+    - fuelCost : double
+    - maintenanceCost : double
+    - acquisitionPrice : double
+    + Locomotive(name, locomotiveType, power, acceleration, topSpeed, startYear, fuelCost, maintenanceCost, acquisitionPrice)
+    + getName()
+    + setName(name)
+    + getLocomotiveType()
+    + setLocomotiveType(locomotiveType)
+    + getPower()
+    + setPower(power)
+    + getAcceleration()
+    + setAcceleration(acceleration)
+    + getTopSpeed()
+    + setTopSpeed(topSpeed)
+    + getFuelCost()
+    + setFuelCost(fuelCost)
+    + getMaintenanceCost()
+    + setMaintenanceCost(maintenanceCost)
+    + getAcquisitionPrice()
+    + setAcquisitionPrice(acquisitionPrice)
+    + toString()
+}
+
+class LocomotiveType {
+    - name : String
+    - description
+}
+
+class LocomotiveDTO {
+    - name : String
+    - acquisitionPrice : double
+}
+
+class LocomotiveMapper {
+    + toDTO(locomotiveList)
+}
+
+class Player {
+    - name : String
+    - money : double
+    + Player(name, money)
+    + getName()
+    + setName(name)
+    + getMoney()
+    + setMoney(money)
+    + debit(amount) : boolean
+
+}
+
+
+class SystemClock {
+    + {static} getCurrentDate()
+}
+
+class BuyLocomotiveUI {
+}
+
+class BuyLocomotiveController {
+    + BuyLocomotiveController()
+    + displayAvailableLocomotives()
+    + getLocomotiveDetails(name)
+    + buyLocomotive(locomotive)
+    - getMapFromSession()
+}
+
+BuyLocomotiveUI .> BuyLocomotiveController
+BuyLocomotiveUI .> LocomotiveDTO
+
+BuyLocomotiveController ..> ApplicationSession
+BuyLocomotiveController ..> UserSession
+BuyLocomotiveController ..> Map
+BuyLocomotiveController ..> Scenario
+BuyLocomotiveController ..> Locomotive
+BuyLocomotiveController ..> LocomotiveMapper
+BuyLocomotiveController ..> LocomotiveRepository
+BuyLocomotiveController ..> Player
+BuyLocomotiveController ..> SystemClock
+BuyLocomotiveController .> Repositories
+BuyLocomotiveController .> LocomotiveDTO
+
+Repositories -> "1" Repositories : instance
+Repositories --> "1" MapRepository : mapRepository
+Repositories --> "1" LocomotiveRepository : locomotiveRepository
+
+ApplicationSession -> "1" ApplicationSession : instance
+ApplicationSession ..> UserSession
+
+MapRepository --> "*" Map : maps
+Map --> "1" Scenario : currentScenario
+Scenario --> "*" Locomotive : locomotives
+
+LocomotiveMapper .> Locomotive
+LocomotiveMapper .> LocomotiveDTO
+LocomotiveMapper --> "*" Locomotive : locomotives
+
+Locomotive "*" -> "1" LocomotiveType : has
+
+note right of BuyLocomotiveController
+    mapName is obtained from the
+    current UserSession via
+    ApplicationSession.
+end note
+
+note bottom of Scenario
+    - Provides the list of available
+      locomotives in the current
+      simulation context.
+end note
+
+note bottom of LocomotiveRepository
+    - Responsible for fetching
+      locomotive data by name.
+end note
+
+note bottom of Player
+    - Validates purchase ability and
+      updates balance accordingly.
+end note
+
+note bottom of SystemClock
+    - Provides the current system date
+      used to assign locomotive start year.
+end note
+@enduml

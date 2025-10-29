@@ -1,0 +1,19 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #AED6F1
+  BorderColor Black
+}
+
+actor "Admin" as CRM
+participant "ReactivateUserUI" as UI
+participant "ReactivateUserController" as Controller
+participant "UserManagementService" as Service
+participant "UserRepository" as registry
+
+    CRM -> UI : Asks to reactivate user
+    UI -> Controller : Send user to reactivate and checks permissions
+    Controller -> Service : Reactivates user
+    Service -> registry : Saves user new state
+    registry -> CRM :  Returns operation result
+@enduml

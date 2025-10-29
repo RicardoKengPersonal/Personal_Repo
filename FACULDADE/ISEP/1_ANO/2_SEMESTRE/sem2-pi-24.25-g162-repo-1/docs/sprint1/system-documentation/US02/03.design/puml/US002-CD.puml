@@ -1,0 +1,218 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam classAttributeIconSize 0
+'left to right direction
+
+
+class ApplicationSession {
+    - ApplicationSession()
+    + {static} getInstance()
+    + getCurrentSession()
+}
+
+class UserSession {
+    + getUserEmail()
+    + getCurrentMapName()
+}
+
+class Repositories {
+    - Repositories()
+    + {static} getInstance()
+    + getMapRepository()
+    + getIndustryRepository()
+}
+
+class MapRepository {
+    + getMapByName(name)
+}
+
+class IndustryRepository {
+    + add(industry)
+    - save(industry)
+}
+
+class Map {
+    - name : String
+    - grid : Grid
+    + showGrid()
+    + isValidLocation(x, y)
+    + getListOfResourceTypes()
+    + getIndustryTypes()
+    + getListOfGenerationFactors()
+    + addIndustry(industry)
+}
+
+class Location {
+    - x : int
+    - y : int
+    + Location(x, y)
+}
+
+class ResourceType {
+    - name : String
+    - description : String
+}
+
+class IndustryType {
+    - name : String
+    - description : String
+}
+
+class GenerationFactors {
+    - name : String
+    -  description : String
+}
+
+class Industry {
+    - location : Location
+    - resourceType : ResourceType
+    - industryType : IndustryType
+    - generationFactor : GenerationFactors
+    + Industry(location, resourceType, industryType, generationFactor)
+}
+
+class IndustryDTO {
+    - location : Location
+    - resourceType : ResourceType
+    - industryType : IndustryType
+    - industryGenerationFactor : GenerationFactors
+}
+
+class ResourceTypeDTO {
+    - name : String
+    - description : String
+}
+
+class GenerationFactorsDTO {
+    - name : String
+    - description : String
+}
+
+class IndustryTypeDTO {
+    - name : String
+    - description : String
+}
+
+class IndustryMapper {
+    + toModel(dto)
+    + toDTO(industry)
+}
+
+class ResourceTypeMapper {
+    + toDTO(resourceTypeList)
+}
+
+class IndustryTypeMapper {
+    + toDTO(industryTypeList)
+}
+
+class GenerationFactorsMapper {
+    + toDTO(generationFactorsList)
+}
+
+class AddIndustryUI {
+}
+
+class CreateIndustryController {
+    + CreateIndustryController()
+    + showGrid()
+    + validateLocation(input, map)
+    + createLocation(x, y)
+    + getListOfResourceTypes()
+    + getResourceTypeByIndex(index)
+    + getIndustryTypes()
+    + getIndustryTypeByIndex(index)
+    + getListOfGenerationFactors()
+    + getGenerationFactorByIndex(index)
+    + createIndustry(dto)
+    - getMapFromSession()
+}
+
+
+AddIndustryUI .> CreateIndustryController
+AddIndustryUI .> IndustryDTO
+
+CreateIndustryController ..> ApplicationSession
+CreateIndustryController ..> UserSession
+CreateIndustryController ..> Map
+CreateIndustryController ..> Location
+CreateIndustryController ..> ResourceType
+CreateIndustryController ..> ResourceTypeMapper
+CreateIndustryController ..> IndustryType
+CreateIndustryController ..> IndustryTypeMapper
+CreateIndustryController ..> GenerationFactors
+CreateIndustryController ..> GenerationFactorsMapper
+CreateIndustryController ..> Industry
+CreateIndustryController ..> IndustryRepository
+CreateIndustryController .> Repositories
+CreateIndustryController .> IndustryDTO
+CreateIndustryController .> IndustryMapper
+CreateIndustryController .> Industry
+CreateIndustryController .> GenerationFactorsMapper
+CreateIndustryController .> IndustryTypeMapper
+CreateIndustryController .> ResourceTypeMapper
+CreateIndustryController .> ResourceType
+CreateIndustryController .> IndustryType
+
+ResourceTypeMapper .> ResourceType
+ResourceTypeMapper .> ResourceTypeDTO
+
+GenerationFactorsMapper .> GenerationFactors
+GenerationFactorsMapper .> GenerationFactorsDTO
+
+IndustryMapper .> Industry
+IndustryMapper .> IndustryDTO
+
+IndustryTypeMapper .> IndustryType
+IndustryTypeMapper .> IndustryTypeDTO
+
+Repositories -> "1" Repositories : instance
+Repositories --> "1" MapRepository : mapRepository
+Repositories --> "1" IndustryRepository : industryRepository
+
+ApplicationSession -> "1" ApplicationSession : instance
+ApplicationSession ..> UserSession
+
+MapRepository --> "*" Map : maps
+IndustryRepository --> "*" Industry : industries
+
+Map --> "*" Industry : industries
+Map --> "*" ResourceType : resourceTypes
+Map --> "*" IndustryType : industryTypes
+Map --> "*" GenerationFactors : generationFactors
+
+Industry --> "1" Location : coordinates
+Industry --> "1" ResourceType : resourceType
+Industry --> "1" IndustryType : industryType
+Industry --> "1" GenerationFactors : generationFactor
+
+ResourceTypeMapper --> "*" ResourceType : resourceTypes
+IndustryTypeMapper --> "*" IndustryType : industryTypes
+GenerationFactorsMapper --> "*" GenerationFactors : generationFactors
+
+note right of CreateIndustryController
+    mapName is obtained from the
+    current UserSession via
+    ApplicationSession.
+end note
+
+note bottom of MapRepository
+    - Responsible for loading a Map
+      by its unique name.
+end note
+
+note bottom of Map
+    - Knows the collections of
+      resources, industry types, and
+      generation factors and validates
+      coordinates on its grid.
+end note
+
+note bottom of IndustryRepository
+    - Persists new Industry
+      instances created through
+      the controller.
+end note
+@enduml

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+
+<?import javafx.scene.layout.HBox?>
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml" stylesheets="@css/MyGreenSpaces.css" fx:controller="pt.ipp.isep.dei.esoft.project.ui.gui.MyGreenSpacesGUI">
+    <ListView fx:id="greenSpacesList" />
+    <HBox alignment="BOTTOM_RIGHT" spacing="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10" />
+        </padding>
+        <Button text="Go Back" onAction="#goBack" styleClass="button"/>
+    </HBox>
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+</VBox>

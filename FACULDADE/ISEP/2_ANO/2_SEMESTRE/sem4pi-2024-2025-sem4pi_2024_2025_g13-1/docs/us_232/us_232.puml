@@ -1,0 +1,38 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #D6EAF8
+  BorderColor Black
+}
+
+actor "Show Designer" as SD
+participant "SearchFigureCatalogueUI" as UI
+participant "SearchFigureCatalogueController" as Controller
+participant "FigureService" as Service
+participant "FigureRepository" as Repo
+
+SD -> UI : ask to search for a figure by code and/or keywords
+alt search by code
+    UI -> Controller : searchByCode()
+    Controller -> Service : searchByCode()
+    Service -> Repo : findByCodeAndPublic()
+    Repo -> Service : return the info
+    Service -> Controller : return the info
+    Controller -> UI : return the info
+else search by keywords
+    UI -> Controller : searchByKeywords()
+    Controller -> Service : searchByKeywords()
+    Service -> Repo : findByKeywordsAndPublic()
+    Repo -> Service : return the info
+    Service -> Controller : return the info
+    Controller -> UI : return the info
+else search by code and keywords
+    UI -> Controller : searchByCodeAndKeywords()
+    Controller -> Service : searchByCodeAndKeywords()
+    Service -> Repo : findByCodeAndKeywordsAndPublic()
+    Repo -> Service : return the info
+    Service -> Controller : return the info
+    Controller -> UI : return the info
+end
+UI -> SD : return the info (Success)
+@enduml

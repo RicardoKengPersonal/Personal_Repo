@@ -1,0 +1,18 @@
+--Data
+INSERT INTO input (idInput) VALUES (21);
+INSERT INTO inputProduct (idInput, idProduct, quantity)
+VALUES (21, 1, 50);
+
+-- Test case: Failure (Circular reference)
+-- This should trigger the error(ORA-20001: Circular reference detected: A product cannot be its own input in a Bill of Operation.)
+(idProduct, idOperation, idOperationType, idInput, idOutput, idNextOperation, idNextOperationType, sequenceNumber)
+VALUES (1, 1, 1, 21, 1, NULL, NULL, 1);
+
+
+-- Test case: Success
+-- This should succeed as there is no circular reference
+INSERT INTO billOfOperation
+(idProduct, idOperation, idOperationType, idInput, idOutput, idNextOperation, idNextOperationType, sequenceNumber)
+VALUES (2, 1, 1, 21, 1, NULL, NULL, 1);
+
+

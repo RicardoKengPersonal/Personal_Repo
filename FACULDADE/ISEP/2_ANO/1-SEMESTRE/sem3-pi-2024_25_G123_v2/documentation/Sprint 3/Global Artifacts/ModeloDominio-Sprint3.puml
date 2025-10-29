@@ -1,0 +1,148 @@
+@startuml
+
+class Address {
+  + idAddress : number(10)
+  + street : varchar2(255)
+  + floor : varchar2(255)
+  + apartment : nvarchar2(255)
+  + zipCode : varchar2(20)
+  + town : varchar2(255)
+  + city : varchar2(255)
+  + country : varchar2(255)
+}
+
+class Customer {
+  + idCustomer : number(10)
+  + name : varchar2(255)
+  + email : varchar2(255)
+  + vatin : varchar2(255)
+  + phoneNumber : varchar2(255)
+}
+
+class CustomerOrder {
+  + idOrder : number(10)
+  + orderDate : date
+  + deliveryDate : date
+}
+
+class Product {
+  + idProduct : number(10)
+  + description : varchar2(255)
+}
+
+class FinishedProduct {
+  + idProduct : number(10)
+}
+
+class Part {
+  + idProduct : number(10)
+  + minimumStock : number(10)
+  + availableStock : number(10)
+}
+
+class PartType {
+  + name : varchar2(255)
+}
+
+class Subproduct {
+  + idProduct : number(10)
+}
+
+class Variant {
+  + idVariant : number(10)
+  + name : varchar2(255)
+}
+
+class OrderedItem {
+  + idOrder : number(10)
+  + idVariant : number(10)
+  + quantity : number(10)
+}
+
+class Reservation {
+  + idOrder : number(10)
+  + idProduct : number(10)
+  + quantity : number(10)
+}
+
+class Facility {
+  + idFacility : number(10)
+  + name : varchar2(255)
+  + type : varchar2(255)
+}
+
+class Workstation {
+  + idWorkstation : number(10)
+  + name : varchar2(255)
+  + description : varchar2(255)
+}
+
+class WorkstationType {
+  + name : varchar2(255)
+  + maximumExecutionTime : number(10)
+  + setupTime : number(10)
+}
+
+class Operation {
+  + idOperation : number(10)
+  + expectedExecutionTime : number(10)
+}
+
+class OperationType {
+  + description : varchar2(255)
+}
+
+class Supplier {
+  + idSupplier : number(10)
+  + name : varchar2(255)
+}
+
+class Procurement {
+  + idSupplier : number(10)
+  + idProduct : number(10)
+  + unitCost : number(10)
+  + minimumOrderSize : number(10)
+}
+
+class CustomerType {
+  + name : varchar2(255)
+}
+
+class CustomerStatus {
+  + name : varchar2(255)
+}
+
+class OrderStatus {
+  + name : varchar2(255)
+}
+
+class ReservationStatus {
+  + name : varchar2(255)
+}
+
+Customer "1" --> "1" Address : resides at
+Customer "1" --> "1" CustomerType : has type
+Customer "1" --> "1" CustomerStatus : has status
+CustomerOrder "*" --> "1" Customer : placed by
+CustomerOrder "1" --> "1" Address : delivery to
+CustomerOrder "1" --> "1" OrderStatus : has status
+OrderedItem "*" --> "1" CustomerOrder : belongs to
+OrderedItem "1" --> "1" Variant : contains
+Reservation "*" --> "1" CustomerOrder : related to
+Reservation "*" --> "1" Product : reserves
+Reservation "1" --> "1" ReservationStatus : has status
+Facility "1" --> "1" Address : located at
+Workstation "*" --> "1" Facility : part of
+Workstation "*" --> "1" WorkstationType : has type
+Operation "*" --> "1" OperationType : has type
+WorkstationType "*" --> "*" OperationType : is compatible with
+Procurement "*" --> "1" Supplier : supplied by
+Procurement "*" --> "1" Product : orders
+
+FinishedProduct "1" --> "1" Product : inherits
+Part "1" --> "1" Product : inherits
+Part "*" --> "1" PartType : has type
+Subproduct "1" --> "1" Product : inherits
+Variant "*" --> "1" FinishedProduct : variant of
+
+@enduml

@@ -1,0 +1,27 @@
+--Data
+INSERT INTO workstationType (name, maximumExecutionTime, setupTime)
+VALUES ('Trigger Test A', 100, 10);
+
+INSERT INTO operationType (description)
+VALUES ('Trigger Test A');
+
+INSERT INTO operationTypeWorkstationTypeCompatibility (idOperationType, idWorkstationType)
+VALUES (18, 14);
+
+-- Case 1 : Valid Insert (Expected: Insert successfull
+INSERT INTO operation (idOperation, idOperationType, expectedExecutionTime)
+VALUES (99, 18, 90);
+
+-- Case 2: Update operation with valid execution time (Expected: Update successfull)
+UPDATE operation
+SET expectedExecutionTime = 95
+WHERE idOperation = 1;
+
+-- Case 3: Invalid Insert (Expected: ORA-20001 error)
+INSERT INTO operation (idOperation, idOperationType, expectedExecutionTime)
+VALUES (2, 1, 160);
+
+-- Case 4: Invalid Update (Expected: ORA-20001 error)
+UPDATE operation
+SET expectedExecutionTime = 200
+WHERE idOperation = 1;

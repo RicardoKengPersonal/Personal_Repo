@@ -1,0 +1,44 @@
+@startuml
+
+skinparam linetype ortho
+
+skinparam package {
+  BackgroundColor #D6EAF8
+  BorderColor Black
+}
+
+package "shodrone.core.figuremanagement.domain" <<Aggregate>> {
+
+  class FigureCategory <<Entity, AggregateRoot>> {}
+
+  class FigureCategoryID <<ValueObject>> {}
+
+  class FigureVersion <<Entity>> {
+    - String versionNumber
+    - boolean isExclusive
+    - LocalDate exclusivityEndDate
+    - LocalDateTime timestamp
+  }
+
+}
+
+package "shodrone.core.figuremanagement.repository" {
+  interface FigureCategoryRepository
+}
+
+package "shodrone.persistence.JPARepository" {
+  class JpaFigureCategoryRepository
+}
+
+package "shodrone.persistence.InMemoryRepository" {
+  class InMemoryFigureCategoryRepository
+}
+
+' RELAÇÕES
+FigureVersion  *--  FigureCategoryID
+FigureCategory *-- FigureCategoryID
+FigureCategoryRepository <|.. JpaFigureCategoryRepository
+FigureCategoryRepository <|.. InMemoryFigureCategoryRepository
+FigureCategoryRepository ..> FigureCategory
+
+@enduml

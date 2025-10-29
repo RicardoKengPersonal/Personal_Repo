@@ -1,0 +1,41 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+
+class GreenSpacesManager {
+}
+
+class Team{
+    skills
+    collaborators
+}
+
+class Agenda {
+
+}
+
+class AgendaEntry {
+    date
+    vehicles
+}
+
+class Task {
+    description
+    taskName
+    greenSpace
+    estimatedDuration
+    taskStatus
+    taskUrgencyDegree
+}
+
+GreenSpacesManager "1..*" -- "1" Agenda:  has >
+AgendaEntry "1" -- "1" Task : corresponds to >
+Agenda "1" -- "1..*" AgendaEntry : has >
+AgendaEntry "1..*" - "1" Team : assigned to >
+@enduml

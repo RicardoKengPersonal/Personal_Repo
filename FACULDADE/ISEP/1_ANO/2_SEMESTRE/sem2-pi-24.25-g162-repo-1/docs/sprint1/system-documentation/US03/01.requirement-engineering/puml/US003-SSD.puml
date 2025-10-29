@@ -1,0 +1,45 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "Editor" as Editor
+participant ":System" as System
+
+activate Editor
+
+    Editor -> System : requests to create a new city
+    activate System
+
+        System --> Editor : requests data (Name, Location XY, numberBlocks)
+    deactivate System
+
+    Editor -> System : provides requested data
+    activate System
+
+    System --> Editor : shows assignment types and asks to select one (Manual / Automatic)
+
+    deactivate System
+
+    Editor -> System : selects assignment type
+    activate System
+    opt Manual Assignment
+        loop numberBlocks times
+            System --> Editor : requests data(X, Y)
+            deactivate System
+            Editor -> System : types requested data(X, Y)
+            activate System
+        end loop
+    end
+
+    System --> Editor : displays entered data and requests confirmation
+    deactivate System
+    Editor -> System : confirms data
+    activate System
+
+    System --> Editor : displays success
+    deactivate System
+
+@enduml

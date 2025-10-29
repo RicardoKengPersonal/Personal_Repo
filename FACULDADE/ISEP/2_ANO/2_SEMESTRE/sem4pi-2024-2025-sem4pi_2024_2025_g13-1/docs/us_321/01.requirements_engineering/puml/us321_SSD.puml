@@ -1,0 +1,28 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "DroneTech" as DroneTech
+participant ":System" as System
+
+activate DroneTech
+    "DroneTech" -> System : ask to add a maintenance type
+
+    activate System
+
+    System --> "DroneTech" : requests data (name, description)
+
+    deactivate System
+
+    DroneTech -> System : provides data
+
+    activate System
+
+    System --> DroneTech : displays operation success
+
+    deactivate System
+
+@enduml

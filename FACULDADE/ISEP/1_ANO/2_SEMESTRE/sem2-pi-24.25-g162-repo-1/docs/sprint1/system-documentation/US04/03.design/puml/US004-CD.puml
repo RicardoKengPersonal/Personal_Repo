@@ -1,0 +1,148 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam linetype polyline
+
+' ==== USERS & ROLES ====
+class User {
+    - name: String
+    - email: String
+    - password: String
+}
+class Role {
+    - name: String
+    - description: String
+}
+User "1" -- "*" Role : has >
+
+' ==== MAPS & SCENARIOS ====
+class Map {
+    - name: String
+    - description: String
+    - width: int
+    - height: int
+    - scale: double
+    - cities: Cities
+    - industries: Industries
+    - scenarios: Scenarios
+    - stations: Stations
+    - trains: Trains
+    - railwayLines: RailwayLines
+    + createScenario(...)
+    + getScenarios(): ArrayList<Scenario>
+}
+class Scenario {
+    - name: String
+    - description: String
+    - historicalEvents: ArrayList<HistoricalEvent>
+    - locomotiveTypes: ArrayList<LocomotiveType>
+    - industryTypes: ArrayList<ResourceType>
+    - startingDate: LocalDate
+    - endingDate: LocalDate
+    - initialMoney: double
+    - editorName: String
+}
+Map "1" o-- "*" Scenario : contains >
+
+' ==== DOMAIN OBJECTS ====
+class City {
+    - name: String
+    - coordinates: Coordinates
+    - houseBlocks: ArrayList<HouseBlock>
+}
+class Industry {
+    - coordinates: Coordinates
+    - output: ResourceType
+    - industryType: IndustryType
+    - industryGenerationFactor: IndustryGenerationFactor
+}
+class Station {
+    - name: String
+    - coordinates: Coordinates
+    - stationType: StationType
+    - orientation: Orientation
+}
+class Train {
+    - locomotive: Locomotive
+}
+class Locomotive {
+    - id: String
+    - type: LocomotiveType
+}
+class RailwayLine {
+    - stationA: Station
+    - stationB: Station
+    - lineType: LineType
+}
+
+Map "1" o-- "*" City : contains >
+Map "1" o-- "*" Industry : contains >
+Map "1" o-- "*" Station : contains >
+Map "1" o-- "*" Train : has >
+Map "1" o-- "*" RailwayLine : has >
+
+City "1" o-- "*" HouseBlock : contains >
+City "1" o-- "1" Coordinates : located at >
+Industry "1" o-- "1" Coordinates : located at >
+Station "1" o-- "1" Coordinates : located at >
+
+' ==== ENUMS & TYPES ====
+enum ResourceType
+enum IndustryType
+enum IndustryGenerationFactor
+enum LocomotiveType
+enum StationType
+enum Orientation
+enum LineType
+
+Industry "1" o-- "1" ResourceType : output >
+Industry "1" o-- "1" IndustryType : type >
+Industry "1" o-- "1" IndustryGenerationFactor : generationFactor >
+Station "1" o-- "1" StationType : type >
+Station "1" o-- "1" Orientation : orientation >
+Locomotive "1" o-- "1" LocomotiveType : type >
+RailwayLine "1" o-- "1" LineType : type >
+
+' ==== REPOSITORIES & CONTROLLERS ====
+class MapRepository {
+    - maps: ArrayList<Map>
+    + add(...)
+    + getMapsList(): ArrayList<Map>
+    + getMapByName(name): Map
+    + saveMap(map): void
+    + loadAllMaps(): void
+    + deleteMap(selectedMap): void
+}
+
+class Repositories {
+    + getInstance(): Repositories
+    + getMapRepository(): MapRepository
+    + getScenarioRepository(): ScenarioRepository
+    + getAuthenticationRepository(): AuthenticationRepository
+    ...
+}
+class CreateScenarioController {
+    - userSession: UserSession
+    - repo: MapRepository
+    + createScenario(map, ...)
+    + getIndustryTypes(): ArrayList<ResourceType>
+    + getLocomotiveTypes(): ArrayList<LocomotiveType>
+    + getuserName(): String
+}
+class CreateScenarioUI {
+    + getView(): Parent
+}
+
+CreateScenarioUI ..> CreateScenarioController
+CreateScenarioController ..> MapRepository
+CreateScenarioController ..> Repositories
+Repositories o-- MapRepository
+
+MapRepository o-- "*" Map
+
+' ==== RELAÇÕES DE DOMÍNIO ====
+User "1" o-- "*" Map : manages >
+Scenario o-- "*" HistoricalEvent : historicalEvents >
+Scenario o-- "*" LocomotiveType : locomotiveTypes >
+Scenario o-- "*" ResourceType : industryTypes >
+
+@enduml

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreatHabits</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .product-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 50px;
+        }
+
+        .product-image img {
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-details {
+            max-width: 400px;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        .features-section {
+            background-color: #f9f9f9;
+            padding: 50px;
+            text-align: center;
+        }
+
+        .contact-section {
+            background-color: #eee;
+            padding: 50px;
+            text-align: center;
+        }
+        .sobre-app {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .sobre-nos {
+            text-align: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        
+        header img {
+            width: 90px;
+            height: auto;
+            float: left;
+            margin-right: 10px;
+            
+        }
+
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 5px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>GreatHabits - app <img src="logotipo-isep.jpg" alt="Logotipo isep"></h1>
+        <p>Constrói hábitos saudáveis, evita a procrastinação!</p>
+    </header>
+
+    <section class="product-section">
+        <div class="product-image">
+            <img src="imagem-tele.jpg" alt="Resultado da app">
+        </div>
+        <div class="product-details">
+            <h2>GreatHabits</h2>
+            <p>GreatHabits - a tua aplicação diária de rastreamento de hábitos que te ajuda a construir hábitos positivos e novas rotinas. Acompanha os teus hábitos sem esforço, define lembretes, alcança os teus objetivos pessoais e mantém-te motivado todos os dias.</p>
+            <p><strong>Preço:</strong> Gratuito</p>
+            <button>Quero experimentar</button>
+            <p></p>
+            <button onclick="location.href='#sobre-app'">Quero saber mais</button>
+            <p></p>
+            <button onclick="location.href='#sobre-nos'">Sobre nós</button>
+
+        </div>
+    </section>
+
+    <section class="features-section">
+        <h2>Algumas funcionalidades disponiblizadas na aplicação</h2>
+        <ul>
+            <li>Gestão de Construção de hábitos</li>
+            <li>Estatísticas</li>
+            <li>Lembretes</li>
+            <li>Comunicação e cooperação</li>
+            
+            
+        </ul>
+    </section>
+
+    <section id="sobre-app" class="sobre-app">
+        <h2>Sobre a app</h2>
+        <p>A nossa aplicação tem, como referido acima, o principal objetivo de combater a procrastinação e por isso, atendendo às características de hoje em dia, consideramos que a melhor maneira de o fazer seria através do desenvolvimento de uma aplicação que tenha funcionalidades interativas e também dicas para ultrapassar este problema.</p>
+        <h3>Gestão de Construção de hábitos:</h3>
+        <p>Estabelece objetivos facilmente e gere os teus hábitos com a nossa interface amigável e intuitiva. Explora a nossa ampla seleção de modelos de hábitos personalizáveis que fornecem inspiração adicional para criar novas rotinas diárias. O planejador de hábitos produtivos ajudar-te-á na tua jornada para uma vida mais organizada, focada e realizada.</p>
+
+        <h3>Estatísticas:</h3>
+        <p>Monitoriza o teu progresso com análises detalhadas e visualizações usando a nossa função avançada de rastreamento de hábitos. Desenvolve uma rotina consistente para alcançar os teus objetivos e celebra as tuas conquistas com marcos gratificantes. O (nome da aplicação) ajuda-o a rastrear os teus hábitos facilmente, fornecendo a motivação e insights sobre o teu desenvolvimento pessoal que tu precisas para permanecer no caminho certo.</p>
+
+        <h3>Lembretes:</h3>
+        <p>A aplicação de rastreamento de hábitos (nome da aplicação) garante que tu cumpras todas as tuas tarefas diárias com lembretes baseados em localização e tempo que se adequam ao teu estilo de vida. Nunca percas um passo na sua jornada de construção de hábitos recebendo notificações oportunas para alcançar os teus objetivos diários e apoiar o teu desenvolvimento pessoal.</p>
+
+        <h3>Comunicação e cooperação:</h3>
+        <p>Comunica com outros utilizadores que partilham os mesmos objetivos que tu através de um fórum digital onde podes ir atualizando o teu progresso e anunciar os objetivos que já foram cumpridos. Partilha os teus sucessos e dificuldades para que possas ser ajudado ou ajudar outros utilizadores!</p>
+
+    </section>
+    <section id="sobre-nos" class="sobre-nos">
+        <h2>Sobre Nós</h2>
+        <p>
+            Somos estudantes de 1º ano do curso de engenharia informática no ISEP e foi nos proposto uma atividade no âmbito da disciplina de LAPR1, cuja docente é a professora Ana Barata, na qual 
+            identificavamos um problema atual e tentaríamos resolucionar o mesmo. Por isso, optamos por um problema extremamente comum e 
+            atual, uma vez que, também nós somos vítimas do mesmo. Decidimos criar uma aplicação que nos ajudasse a nós,
+            como usuários, a ultrapassar este problema e por isso definimos algumas funcionalidades que nós achamos pertinentes
+            para a resolução deste mesmo problema.
+            Porém, não basta ter a aplicação sem a divulgar e por isso achamos pertinente a criação de um site para a divulgação do mesmo.
+            Esperemos que a nossa aplicação, assim como o site, esteja ao vosso gosto.
+
+        </p>
+    </section>
+ 
+
+    <section class="contact-section">
+        <h2>Contacte-nos</h2>
+        <p>Para nos contactar envie email para um dos seguintes remetentes e autores:</p> 
+       <p><a href="mailto:1231500@isep.ipp.pt">1231500@isep.ipp.pt - Ricardo Keng</a></p> 
+       <p><a href="mailto:1230574@isep.ipp.pt">1230574@isep.ipp.pt - Sebastião Freitas</a></p>
+       <p><a href="mailto:1230867@isep.ipp.pt">1230867@isep.ipp.pt - Leandro Antunes</a></p>
+       <p><a href="mailto:1230475@isep.ipp.pt">1230475@isep.ipp.pt - Pedro Cardoso</a></p>
+    </section>
+ 
+
+    <footer>
+        <p>&copy; Grupo 09 - 100Nome</p>   
+    </footer>
+
+</body>
+</html>

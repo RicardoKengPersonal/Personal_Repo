@@ -1,0 +1,64 @@
+@startuml
+
+title Class Diagram - US310 Create Show Proposal
+
+class CreateShowProposalUI {
+  +doShow() : boolean
+}
+
+class CreateShowProposalController {
+  +addShowProposal(ShowProposalDTO)
+  +findAllUsers() : Iterable<SystemUser>
+}
+
+class ShowProposalService {
+  +registerNewShowProposal(ShowProposal)
+}
+
+class ShowProposalRepository {
+  +save(ShowProposal)
+  +findByStatus(ShowProposalStatus)
+  +findMaxId()
+}
+
+class ShowProposal {
+  -id : ShowProposalID
+  -status : ShowProposalStatus
+  -showRequest : ShowRequest
+}
+
+class ShowRequest {
+  +identity()
+  +customer()
+  +status()
+}
+
+class ShowProposalID
+class ShowProposalStatus
+class AuthorizationService
+class Roles
+
+class ShowProposalDTO {
+  -requestId : String
+}
+
+class ShowProposalParser {
+  -showProposalRepo : ShowProposalRepository
+  -showRequestRepo : ShowRequestRepository
+  +valueOf(ShowProposalDTO) : ShowProposal
+}
+
+CreateShowProposalUI --> CreateShowProposalController
+CreateShowProposalController --> ShowProposalService
+CreateShowProposalController --> AuthorizationService
+CreateShowProposalController --> Roles
+CreateShowProposalController --> ShowProposalParser
+ShowProposalService --> ShowProposalRepository
+ShowProposalService --> ShowProposal
+ShowProposal --> ShowProposalID
+ShowProposal --> ShowProposalStatus
+ShowProposal --> ShowRequest
+ShowProposalParser --> ShowProposalDTO
+ShowProposalParser --> ShowProposal
+
+@enduml

@@ -1,0 +1,57 @@
+CREATE OR REPLACE FUNCTION check_order_stock(p_order_id NUMBER)
+RETURN VARCHAR2 AS
+    insufficient_stock_msg VARCHAR2(4000);
+BEGIN
+    -- Check if the order exists
+    DECLARE
+        v_order_exists NUMBER;
+    BEGIN
+        SELECT COUNT(*)
+        INTO v_order_exists
+        FROM customerOrder
+        WHERE idOrder = p_order_id;
+
+        IF v_order_exists = 0 THEN
+            RETURN 'Error: Order ID ' || p_order_id || ' does not exist.';
+        END IF;
+    END;
+
+    -- Check stock for ordered variants
+    FOR v_ordered_item IN (
+        SELECT oi.idVariant, oi.quantity, v.availableStock
+        FROM orderedItem oi
+        JOIN variant v ON oi.idVariant = v.idVariant
+        WHERE oi.idOrder = p_order_id
+    ) LOOP
+        IF v_ordered_item.availableStock < v_ordered_item.quantity THEN
+            RETURN 'Insufficient stock for variant ID ' || v_ordered_item.idVariant || '.';
+        END IF;
+
+        -- Recursively check components (if any)
+        FOR v_component IN (
+            SELECT p.idProduct, p.availableStock, ip.quantity * v_ordered_item.quantity AS required_quantity
+            FROM inputProduct ip
+            JOIN part p ON ip.idProduct = p.idProduct
+            WHERE ip.idInput = v_ordered_item.idVariant
+        ) LOOP
+            IF v_component.availableStock < v_component.required_quantity THEN
+                RETURN 'Insufficient stock for component product ID ' || v_component.idProduct || '.';
+            END IF;
+
+            -- Check raw materials for components (if needed)
+            FOR v_raw_material IN (
+                SELECT p.idProduct, p.availableStock, ip.quantity * v_component.required_quantity AS required_quantity
+                FROM inputProduct ip
+                JOIN part p ON ip.idProduct = p.idProduct
+                WHERE ip.idInput = v_component.idProduct
+            ) LOOP
+                IF v_raw_material.availableStock < v_raw_material.required_quantity THEN
+                    RETURN 'Insufficient stock for raw material product ID ' || v_raw_material.idProduct || '.';
+                END IF;
+            END LOOP;
+        END LOOP;
+    END LOOP;
+
+    -- If all checks pass
+    RETURN 'Sufficient stock available for order ID ' || p_order_id || '.';
+END;

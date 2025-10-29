@@ -1,0 +1,66 @@
+@startuml
+
+title Sequence Diagram - US373 Get show info
+
+autonumber
+
+actor "Customer" as Customer
+participant ":GetShowInfoUI" as UI
+participant ":GetShowInfoController" as Controller
+participant ":GetShowInfoService" as Service
+participant "TCP Socket Client" as SocketClient
+participant ":CustomerCommandHandler" as Handler
+participant ":ShowRepository" as ShowRepo
+participant ":Show" as Show
+participant ":ShowRequest" as Request
+participant ":ShowProposal" as Proposal
+
+activate Customer
+Customer -> UI : View show details
+activate UI
+
+    UI -> Controller : getShowById(showId)
+    activate Controller
+
+        Controller -> Service : getShowInfoById(showId)
+        activate Service
+
+            Service -> SocketClient : openSocket()
+            Service -> SocketClient : send("GET_SHOW_INFO <showId> <userEmail>")
+
+            SocketClient -> Handler : handleGetShowInfo(showId, userEmail)
+            activate Handler
+
+                Handler -> ShowRepo : ofIdentity(showId)
+                ShowRepo --> Handler : Show
+
+                Handler -> Show : request()
+                Show --> Handler : ShowRequest
+
+                Handler -> Request : representative().email()
+                Handler -> Request : address()
+                Handler -> Request : duration()
+                Handler -> Request : description()
+                Handler -> Show : scheduledDate()
+                Handler -> Show : scheduledTime()
+                Handler -> Show : status()
+                Handler -> Show : proposal()
+                Show --> Handler : ShowProposal
+
+                Handler -> Proposal : figureEntries()
+                Handler -> Proposal : getDroneFleet()
+
+                Handler -> SocketClient : send formatted string
+            deactivate Handler
+
+        Service --> Controller : ShowExtendedDTO
+        deactivate Service
+
+    Controller --> UI : ShowExtendedDTO
+    deactivate Controller
+
+UI --> Customer : Display show details
+deactivate UI
+deactivate Customer
+
+@enduml

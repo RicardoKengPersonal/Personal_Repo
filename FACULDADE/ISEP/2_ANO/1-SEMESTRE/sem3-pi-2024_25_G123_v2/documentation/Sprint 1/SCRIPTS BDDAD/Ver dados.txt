@@ -1,0 +1,12 @@
+select * FROM "Product Family";
+select * FROM "PRODUCT";
+select * FROM "ADDRESS";
+select * FROM "CUSTOMER";
+select * FROM "Workstation Type";
+select * FROM "VARIANTS";
+select * FROM "OPERATION";
+select * FROM "Order";
+select * FROM "Ordered Items";
+select * FROM "WORKSTATION";
+select * FROM "Bill of Operations";
+select * FROM "Bill of materials";

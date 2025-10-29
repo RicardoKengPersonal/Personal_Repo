@@ -1,0 +1,43 @@
+@startuml
+
+title Sequence Diagram - US315 Add video of simulation to the proposal
+
+autonumber
+
+actor "CRM Collaborator" as CRM
+participant ":AddVideoToShowProposalUI" as UI
+participant ":AddVideoToShowProposalController" as Controller
+participant ":ShowProposalService" as Service
+participant ":ShowProposalRepository" as Repo
+participant ":ShowProposal" as Proposal
+
+activate CRM
+CRM -> UI : add video link
+activate UI
+
+    UI -> Controller : updateVideo(proposalId, videoLink)
+    activate Controller
+
+        Controller -> Service : updateVideoLink(proposalId, videoLink)
+        activate Service
+
+            Service -> Repo : ofIdentity(proposalId)
+            Repo --> Service : Optional<ShowProposal>
+
+            alt ShowProposal found
+                Service -> Proposal : setVideoLink(videoLink)
+                Service -> Repo : save(Proposal)
+                Repo --> Service : saved
+            else ShowProposal not found
+                Service --> Controller : throws IllegalStateException
+            end
+
+        deactivate Service
+
+    deactivate Controller
+
+UI --> CRM : success or error message
+deactivate UI
+deactivate CRM
+
+@enduml

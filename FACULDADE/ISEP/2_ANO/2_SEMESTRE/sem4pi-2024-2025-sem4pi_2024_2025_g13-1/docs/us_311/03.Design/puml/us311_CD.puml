@@ -1,0 +1,96 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam classAttributeIconSize 0
+
+class AddDronesToProposalUI {
+}
+
+class AddDronesToProposalController {
+  - service : AddDronesToProposalService
+  + listAvailableDroneModels() : List<AvailableDroneModelDTO>
+  + addDronesToProposal(proposalId: ShowProposalID, drones: List<AvailableDroneModelDTO>) : void
+}
+
+class AddDronesToProposalService {
+  - proposalRepository : ShowProposalRepository
+  - droneRepository : DroneRepository
+  - droneModelRepository : DroneModelRepository
+  + getAvailableDroneModels() : List<AvailableDroneModelDTO>
+  + addDronesToProposal(proposalId: ShowProposalID, drones: List<AvailableDroneModelDTO>) : void
+}
+
+interface ShowProposalRepository {
+  + ofIdentity(id: ShowProposalID) : ShowProposal
+  + save(proposal: ShowProposal) : void
+}
+
+class JpaShowProposalRepository {
+  + ofIdentity(id: ShowProposalID) : ShowProposal
+  + save(proposal: ShowProposal) : void
+}
+
+interface DroneRepository {
+  + findByModelAndStatus(model: DroneModel, status: DroneStatus) : List<Drone>
+}
+
+interface DroneModelRepository {
+  + findByActiveTrue() : List<DroneModel>
+  + findByNameIgnoreCase(name: String) : Optional<DroneModel>
+}
+
+class AvailableDroneModelDTO {
+  - modelName : String
+  - availableQuantity : int
+  - selectedQuantity : int
+  + getModelName() : String
+  + getSelectedQuantity() : int
+}
+
+class ShowProposal {
+  - drones : List<DroneQuantity>
+  + addDronesOfModel(model: DroneModel, count: int) : void
+  + getDrones() : List<DroneQuantity>
+}
+
+class DroneQuantity {
+  - droneModel : DroneModel
+  - quantity : int
+  + getDroneModel() : DroneModel
+  + getQuantity() : int
+}
+
+class DroneModel {
+  - id : String
+  - name : String
+}
+
+class Drone {
+  - id : String
+  - status : DroneStatus
+  - model : DroneModel
+}
+
+enum DroneStatus {
+  ACTIVE
+  INACTIVE
+}
+
+class ShowProposalID
+
+AddDronesToProposalUI --> AddDronesToProposalController
+AddDronesToProposalController --> AddDronesToProposalService
+AddDronesToProposalService --> ShowProposalRepository
+JpaShowProposalRepository ..|> ShowProposalRepository
+AddDronesToProposalService --> DroneModelRepository
+AddDronesToProposalService --> DroneRepository
+AddDronesToProposalService --> ShowProposal
+ShowProposal --> ShowProposalID
+ShowProposal --> DroneQuantity
+DroneQuantity --> DroneModel
+Drone --> DroneModel
+Drone --> DroneStatus
+AvailableDroneModelDTO --> DroneModel
+
+@enduml

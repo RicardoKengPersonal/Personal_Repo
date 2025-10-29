@@ -1,0 +1,45 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+title Domain Model - US02
+
+class Organization{
+    name
+    website
+    phoneNumber
+    email
+}
+
+class HumanResourcesManager{
+}
+
+class Job {
+    name
+    description
+}
+
+class Collaborator {
+    name
+    birthDate
+    admissionDate
+    address
+    mobileNumber
+    email
+    taxPayerNumber
+    documentIdentificationNumber
+}
+
+
+Organization "1" - "*" HumanResourcesManager : has >
+Organization "1" -- "0..*" Collaborator : has >
+HumanResourcesManager "*" - "0..*" Collaborator : manages >
+HumanResourcesManager "*" - "0..*" Job : offers >
+Collaborator "*" -- "*" Job : needs >
+@enduml

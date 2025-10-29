@@ -1,0 +1,33 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #AED6F1
+  BorderColor Black
+}
+
+actor "CRM Collaborator" as CRM
+participant "RegisterShowRequestUI" as UI
+participant "RegisterShowRequestController" as Controller
+participant "ShowRequestService" as Service
+participant "CustomerRepository" as CustRepo
+participant "ShowRequestRepository" as ReqRepo
+
+loop While show request is invalid
+    CRM -> UI : Fill and submit show request form
+    UI -> Controller : registerShowRequest(dto)
+    Controller -> Service : registerShowRequest(dto.toDomain())
+    Service -> CustRepo : isActive(customer)
+    alt Customer is not active
+        Service -> Controller : throw InactiveCustomerException
+        Controller -> UI : show error
+        UI -> CRM : display error message
+    else
+        Service -> ReqRepo : save(request)
+        ReqRepo --> Service : confirmation
+        Service --> Controller : success
+        Controller --> UI : success message
+        UI -> CRM : show success
+        break
+    end
+end
+@enduml

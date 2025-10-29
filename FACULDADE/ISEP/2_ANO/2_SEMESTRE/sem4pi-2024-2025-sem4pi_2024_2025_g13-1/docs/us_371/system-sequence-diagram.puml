@@ -1,0 +1,21 @@
+@startuml
+actor User
+participant System
+
+title System Sequence Diagram (SSD) - US371 Accept/reject proposal
+
+User --> System : Requests to accept a show proposal
+loop while invalid input
+System --> User : Ask to enter the proposal ID
+User --> System : Enter the proposal ID
+System --> User : error message
+end
+System --> User : Ask if the customer want to accept or reject this proposal
+alt Accept
+System --> System : acceptProposal(proposalId)
+System --> User : Message about the created show
+
+else Reject
+System --> User : Message "Reject proposal!"
+end
+@enduml

@@ -1,0 +1,59 @@
+-- Test Case: Valid customer and variant
+DECLARE
+    v_result VARCHAR2(4000);
+BEGIN
+    v_result := CreateOrderForCustomer(
+        p_customer_id => 1,        -- Replace with a valid customer_id
+        p_order_date => SYSDATE,  -- Current date as order date
+        p_delivery_date => SYSDATE + 7, -- Delivery date 7 days from now
+        p_variant_id => 1,        -- Replace with a valid variant_id
+        p_quantity => 10          -- Quantity for the order
+    );
+    DBMS_OUTPUT.PUT_LINE('Test Case 1: ' || v_result);
+END;
+/
+
+-- Test Case: Invalid customer ID
+DECLARE
+    v_result VARCHAR2(4000);
+BEGIN
+    v_result := CreateOrderForCustomer(
+        p_customer_id => 9999,    -- Non-existing customer_id
+        p_order_date => SYSDATE,
+        p_delivery_date => SYSDATE + 7,
+        p_variant_id => 1,        -- Replace with a valid variant_id
+        p_quantity => 10
+    );
+    DBMS_OUTPUT.PUT_LINE('Test Case 2: ' || v_result);
+END;
+/
+
+-- Test Case: Deactivated customer
+DECLARE
+    v_result VARCHAR2(4000);
+BEGIN
+    v_result := CreateOrderForCustomer(
+        p_customer_id => 2,        -- Replace with a deactivated customer_id
+        p_order_date => SYSDATE,
+        p_delivery_date => SYSDATE + 7,
+        p_variant_id => 1,        -- Replace with a valid variant_id
+        p_quantity => 10
+    );
+    DBMS_OUTPUT.PUT_LINE('Test Case 3: ' || v_result);
+END;
+/
+
+-- Test Case: Invalid variant ID
+DECLARE
+    v_result VARCHAR2(4000);
+BEGIN
+    v_result := CreateOrderForCustomer(
+        p_customer_id => 1,        -- Replace with a valid customer_id
+        p_order_date => SYSDATE,
+        p_delivery_date => SYSDATE + 7,
+        p_variant_id => 9999,     -- Non-existing variant_id
+        p_quantity => 10
+    );
+    DBMS_OUTPUT.PUT_LINE('Test Case 4: ' || v_result);
+END;
+/

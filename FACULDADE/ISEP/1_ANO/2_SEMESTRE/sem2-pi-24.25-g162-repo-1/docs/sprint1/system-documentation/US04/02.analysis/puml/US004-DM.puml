@@ -1,0 +1,79 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+class User {
+    name
+    email
+    password
+}
+
+class Role {
+    name
+    description
+}
+
+class Map {
+    name
+    width
+    height
+}
+
+class Scenario{
+    name
+    description
+    historicalRestrictions
+}
+
+class Industry{
+    name
+    location
+}
+
+class IndustryType{
+    name
+    description
+}
+
+class Train {
+    id
+}
+
+class Locomotive{
+    id
+    power
+    acceleration
+    topSpeed
+    startYearOfOperation
+    aquisitionPrice
+}
+
+class LocomotiveType{
+    name
+    description
+}
+
+class timeRestrictions{
+    startTime
+    endTime
+}
+
+User "*" -- "1" Role : has
+User "1" -- "*" Map : manages
+
+Map "1" -- "*" Scenario : uses
+Map "*" -- "*" Train : has
+Map "1" -- "*" Industry : contains
+
+Train "1" -- "1" Locomotive : has
+
+Locomotive "*" -- "1" LocomotiveType : has
+LocomotiveType "*" -- "*" Scenario : Locmotive restrictions
+
+Industry "1" -- "1" IndustryType : has
+IndustryType "*" -- "*" Scenario : Industry restrictions
+
+timeRestrictions "1" -- "*" Scenario : Time restrictions
+
+@enduml

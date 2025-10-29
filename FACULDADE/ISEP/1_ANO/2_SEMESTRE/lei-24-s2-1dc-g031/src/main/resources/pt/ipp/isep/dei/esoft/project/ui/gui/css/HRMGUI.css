@@ -1,0 +1,29 @@
+.root {
+    -fx-background-color: #e8f5e9;
+}
+
+.label {
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4caf50;
+}
+
+.button {
+    -fx-background-color: #4caf50;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+    -fx-padding: 10;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-pref-width: 230;
+    -fx-alignment: center;
+}
+
+.button:hover {
+    -fx-background-color: #66bb6a;
+}
+
+#logoutButton {
+    -fx-alignment: center;
+    -fx-pref-width: 120;
+}

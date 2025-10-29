@@ -1,0 +1,73 @@
+CREATE OR REPLACE FUNCTION CreateOrderForCustomer(
+    p_customer_id IN NUMBER,          -- ID do cliente
+    p_order_date IN DATE,             -- Data do pedido
+    p_delivery_date IN DATE,          -- Data de entrega
+    p_variant_id IN NUMBER,           -- ID da variante do produto
+    p_quantity IN NUMBER              -- Quantidade do produto
+) RETURN VARCHAR2 IS
+    -- Variáveis locais
+    v_customer_exists NUMBER;         -- Indica se o cliente existe
+    v_customer_type VARCHAR2(255);    -- Tipo do cliente (para verificar se está desativado)
+    v_variant_exists NUMBER;          -- Indica se a variante existe
+    v_address_id NUMBER;              -- ID do endereço de entrega
+    v_order_id NUMBER;                -- ID do pedido criado
+    v_message VARCHAR2(4000);         -- Mensagem de retorno
+
+    -- Exceções personalizadas
+    ex_customer_not_found EXCEPTION;  -- Cliente não encontrado
+    ex_variant_not_found EXCEPTION;   -- Variante não encontrada
+    ex_customer_deactivated EXCEPTION; -- Cliente desativado
+
+BEGIN
+    -- Verifica se o cliente existe e está ativo
+    SELECT COUNT(*), customer_type, address_id
+    INTO v_customer_exists, v_customer_type, v_address_id
+    FROM Customer
+    WHERE customer_id = p_customer_id
+    GROUP BY customer_type, address_id;
+
+    -- Lança exceções baseadas nas condições do cliente
+    IF v_customer_exists = 0 THEN
+        RAISE ex_customer_not_found; -- Cliente não encontrado
+    ELSIF v_customer_type = 'Deactivated' THEN
+        RAISE ex_customer_deactivated; -- Cliente desativado
+    END IF;
+
+    -- Verifica se a variante do produto existe
+    SELECT COUNT(*)
+    INTO v_variant_exists
+    FROM Variants
+    WHERE variant_id = p_variant_id;
+
+    -- Lança exceção se a variante não for encontrada
+    IF v_variant_exists = 0 THEN
+        RAISE ex_variant_not_found;
+    END IF;
+
+    -- Insere o pedido na tabela "Order"
+    INSERT INTO "Order" (customer_id, order_date, delivery_date, order_status, delivery_address_id)
+    VALUES (p_customer_id, p_order_date, p_delivery_date, 'Planned', v_address_id)
+    RETURNING order_id INTO v_order_id; -- Captura o ID do pedido gerado
+
+    -- Insere os itens do pedido na tabela "Ordered Items"
+    INSERT INTO "Ordered Items" (order_id, variant_id, quantity, unidade)
+    VALUES (v_order_id, p_variant_id, p_quantity, 'Unity');
+
+    -- Define a mensagem de sucesso
+    v_message := 'Order created successfully. Order ID: ' || v_order_id;
+
+    RETURN v_message;
+
+-- Tratamento de exceções
+EXCEPTION
+    WHEN ex_customer_not_found THEN
+        RETURN 'Error: Customer with ID ' || p_customer_id || ' does not exist.';
+    WHEN ex_customer_deactivated THEN
+        RETURN 'Error: Customer with ID ' || p_customer_id || ' is deactivated.';
+    WHEN ex_variant_not_found THEN
+        RETURN 'Error: Variant with ID ' || p_variant_id || ' does not exist.';
+    WHEN OTHERS THEN
+        -- Retorna mensagem de erro genérica
+        RETURN 'Unexpected error: ' || SQLERRM;
+END CreateOrderForCustomer;
+/

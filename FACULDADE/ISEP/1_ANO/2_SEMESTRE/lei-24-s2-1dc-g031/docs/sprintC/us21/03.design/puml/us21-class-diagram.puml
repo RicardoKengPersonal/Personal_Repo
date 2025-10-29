@@ -1,0 +1,122 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+class ToDoListUI {
+    - toDoListTasks : ListView<Task>
+    - toDoListController : ToDoListController
+    + ToDoListGUI()
+    + populateEntries()
+    + initialize(URL location, ResourceBundle resources)
+    + goBack()
+    + handleCreateToDoListTask()
+}
+
+class ToDoListController {
+    - greenSpacesRepository : GreenSpacesRepository
+    - toDoList : ToDoList
+    + ToDoListController()
+    + getGreenSpaceRepository() : GreenSpacesRepository
+    + getMyGreenSpaces() : ArrayList<GreenSpace>
+    + getToDoList() : ToDoList
+    + getToDoListTasks() : ArrayList<Task>
+    + addTask(taskName: String, taskDescription: String, taskDuration: int, greenSpace: GreenSpace, taskUrgencyDegree: TaskUrgencyDegree) : boolean
+    + getUrgencyDegrees() : ArrayList<TaskUrgencyDegree>
+   }
+
+class Repositories {
+    - instance : Repositories
+    - greenSpaceRepository : GreenSpacesRepository
+    - entryRepository : EntryRepository
+    - toDoList : ToDoList
+    + getInstance() : Repositories
+    + getGreenSpaceRepository() : GreenSpacesRepository
+    + getEntryRepository() : EntryRepository
+    + getToDoList() : ToDoList
+    }
+
+class GreenSpaceRepository {
+    - greenSpacesArrayList : ArrayList<GreenSpace>
+    + getGreenSpacesArrayList() : ArrayList<GreenSpace>
+    - greenSpaceAlreadyExist(greenSpaceName: String) : boolean
+    + addGreenSpace(greenSpaceName: String, greenSpaceStreet: String, greenSpaceType: GreenSpaceType, greenSpaceManagerEmail: String, greenSpaceArea: int) : boolean
+    + getGreenSpaceByManagerEmail(greenSpaceManagerEmail: String) : ArrayList<GreenSpace>
+}
+
+class EntryRepository {
+    + createEntry(greenSpace: GreenSpaceDTO, description: String, urgency: int, expectedDuration: int) : Entry
+}
+
+class ToDoList {
+    - tasks : ArrayList<Task>
+    + addTask(task: Task) : boolean
+    + taskAlreadyExists(task: Task) : boolean
+    + getTasks() : ArrayList<Task>
+    + getPendingTasks() : ArrayList<Task>
+}
+
+class Entry {
+    - greenSpace : GreenSpaceDTO
+    - description : String
+    - urgency : int
+    - expectedDuration : int
+    + Entry(greenSpace: GreenSpaceDTO, description: String, urgency: int, expectedDuration: int)
+    + verifyFilled(description: String) : Boolean
+    + verifyDuration(expectedDuration: int) : Boolean
+}
+
+class GreenSpace {
+    - greenSpaceName : String
+    - greenSpaceStreet : String
+    - greenSpaceType : GreenSpaceType
+    - greenSpaceManagerEmail : String
+    - greenSpaceArea : int
+    + GreenSpace(greenSpaceName: String, greenSpaceStreet: String, greenSpaceType: GreenSpaceType, greenSpaceManagerEmail: String, greenSpaceArea: int)
+    + getGreenSpaceName() : String
+    + getGreenSpaceManagerEmail() : String
+}
+
+class Task {
+    - description : String
+    - taskName : String
+    - greenSpace : GreenSpace
+    - estimatedDuration : int
+    - taskUrgencyDegree : TaskUrgencyDegree
+    + Task(description: String, taskName: String, greenSpace: GreenSpace, estimatedDuration: int, taskUrgencyDegree: TaskUrgencyDegree)
+    + getTaskStatus() : TaskStatus
+}
+
+class GreenSpaceDTO {
+
+}
+
+class GreenSpaceMapper {
+}
+
+class TaskUrgencyDegree {
+}
+
+class TaskStatus {
+}
+
+class GreenSpaceMapper {
+}
+
+ToDoListUI ..> ToDoListController
+
+ToDoListController ..> Repositories: repositories
+Repositories --> Repositories: instance
+ToDoListController ..> GreenSpaceRepository
+ToDoListController ..> EntryRepository
+Repositories --> "1" GreenSpaceRepository
+Repositories --> "1" EntryRepository
+ToDoListController ..> GreenSpaceMapper
+ToDoListGUI ..> GreenSpaceDTO
+GreenSpaceMapper ..> GreenSpaceDTO
+ToDoListController ..> GreenSpaceDTO
+EntryRepository --> Entry
+GreenSpacesRepository --> GreenSpace
+ToDoList --> Task
+
+@enduml

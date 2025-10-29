@@ -1,0 +1,30 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+participant "GenerationFactorMapper" as RESOURCE_MAPPER
+participant "listGenerationFactors : List<GenerationFactors>" as RESOURCE_LIST
+participant "listGenerationFactorsDTO : List<GenerationFactorsDTO>" as RESOURCE_DTO
+participant "objDTO : GenerationFactorsDTO" as OBJ_DTO
+
+autonumber 71
+-> RESOURCE_MAPPER
+autonumber 71.1
+    activate RESOURCE_MAPPER
+    RESOURCE_MAPPER --> RESOURCE_DTO** : create()
+    loop for each object in listGenerationFactors
+        RESOURCE_MAPPER -> RESOURCE_LIST : obj = get(i)
+            activate RESOURCE_LIST
+            deactivate RESOURCE_LIST
+        RESOURCE_MAPPER -> RESOURCE_MAPPER : objDTO = toDTO(obj)
+        activate RESOURCE_MAPPER
+        RESOURCE_MAPPER --> OBJ_DTO** : create()
+        deactivate RESOURCE_MAPPER
+        RESOURCE_MAPPER -> RESOURCE_LIST : add(objDTO)
+            activate RESOURCE_LIST
+            deactivate RESOURCE_LIST
+    end loop
+<- RESOURCE_MAPPER : listResourceTypesDTO
+deactivate RESOURCE_MAPPER
+@enduml

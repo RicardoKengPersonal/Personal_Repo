@@ -1,0 +1,45 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "Player" as Player
+participant ":System" as System
+
+activate Player
+
+    Player -> System : requests to build a station
+    activate System
+
+        System --> Player : shows station types and asks to select one
+        Player -> System : selects station type
+
+        System --> Player : Requests data (Location(X,Y))
+        Player -> System : provides requested data
+
+        note right of System
+            The System generates a name based on location and station
+        end note
+
+        opt Station type is "Station"
+            System --> Player : Requests center location (NE, SE, NW, SW)
+            Player -> System : provides center location
+        end
+
+        System --> Player : Shows available building type
+            Player -> System : selects building type
+
+        System --> Player : displays entered data and requests confirmation
+                Player -> System : confirms data
+
+        System --> Player : displays success (checks player budget)
+
+
+
+    deactivate System
+
+deactivate Player
+
+@enduml

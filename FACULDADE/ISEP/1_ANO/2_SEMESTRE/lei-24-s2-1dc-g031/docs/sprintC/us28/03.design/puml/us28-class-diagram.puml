@@ -1,0 +1,131 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+
+
+
+package UI {
+class MyTasksGUI{
+    -TextField startDateField
+    -TextField endDateField
+    -TableView<AgendaEntry> agendaEntriesTable
+    -TableColumn<AgendaEntry, String> entryColumn
+    -ComboBox<TaskStatus> taskStatusComboBox
+    -Button markAsDoneButton
+    -MyTasksController myTasksController
+    +initialize()
+    +populateTable()
+    +handleApplyFilterButtonAction()
+    +goBack()
+    +handleMarkTaskAsDone()
+}
+}
+
+package Controller {
+class MyTasksController{
+    -Agenda agenda
+    +MyTasksController()
+    +getAgenda()
+    +getMyAgendaEntries(status)
+    +getMyAgendaEntries(status, startDate, endDate)
+    +getMyAgendaEntries()
+}
+}
+
+package Repository {
+class AgendaRepository{
+    -ArrayList<AgendaEntry> agendaEntries
+    +getActiveAgendaEntries() : ArrayList<AgendaEntry>
+    +addAgendaEntry(task, date) : boolean
+    +getAgendaEntriesByUserEmail(email) : ArrayList<AgendaEntry>
+    +getAgendaEntriesByUserEmailAndDateRange(email, status, startDateString, endDateString) : ArrayList<AgendaEntry>
+    +getAgendaEntriesByUserEmail(email, status) : ArrayList<AgendaEntry>
+}
+class AuthenticationRepository {
+    - transient AuthFacade authenticationFacade
+    +AuthenticationRepository()
+    +doLogin(email, pwd) : boolean
+    +doLogout()
+    +getCurrentUserSession() : UserSession
+    +addUserRole(id, description) : boolean
+    +addUserWithRole(name, email, pwd, roleId) : boolean
+    +facade() : AuthFacade
+}
+
+class Repositories{
+    - Repositories()
+    +getInstance() : Repositories
+    +getAgendaRepository()
+}
+}
+package DTO {
+class TaskDTO {
+    - String taskName
+    - String taskDate
+    - String taskLocal
+}
+}
+package Mapper {
+class TaskMapper {
+    + toDTO(task)
+    + toDTOList(tasks)
+}
+}
+package Domain {
+class Task{
+    -String description
+    -String taskName
+    -GreenSpace greenSpace
+    -int estimatedDuration
+    -TaskStatus taskStatus
+    -TaskUrgencyDegree taskUrgencyDegree
+    +Task(description, taskName, greenSpace, estimatedDuration, taskUrgencyDegree)
+    +getDescription() : String
+    +setDescription(description : String)
+    +getTaskName() : String
+    +setTaskName(taskName : String)
+    +getGreenSpace() : GreenSpace
+    +setGreenSpace(greenSpace : GreenSpace)
+    +getTaskStatus() : Object
+    +setTaskStatus(taskStatus : TaskStatus)
+    +toString() : String
+    +taskNameProperty() : StringProperty
+    +toStringProperty() : StringProperty
+    +getEstimatedDuration() : int
+    +setEstimatedDuration(estimatedDuration : int)
+}
+
+enum TaskStatus{
+    PENDING,
+    PLANNED,
+    CANCELLED,
+    DONE
+}
+
+enum TaskUrgencyDegree{
+    LOW,
+    MEDIUM,
+    HIGH
+}
+}
+
+MyTasksGUI ..> MyTasksController
+MyTasksGUI ..> TaskDTO
+MyTasksController .> Repositories
+Repositories -> Repositories : instance
+Repositories --|>  AgendaRepository
+Repositories --|>  AuthenticationRepository
+AgendaRepository --> Task
+AuthenticationRepository --> Task
+MyTasksController ..> AgendaRepository : agenda
+MyTasksController ..> TaskDTO
+MyTasksController <.. TaskMapper
+TaskMapper .> TaskDTO
+TaskMapper --> Task
+MyTasksController ..> Task
+Task --|> TaskUrgencyDegree
+Task --|> TaskStatus
+
+
+@enduml

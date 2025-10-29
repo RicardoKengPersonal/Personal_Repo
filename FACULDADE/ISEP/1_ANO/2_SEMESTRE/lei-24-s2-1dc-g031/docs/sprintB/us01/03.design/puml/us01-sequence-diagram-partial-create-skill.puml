@@ -1,0 +1,37 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber 7
+
+participant ":skillRepository" as skillRepository
+participant ":Skill" as Skill
+
+-> skillRepository: createSkill(description)
+
+activate skillRepository
+    group Create skill
+
+        skillRepository -> Skill**: create(description)
+deactivate skillRepository
+
+        activate Skill
+            Skill -> Skill : verifyFilled(skill)
+            activate Skill
+                Skill -> Skill : verifySpecialCharacters(skill)
+            deactivate Skill
+
+            Skill --> skillRepository : skill
+        deactivate Skill
+        activate skillRepository
+
+            skillRepository -> skillRepository : check for duplicates
+        deactivate Skill
+    end
+
+    <-- skillRepository : skill
+
+
+
+@enduml

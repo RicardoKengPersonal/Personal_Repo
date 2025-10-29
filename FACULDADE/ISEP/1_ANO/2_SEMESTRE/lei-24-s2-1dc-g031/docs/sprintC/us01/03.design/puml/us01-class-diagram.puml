@@ -1,0 +1,61 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+
+'left to right direction
+
+class CreateSkillUI {
+
+- skillName: String
+ - controller: CreateSkillController
+ + CreateSkillUI()
+ - askForSkillName(): void
+ - backToHRMUI(): void
+ + run(): void
+}
+
+class CreateSkillController {
+
+    - skillsRepository: SkillsRepository
+     + CreateSkillController()
+     + createSkill(skillName: String): boolean
+     - getSkillsRepository(): SkillsRepository
+}
+
+class Repositories {
+   - instance: Repositories
+   - collaboratorsRepository: CollaboratorsRepository
+    - skillsRepository: SkillsRepository
+    - authenticationRepository: AuthenticationRepository
+    + Repositories()
+    + getInstance(): Repositories
+    + getSkillsRepository(): SkillsRepository
+}
+
+class SkillRepository {
+    - skillsArrayList: ArrayList<Skill>
+    + getSkillsArrayList(): ArrayList<Skill>
+    - skillAlreadyExist(skill: Skill): boolean
+    - skillNameIsValid(skillName: String): boolean
+    + addSkill(skillName: String)
+}
+
+class Skill {
+   - nameOfTheSkill: String
+    + Skill(nameOfTheSkill: String)
+    + getNameOfTheSkill(): String
+    + setNameOfTheSkill(nameOfTheSkill: String): void
+    + equals(obj: Object): boolean
+    + hashCode(): int
+     + toString(): String
+}
+
+CreateSkillUI ..> CreateSkillController
+Repositories --> "1" SkillRepository : skillRepository
+Repositories --> Repositories : instance
+SkillRepository --> "*" Skill : skills
+CreateSkillController ..> Repositories : repositories
+CreateSkillController ..> SkillRepository : skillRepository
+
+@enduml

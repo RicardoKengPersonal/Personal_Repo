@@ -1,0 +1,8 @@
+INSERT INTO customerOrder(idCustomer, orderDate, deliveryDate, idOrderStatus) VALUES (2, TO_DATE('2024-09-15', 'YYYY-MM-DD'), TO_DATE('2024-09-23', 'YYYY-MM-DD'), 1);
+INSERT INTO customerOrder(idCustomer, orderDate, deliveryDate, idOrderStatus) VALUES (3, TO_DATE('2024-09-15', 'YYYY-MM-DD'), TO_DATE('2024-09-26', 'YYYY-MM-DD'), 1);
+INSERT INTO customerOrder(idCustomer, orderDate, deliveryDate, idOrderStatus) VALUES (4, TO_DATE('2024-09-15', 'YYYY-MM-DD'), TO_DATE('2024-09-25', 'YYYY-MM-DD'), 1);
+INSERT INTO customerOrder(idCustomer, orderDate, deliveryDate, idOrderStatus) VALUES (2, TO_DATE('2024-09-18', 'YYYY-MM-DD'), TO_DATE('2024-09-25', 'YYYY-MM-DD'), 1);
+INSERT INTO customerOrder(idCustomer, orderDate, deliveryDate, idOrderStatus) VALUES (3, TO_DATE('2024-09-18', 'YYYY-MM-DD'), TO_DATE('2024-09-25', 'YYYY-MM-DD'), 1);
+INSERT INTO customerOrder(idCustomer, orderDate, deliveryDate, idOrderStatus) VALUES (4, TO_DATE('2024-09-18', 'YYYY-MM-DD'), TO_DATE('2024-09-26', 'YYYY-MM-DD'), 1);
+INSERT INTO customerOrder(idCustomer, orderDate, deliveryDate, idOrderStatus) VALUES (1, TO_DATE('2024-09-21', 'YYYY-MM-DD'), TO_DATE('2024-09-26', 'YYYY-MM-DD'), 1);
+SELECT * FROM customerOrder;

@@ -1,0 +1,29 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+title Domain Model US21
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+
+class Task {
+    title
+    description
+    duration
+    urgencyStatus
+
+}
+
+class ToDoList {
+
+}
+
+ToDoList "1" -"1..*" Task: has >
+@enduml

@@ -1,0 +1,53 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "Human Resource\nManager" as HRM
+participant ":CreateJobUI" as UI
+participant ":CreateJobController" as CTRL
+participant "JobsRepository" as jobRepository
+participant "Job" as Job
+
+activate HRM
+
+    HRM -> UI : asks to create a job
+
+    activate UI
+
+        UI --> HRM : askForJobName()
+        HRM -> UI : enters job name
+
+        UI -> CTRL : createJob(jobName)
+        activate CTRL
+
+            CTRL -> jobRepository : addJob(jobName)
+            activate jobRepository
+
+                jobRepository -> Job : new Job(jobName)
+                activate Job
+
+                    Job -> Job : verifyFilled()
+                    Job -> Job : verifySpecialCharacters()
+
+                    Job --> jobRepository : job
+                deactivate Job
+
+                jobRepository -> jobRepository : jobAlreadyExist(jobName)
+
+            deactivate jobRepository
+
+        CTRL <-- jobRepository : confirmation
+        deactivate CTRL
+
+    UI <-- CTRL : job creation result
+
+    UI --> HRM : displays operation result
+
+deactivate UI
+
+deactivate HRM
+
+@enduml

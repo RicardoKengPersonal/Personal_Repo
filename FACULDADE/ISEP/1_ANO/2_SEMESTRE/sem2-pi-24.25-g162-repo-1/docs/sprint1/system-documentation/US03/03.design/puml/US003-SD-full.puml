@@ -1,0 +1,245 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing true
+
+title SD - US003: Add a City
+
+autonumber
+
+actor "Editor" as EDITOR
+participant ":AddCityUI" as UI
+participant ":AddCityController" as CTRL
+participant ":Repositories" as REPOS
+participant "repositories\n:Repositories" as REPOS_SINGLETON
+participant "mapRepository\n:MapRepository" as MAP_REPO
+participant "cityRepository\n:CityRepository" as CITY_REPO
+participant ":Map" as MAP
+participant "citys\n:Citys" as CITYS
+participant "city\n:City" as CITY
+participant ":Location" as POSITION
+participant ":HouseBlock" as BLOCK
+participant ":MapMapper" as MAP_MAPPER
+participant ":MapDTO" as MAP_DTO
+
+activate EDITOR
+
+    EDITOR -> UI : asks to create a new city
+        activate UI
+            UI --> CTRL ** : create()
+
+            UI -> CTRL : getListOfMaps()
+            activate CTRL
+                CTRL -> REPOS : getInstance()
+                activate REPOS
+                    REPOS --> CTRL: repositories
+                deactivate REPOS
+
+                CTRL -> REPOS_SINGLETON : getMapRepository()
+                activate REPOS_SINGLETON
+                    REPOS_SINGLETON --> CTRL: mapRepository
+                deactivate REPOS_SINGLETON
+
+                CTRL -> MAP_REPO : getListOfMaps()
+                activate MAP_REPO
+                    MAP_REPO --> CTRL : mapList
+                deactivate MAP_REPO
+loop for each map in mapList
+
+                CTRL -> MAP_MAPPER : toDTO(mapList)
+                activate MAP_MAPPER
+                    MAP_MAPPER -> MAP_DTO** : create()
+                    MAP_MAPPER --> MAP_MAPPER : add(mapDTO)
+end loop
+
+                MAP_MAPPER --> CTRL : mapDTOlist
+                deactivate MAP_MAPPER
+
+                CTRL --> UI : mapDTOlist
+            deactivate CTRL
+
+            UI --> EDITOR : shows map list and asks to select one
+        deactivate UI
+
+    EDITOR -> UI : selects map
+    activate UI
+        UI --> EDITOR : requests typed data (name, coordinateX, coordinateY)
+        deactivate UI
+
+        EDITOR -> UI : types requested data
+        activate UI
+            UI --> EDITOR : shows all data and requests confirmation
+        deactivate UI
+
+        EDITOR -> UI : gives confirmation
+
+        activate UI
+            UI -> CTRL : createCity(name, coordinateX, coordinateY)
+            activate CTRL
+                CTRL -> MAP_REPO : findByName(mapName)
+                activate MAP_REPO
+                    MAP_REPO --> CTRL : currentMap
+                deactivate MAP_REPO
+
+                CTRL -> MAP : getScenarios()
+                activate MAP
+                    MAP --> CTRL : scenarios
+                deactivate MAP
+
+
+
+                CTRL -> MAP : createCity (name, coordinateX, coordinateY)
+                activate MAP
+                    MAP -> POSITION** : create(coordinateX, coordinateY)
+                    activate POSITION
+                    POSITION -> POSITION : validateCoordinates(coordinateX, coordinateY)
+                    MAP -> MAP: addLocation(location)
+                    activate MAP
+                       MAP -> MAP: validateLocation(location)
+                       activate MAP
+                           MAP --> MAP : true
+                       deactivate MAP
+
+                       MAP --> MAP : true
+                   deactivate MAP
+                   MAP --> CTRL : location
+                   deactivate MAP
+
+                    CTRL -> MAP : createCity(name, location)
+                    activate MAP
+
+                    MAP -> CITY** : create(name, location, houseBlocks)
+
+                    MAP -> MAP: addCity(city)
+                   deactivate POSITION
+
+                   activate MAP
+                       MAP -> MAP: validateCity(city)
+                       activate MAP
+                           MAP --> MAP : true
+                       deactivate MAP
+
+                       MAP --> MAP : true
+
+                   deactivate MAP
+
+                MAP --> CTRL : newCity
+                deactivate MAP
+
+                CTRL --> UI : newCity
+                deactivate CTRL
+
+                UI -> EDITOR : asks for manual or automatic house assignment
+                deactivate UI
+
+            opt manual
+                    EDITOR -> UI : selects manual assignment
+                    activate UI
+                    loop for each house block
+                        UI --> EDITOR : requests house data (coordinateX, coordinateY)
+
+                        deactivate UI
+
+                        EDITOR -> UI : inputs data (coordinateX, coordinateY);
+                        activate UI
+                        UI -> CTRL : createBlock(coordinateX, coordinateY)
+                        activate CTRL
+                        CTRL -> MAP : createBlock(coordinateX, coordinatesY)
+                        activate MAP
+                            MAP -> POSITION** : create(coordinateX, coordinateY)
+                            activate POSITION
+                            POSITION -> POSITION : validateCoordinates(coordinateX, coordinateY)
+                            MAP -> MAP: addLocation(location)
+                            activate MAP
+                               MAP -> MAP: validateLocation(location)
+                               activate MAP
+                                   MAP --> MAP : true
+                               deactivate MAP
+
+                               MAP --> MAP : true
+                           deactivate MAP
+                           MAP --> CTRL : location
+                       deactivate MAP
+                        CTRL -> MAP : createBlock(location)
+                        activate MAP
+                        MAP -> BLOCK** : create(location)
+
+                        activate MAP
+
+                        MAP -> MAP: addBlock(block)
+                        activate MAP
+                           MAP -> MAP: validateBlock(block)
+                           activate MAP
+                               MAP --> MAP : true
+                           deactivate MAP
+
+                           MAP --> MAP : true
+                       deactivate MAP
+
+                    deactivate MAP
+
+                    MAP --> CTRL : in(success)
+                    deactivate MAP
+                    CTRL --> UI : in(success)
+                    deactivate CTRL
+
+
+                    end
+
+
+
+
+                else automatic
+                    activate UI
+
+                    UI -> CTRL : distributeBlocksAutomatically(city, numberBlocks)
+                    activate CTRL
+
+                        loop for each house block
+                            CTRL -> MAP : createBlock(coordinateX, coordinatesY)
+                            activate MAP
+                                MAP -> POSITION** : create(coordinateX, coordinateY)
+                                activate POSITION
+                                POSITION -> POSITION : validateCoordinates(coordinateX, coordinateY)
+                                MAP -> MAP: addLocation(location)
+                                activate MAP
+                                   MAP -> MAP: validateLocation(location)
+                                   activate MAP
+                                       MAP --> MAP : true
+                                   deactivate MAP
+
+                                   MAP --> MAP : true
+                               deactivate MAP
+                               MAP --> CTRL : location
+                               deactivate MAP
+                                CTRL -> MAP : createBlock(location)
+                                activate MAP
+                                MAP -> BLOCK** : create(location)
+
+                                activate MAP
+
+                                MAP -> MAP: addBlock(block)
+                                activate MAP
+                                   MAP -> MAP: validateBlock(block)
+                                   activate MAP
+                                       MAP --> MAP : true
+                                   deactivate MAP
+
+                                   MAP --> MAP : true
+                           deactivate MAP
+                        end loop
+                        deactivate MAP
+
+                        MAP --> CTRL : in(success)
+                        deactivate MAP
+                        CTRL --> UI : in(success)
+                        deactivate CTRL
+
+                end
+
+            UI -> EDITOR : displays (in)success message
+
+        deactivate CTRL
+
+deactivate EDITOR
+
+@enduml

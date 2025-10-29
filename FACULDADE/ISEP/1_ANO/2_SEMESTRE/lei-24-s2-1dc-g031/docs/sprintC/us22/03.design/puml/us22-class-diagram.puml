@@ -1,0 +1,214 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+
+skinparam classAttributeIconSize 0
+
+package UI {
+class CreateAgendaEntryGUI {
+     -controller: AgendaController
+            +initialize()
+            +submit(ActionEvent event)
+            +goBack(ActionEvent event)
+}
+}
+
+package Controller {
+class AgendaController {
+     -agenda: Agenda
+           -teamsRepository: TeamsRepository
+           -greenSpacesRepository: GreenSpacesRepository
+           -vehicleRepository: VehicleRepository
+           +getAgenda(): Agenda
+           +getToDoListTasks(): ArrayList<Task>
+           +postponeAgendaEntry(agendaEntry: AgendaEntry, newDate: String): boolean
+           +getTeams(): ArrayList<Team>
+           +getVehicles(): ArrayList<Vehicle>
+           +cancelTask(task: Task): void
+           +isTeamAvailable(team: Team, newAgendaEntry: AgendaEntry): boolean
+           +isCollaboratorAvailable(collaborator: Collaborator, newAgendaEntry: AgendaEntry): boolean
+           +getActiveAgendaEntries(): ArrayList<AgendaEntry>
+           +getUnassignedVehicles(ae: AgendaEntry): ArrayList<Vehicle>
+           +addAgendaEntry(task: Task, entryDate: String): boolean
+           +assignTeamToAgendaEntry(agendaEntry: AgendaEntry, selectedTeam: Team): boolean
+   }
+}
+
+
+package Repository {
+class Repositories {
+ +getInstance(): Repositories
+    +getToDoListRepository(): ToDoList
+    +getAgendaRepository(): Agenda
+    +getTeamsRepository(): TeamsRepository
+    +getGreenSpaceRepository(): GreenSpacesRepository
+    +getVehicleRepository(): VehicleRepository
+
+}
+
+class ToDoList {
+    - tasks: ArrayList<Task>
+
+    + addTask(task: Task): boolean
+    + taskAlreadyExists(task: Task): boolean
+    + getTasks(): ArrayList<Task>
+    + getPendingTasks(): ArrayList<Task>
+}
+
+
+
+class Agenda {
+    -agendaEntries: ArrayList<AgendaEntry>
+    +getActiveAgendaEntries(): ArrayList<AgendaEntry>
+    +addAgendaEntry(task: Task, date: String): boolean
+    +getAgendaEntriesByUserEmail(email: String): ArrayList<AgendaEntry>
+    +getAgendaEntriesByUserEmailAndDateRange(email: String, status: TaskStatus, startDateString: String, endDateString: String): ArrayList<AgendaEntry>
+    +getAgendaEntriesByUserEmail(email: String, status: TaskStatus): ArrayList<AgendaEntry>
+    }
+}
+
+package Domain {
+class AgendaEntry {
+     -associatedTask: Task
+            -team: Team
+            -date: String
+            -vehicles: ArrayList<Vehicle>
+            +AgendaEntry(task: Task, date: String)
+            +addVehicle(vehicle: Vehicle): void
+            +toString(): String
+            +getDescription(): String
+            +setDescription(description: String): void
+            +getTeam(): Team
+            +setTeam(team: Team): void
+            +getDate(): String
+            +setDate(newDate: String): void
+            +getVehicles(): ArrayList<Vehicle>
+            +getAssociatedTask(): Task
+            +isValidDateFormat(date: String): boolean
+            +validateDate(newDate: String): void
+            +toStringProperty(): StringProperty
+    }
+
+class Task {
+   -description: String
+          -taskName: String
+          -greenSpace: GreenSpace
+          -estimatedDuration: int
+          -taskStatus: TaskStatus
+          -taskUrgencyDegree: TaskUrgencyDegree
+          +Task(description: String, taskName: String, greenSpace: GreenSpace, estimatedDuration: int, taskUrgencyDegree: TaskUrgencyDegree)
+          +validateString(str: String): void
+          +validateGreenSpace(greenSpace: GreenSpace): void
+          +getDescription(): String
+          +setDescription(description: String): void
+          +getTaskName(): String
+          +setTaskName(taskName: String): void
+          +getGreenSpace(): GreenSpace
+          +setGreenSpace(greenSpace: GreenSpace): void
+          +getTaskStatus(): Object
+          +setTaskStatus(taskStatus: TaskStatus): void
+          +toString(): String
+          +taskNameProperty(): StringProperty
+          +toStringProperty(): StringProperty
+          +getEstimatedDuration(): int
+          +setEstimatedDuration(estimatedDuration: int): void
+
+}
+
+class Team {
+- skills: ArrayList<Skill>
+- collaborators: ArrayList<Collaborator> |
++ Team(collaborators: ArrayList<Collaborator>, skills: ArrayList<Skill>) |
++ getSkills(): ArrayList<Skill> |
++ setSkills(skills: ArrayList<Skill>): void |
++ getCollaborators(): ArrayList<Collaborator> |
++ setCollaborators(collaborators: ArrayList<Collaborator>): void |
++ toString(): String
+
+}
+
+class Vehicle {
+-plate: String
+        -brand: String
+        -model: String
+        -type: String
+        -tareWeight: float
+        -grossWeight: float
+        -currentKm: float
+        -registerDate: String
+        -acquisitionDate: String
+        -maintenanceFrequency: float
+        +Vehicle(plate: String, brand: String, model: String, type: String, tareWeight: float, grossWeight: float, currentKm: float, registerDate: String, acquisitionDate: String, maintenanceFrequency: float)
+        +validatePlate(plate: String, acquisitionDate: String): void
+        +validateDateFormat(dateString: String): void
+        +isValidDateFormat(dateString: String): boolean
+        +validateNonNegative(value: float, fieldName: String): void
+        +getPlate(): String
+        +getBrand(): String
+        +getModel(): String
+        +getType(): String
+        +getTareWeight(): float
+        +getGrossWeight(): float
+        +getCurrentKm(): float
+        +getRegisterDate(): String
+        +getAcquisitionDate(): String
+        +getMaintenanceFrequency(): float
+        +setPlate(plate: String): void
+        +setBrand(brand: String): void
+        +setModel(model: String : String): void
+        +setType(type: String): void
+        +setTareWeight(tareWeight: float): void
+        +setGrossWeight(grossWeight: float): void
+        +setCurrentKm(currentKm: float): void
+        +setRegisterDate(registerDate: String): void
+        +setAcquisitionDate(acquisitionDate: String): void
+        +setMaintenanceFrequency(maintenanceFrequency: float): void
+        +toString(): String
+}
+}
+
+package DTO {
+class TaskEntryDTO {
+    -urgencyDegree: TaskUrgencyDegree
+    -associatedGS: GreenSpace
+    -description: String
+    -approximatedDuration: int
+    -status: TaskStatus
+    +TaskEntryDTO(urgencyDegree: TaskUrgencyDegree, associatedGS: GreenSpace, description: String, approximatedDuration: int, status: TaskStatus)
+    +getUrgencyDegree(): TaskUrgencyDegree
+    +setUrgencyDegree(urgencyDegree: TaskUrgencyDegree): void
+    +getAssociatedGS(): GreenSpace
+    +setAssociatedGS(associatedGS: GreenSpace): void
+    +getDescription(): String
+    +setDescription(description: String): void
+    +getApproximatedDuration(): int
+    +setApproximatedDuration(approximatedDuration: int): void
+    +getStatus(): TaskStatus
+    +setStatus(status: TaskStatus): void
+
+}
+}
+package Mapper {
+class TaskMapper{
++ toDomain(taskEntryDTO: TaskEntryDTO)
+
+}
+}
+
+CreateAgendaEntryGUI ...> AgendaController
+AgendaController --> Repositories : uses
+Repositories --|> ToDoList
+Repositories --|> Agenda
+ToDoList --> Task : contains
+Agenda --> AgendaEntry : contains
+AgendaEntry --> Task : contains
+AgendaEntry --> Vehicle : contains
+AgendaEntry --> Team : contains
+AgendaController ..> TaskEntryDTO
+AgendaController ..> TaskMapper
+TaskMapper ..> TaskEntryDTO
+CreateAgendaEntryGUI ..> TaskEntryDTO
+
+
+@enduml

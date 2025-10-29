@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="pt.ipp.isep.dei.esoft.project.ui.gui.HRMGUI"
+          hgap="10" vgap="10" alignment="center"
+          stylesheets="@css/HRMGUI.css">
+    <children>
+        <VBox>
+            <VBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="1" alignment="center">
+                <Label text="HRM MENU" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label"/>
+            </VBox>
+            <VBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="1" alignment="center">
+                <Button fx:id="createSkillButton" text="Create a Skill" onAction="#handleCreateSkillButtonAction" styleClass="button"/>
+                <Button fx:id="assignSkillButton" text="Assign Skill to Collaborator" onAction="#handleAssignSkillButtonAction" styleClass="button"/>
+                <Button fx:id="createJobButton" text="Create a Job" onAction="#handleCreateJobButtonAction" styleClass="button"/>
+                <Button fx:id="createCollaboratorButton" text="Create Collaborator" onAction="#handleCreateCollaboratorButtonAction" styleClass="button"/>
+                <Button fx:id="generateTeamProposalButton" text="Generate Team Proposal" onAction="#handleGenerateTeamProposalButtonAction" styleClass="button"/>
+                <Button fx:id="logoutButton" text="Logout" onAction="#handleLogoutButtonAction" styleClass="button"/>
+            </VBox>
+        </VBox>
+    </children>
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+</GridPane>

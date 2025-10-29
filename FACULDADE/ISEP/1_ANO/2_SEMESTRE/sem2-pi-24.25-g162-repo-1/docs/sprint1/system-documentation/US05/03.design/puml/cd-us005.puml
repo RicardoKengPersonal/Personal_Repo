@@ -1,0 +1,159 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam classAttributeIconSize 0
+
+class BuildStationUI {
+}
+
+class ApplicationSession {
+  + static getInstance()
+  + getCurrentSession()
+}
+
+class UserSession {
+  + getUserName()
+}
+
+class BuildStationController {
+  +BuildStationController()
+  +getAvailableMaps()
+  +setMap(map)
+  +createLocation(x, y)
+  +checkCoordinates(position)
+  +getStationTypes()
+  +setType(type)
+  +getQuadrants()
+  +setQuadrant(quadrant)
+  +buildStation(type, position, quadrant, buildings)
+  +suggestStationName(position, type)
+  +getBuildingTypes()
+}
+
+class Station {
+  -position : Location
+  -type : StationType
+  -name : String
+  -List<Building> buildings
+  -industries : List<Industry>
+  +Station(position, type, name, buildings)
+}
+
+class Building {
+  -name : String
+  -type : BuildingType
+  +Building(position, type)
+}
+
+abstract class StationType {
+  +name : String
+}
+
+class Depot extends StationType {
+}
+
+class RegularStation extends StationType {
+}
+
+class Terminal extends StationType {
+}
+
+class StationTypeRepository {
+  + getAllTypes() : List<StationType>
+}
+
+class Location {
+  -x : int
+  -y : int
+  +Location(x, y)
+}
+
+enum Quadrant {
+  NE
+  SE
+  NW
+  SW
+}
+
+class Map {
+  - name : String
+  - width : int
+  - length : int
+  - scenario : Scenario
+  + getScenario()
+  + checkCoordinates(location)
+}
+
+class Scenario {
+}
+
+class Repositories {
+  - Repositories()
+  + getInstance()
+  + getMapRepository()
+  + getPlayerRepository()
+  + getStationTypeRepository()
+}
+
+class MapRepository {
+  +getMaps()
+}
+
+class PlayerRepository {
+  +getPlayerByUsername(username)
+}
+
+class Player {
+  - username : String
+  - email : String
+  - password : String
+  - virtualCurrency : int
+  + debit(amount) : boolean
+  + checkBudget(amount) : boolean
+}
+
+' DTO Mapping Addition (StationType)
+class StationTypeDTO {
+}
+
+class StationTypeMapper {
+  + toDTO(st: StationType) : StationTypeDTO
+  + toDTOList(list: List<StationType>) : List<StationTypeDTO>
+}
+
+ApplicationSession -> ApplicationSession : instance
+ApplicationSession --> "1" UserSession : userSession
+
+BuildStationUI ..> BuildStationController
+
+BuildStationController ..> Repositories
+BuildStationController ..> MapRepository
+BuildStationController ..> Map
+BuildStationController ..> Location
+BuildStationController ..> StationType
+BuildStationController ..> Quadrant
+BuildStationController ..> Station
+BuildStationController ..> Building
+BuildStationController ..> BuildingType
+BuildStationController ..> Player
+BuildStationController ..> PlayerRepository
+BuildStationController ..> ApplicationSession
+BuildStationController ..> StationTypeRepository
+
+PlayerRepository --> "*" Player : players
+Player --> "*" Station : owns >
+
+Station --> "1" Location : position
+Station --> "0..*" Building : buildings
+Building --> "1" BuildingType : type
+Station --> "1" StationType : type
+Map --> "1" Scenario : scenario
+
+StationTypeRepository --> "*" StationType : stationTypes
+
+' DTO relations
+StationTypeMapper --> StationType : input
+StationTypeMapper --> StationTypeDTO : output
+
+@enduml

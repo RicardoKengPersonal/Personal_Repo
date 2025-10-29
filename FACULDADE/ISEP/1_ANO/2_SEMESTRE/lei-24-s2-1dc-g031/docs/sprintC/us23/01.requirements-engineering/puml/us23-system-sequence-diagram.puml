@@ -1,0 +1,37 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US23
+
+autonumber
+
+actor "Green Space Manager (GSM)" as GSM
+participant ":System" as System
+
+activate GSM
+
+    GSM -> System : selects an agenda entry
+    activate System
+
+    System --> GSM : displays a list of available teams
+    deactivate System
+
+    GSM -> System : selects a team
+    activate System
+
+    System -> System : checks if the selected team is available
+    System --> GSM : confirms team availability
+    deactivate System
+
+    GSM -> System : confirms team assignment
+    activate System
+
+    System -> System : assigns the selected team to the agenda entry
+    System -> System : creates a new thread to send the email
+    System -> System : sends email to all team members
+    System --> GSM : displays success message
+    deactivate System
+
+@enduml

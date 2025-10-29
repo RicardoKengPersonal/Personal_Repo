@@ -1,0 +1,53 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+'left to right direction
+
+class Map {
+    - name : String
+    - width : int
+    - height : int
+
+    + Map(name, width, height)
+}
+
+class MapRepository {
+    + mapByName(name)
+    + addMap(taskCategoryDescription)
+}
+
+class Repositories {
+    - Repositories()
+    + {static} getInstance()
+    + mapRepository()
+}
+
+class CreateMapController {
+    + CreateMapController()
+    + createMap(name, width, height)
+}
+
+class CreateMapUI {
+}
+
+class MapDto {}
+
+CreateMapUI .> CreateMapController
+
+CreateMapController ...> Map
+CreateMapController ...> MapRepository
+CreateMapController .> Repositories
+
+Repositories -> "1" Repositories : instance
+Repositories -> "1" MapRepository : mapRepository
+
+MapRepository --> "*" Map : maps
+MapDto -> Map
+
+@enduml

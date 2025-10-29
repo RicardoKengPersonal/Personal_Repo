@@ -1,0 +1,136 @@
+-------------------------------- teste ao procedure --------------------------------
+SET SERVEROUTPUT ON;
+
+DECLARE
+    result_cursor SYS_REFCURSOR;    -- To hold the result set
+    status_message VARCHAR2(4000);  -- To hold the success or error message
+    rows_fetched NUMBER := 0;       -- To track the number of rows fetched
+BEGIN
+    -- Call the procedure
+    fetch_reserved_products(result_cursor, status_message);
+
+    -- Print the initial status message
+    DBMS_OUTPUT.PUT_LINE(status_message);
+
+    -- Fetch and display the result set
+    LOOP
+        DECLARE
+            reserved_product_id NUMBER;
+            product_description VARCHAR2(100);
+            reserved_quantity NUMBER;
+            supplier_id NUMBER;
+            supplier_name VARCHAR2(100);
+        BEGIN
+            FETCH result_cursor INTO reserved_product_id, product_description, reserved_quantity, supplier_id, supplier_name;
+            EXIT WHEN result_cursor%NOTFOUND;
+
+            -- Increment the row count
+            rows_fetched := rows_fetched + 1;
+
+            -- Display the fetched row
+            DBMS_OUTPUT.PUT_LINE('Reserved Product ID: ' || reserved_product_id ||
+                                 ', Description: ' || product_description ||
+                                 ', Quantity: ' || reserved_quantity ||
+                                 ', Supplier ID: ' || NVL(supplier_id, 0) ||
+                                 ', Supplier Name: ' || supplier_name);
+        END;
+    END LOOP;
+
+    -- Close the cursor
+    CLOSE result_cursor;
+
+    -- Check if no rows were fetched
+    IF rows_fetched = 0 THEN
+        status_message := 'No reservations found.';
+        DBMS_OUTPUT.PUT_LINE(status_message);
+    ELSE
+        status_message := 'Reservations retrieved successfully.';
+        DBMS_OUTPUT.PUT_LINE(status_message);
+    END IF;
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Handle unexpected exceptions
+        status_message := 'An error occurred: ' || SQLERRM;
+        DBMS_OUTPUT.PUT_LINE(status_message);
+        IF result_cursor%ISOPEN THEN
+            CLOSE result_cursor;
+        END IF;
+END;
+
+----------------------------------- Inserts fictícios usados para testar procedure -----------------------------
+
+TESTE 1 -- Produto normal, com supplier, order id, product id, quantidade mas Status reserva = 1
+
+-- Insert reservation for "Screw M6 35 mm" (idProduct = 1)
+INSERT INTO Reservation (idOrder, idProduct, quantity, idReservationStatus)
+VALUES (1, 1, 50, 1);
+
+TESTE 2 -- Produto normal, com supplier, order id, product id, quantidade e reservado
+
+-- Insert reservation for "Screw M6 35 mm" (idProduct = 1)
+INSERT INTO Reservation (idOrder, idProduct, quantity, idReservationStatus)
+VALUES (2, 1, 50, 2);
+
+TESTE 3 -- Produto normal, order id, product id, quantidade, reservado , mas sem supplier (Supplier ID = 0, por defeito e Suppier name -> No supplier name)
+
+-- Insert reservation for "300x300 mm 5 mm stainless steel sheet" (idProduct = 2)
+INSERT INTO Reservation (idOrder, idProduct, quantity, idReservationStatus)
+VALUES (3, 2, 30,2);
+
+-- Insert reservation for "300x300 mm 1 mm stainless steel sheet" (idProduct = 3)
+INSERT INTO Reservation (idOrder, idProduct, quantity, idReservationStatus)
+VALUES (4, 3, 20,2);
+
+TESTE 4 -- Produto normal, order id, product id, quantidade, reservado, mas o mesmo produto com dois suppliers diferentes
+
+-- Insert reservation for "Stainless steel handle model U6" (idProduct = 5)
+INSERT INTO Reservation (idOrder, idProduct, quantity, idReservationStatus)
+VALUES (5, 5, 150,2);
+
+TESTE 5 -- Produto normal, order id, product id, quantidade, reservado mas a adicionar a uma reserva ja existente. (Altera a quantidade do
+                                                                                                                    primeiro produto inserido de 50 para 90 )
+-- Insert another reservation for "Screw M6 35 mm" (idProduct = 1), same supplier, different order
+INSERT INTO Reservation (idOrder, idProduct, quantity, idReservationStatus)
+VALUES (6, 1, 40, 2);  -- Adding 40 more units of the same product (idProduct = 1)
+
+TESTE 6 -- Produto normal , order id, product id, reservado mas com quantidade nula (Não permite sequer inserir na reservations)
+
+INSERT INTO Reservation (idOrder, idProduct, quantity, idReservationStatus)
+VALUES (7, 1, NULL, 2);
+
+TESTE 7 -- Tentativa de inserção de uma order com mais que um produto
+
+INSERT INTO Reservation (idOrder, idProduct, quantity, idReservationStatus)
+VALUES(7,1,1,2); -- Adds 1 more unit to product 1
+
+INSERT INTO Reservation (idOrder, idProduct, quantity, idReservationStatus)
+VALUES(7,2,1,2); -- Adds 1 more unit to product 2
+
+------------- Ver produtos inseridos ---------------------
+
+SELECT
+    idProduct,
+    description AS ProductDescription
+FROM
+    product;
+
+------------- Ver produtos reservados com supplier de cada produto ----------------------
+
+SELECT
+    p.idProduct,
+    p.description AS ProductDescription,
+    r.quantity AS ReservedQuantity,
+    proc.idSupplier AS SupplierID,
+    s.name AS SupplierName
+FROM
+    product p
+JOIN
+    Reservation r ON p.idProduct = r.idProduct
+LEFT JOIN
+    procurement proc ON p.idProduct = proc.idProduct
+LEFT JOIN
+    supplier s ON proc.idSupplier = s.idSupplier
+WHERE
+    r.idReservationStatus = 2  -- Only reserved products with a specific status
+ORDER BY
+    p.idProduct;  -- Order by product ID

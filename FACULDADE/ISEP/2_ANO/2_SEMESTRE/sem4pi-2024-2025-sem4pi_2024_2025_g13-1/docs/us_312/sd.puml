@@ -1,0 +1,91 @@
+@startuml
+title US312 - Add Figures to a Proposal (Corrected Stateful Flow)
+
+actor "CRM Collaborator" as CRM
+participant AddFiguresToProposalUI as UI
+participant AddFiguresToProposalController as Controller
+participant AddFiguresToProposalService as Service
+participant ShowProposalRepository as ProposalRepo
+participant FigureRepository as FigureRepo
+participant ShowProposal as Proposal
+participant "chosenFigure: FigureVersion" as Figure
+participant DroneTypeMappingDTO as DTO
+
+' 1. Select the proposal
+CRM -> UI : Initiates "Add Figures to a Proposal"
+UI -> Controller : listAvailableProposals()
+Controller -> ProposalRepo : findProposalsWithoutFigures()
+ProposalRepo --> Controller : List<ShowProposal>
+Controller --> UI : availableProposals
+UI -> CRM : Presents list of proposals
+CRM -> UI : Selects a proposal (selectedProposal)
+
+' 2. Choose mode and get candidate figures
+UI -> CRM : Asks for figure selection mode
+CRM -> UI : Chooses mode
+UI -> Controller : figuresForMode(mode, showRequest)
+Controller -> Service : selectFigures(mode, showRequest)
+Service -> FigureRepo : findAllFigureVersions()
+FigureRepo --> Service : allFigureVersions
+Service --> Controller : candidateFigures
+Controller --> UI : candidateFigures
+
+' 3. Initialize local state for drone fleet
+UI -> Controller : getAvailableDroneFleetForProposal(selectedProposal)
+Controller -> Proposal : getDroneFleet()
+Proposal --> Controller : droneFleet (Map<DroneModel, Integer>)
+Controller --> UI : droneFleet
+UI -> UI : availableDronesForShow = new HashMap(droneFleet)
+note right of UI : Creates a local, mutable copy to track state.
+
+' 4. Loop to add figures and perform the mapping
+loop for each figure to add
+    UI -> CRM : Displays current available drones (from local map)
+    UI -> CRM : Presents candidate figures
+    CRM -> UI : Selects a figure (chosenFigure) or chooses to finish
+
+    opt if a figure is selected
+        ' UI uses the objects it already has
+        UI -> Figure : getRequiredDronesSummary()
+        Figure --> UI : requiredDrones (Map<DroneType, Integer>)
+        note right of UI
+            For each required drone type, the UI filters compatible models
+            to show only those with sufficient quantity from its
+            local 'availableDronesForShow' map. This is a key validation.
+        end note
+
+        ' The mapping itself is done in the UI with the received data
+        UI -> CRM : Asks for the mapping from drone types to available models
+        CRM -> UI : Provides the mappings (droneMappings)
+
+        ' Add the figure to the proposal using the DTO
+        create DTO
+        UI -> DTO : new(mappings)
+        UI -> Controller : addFigureToProposal(selectedProposal, chosenFigure, dto)
+        Controller -> Service : addFigure(proposal, figure, dto)
+        Service -> Proposal : addFigureToShow(figure.id(), dto.mappings)
+
+        alt Validation failed in Domain (e.g., consecutive figure)
+            Proposal --> Service : throws IllegalArgumentException
+            Service --> Controller : exception
+            Controller --> UI : exception
+            UI -> CRM : informs of error
+        else success
+            Proposal --> Service : success
+            Service --> Controller : success
+            Controller --> UI : success
+            UI -> UI : updates 'availableDronesForShow' map
+            note right of UI : Subtracts the drones used by the added figure.
+            UI -> CRM: Informs that the figure was added successfully
+        end
+    end
+end
+
+' 5. Persist the changes
+UI -> Controller : saveProposal(selectedProposal)
+Controller -> ProposalRepo : save(selectedProposal)
+ProposalRepo --> Controller : savedProposal
+Controller --> UI : success
+UI -> CRM : Informs that the proposal was saved successfully
+
+@enduml

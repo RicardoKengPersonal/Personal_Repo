@@ -1,0 +1,69 @@
+@startuml
+title Sequence Diagram - US370 Analyse a Proposal
+
+actor Customer
+participant AnalyseProposalUI as ui
+participant AnalyseProposalController as controller
+participant AnalyseProposalService  as service
+participant ClientSession as session
+participant "TCP Socket Client" as TCP
+activate Customer
+
+Customer -> ui : I want to analyse a proposal
+activate ui
+ui -> Customer : Prompt for Access Code
+deactivate ui
+Customer --> ui : Enters Access Code
+activate ui
+
+ui --> controller : analyseProposal(accessCode)
+activate controller
+controller --> service : getProposalByAccessCode(accessCode)
+deactivate controller
+activate service
+service --> session : getInstance()
+activate session
+session --> service : session instance
+deactivate session
+
+service --> session : isAuthenticated()
+activate session
+session --> service : true
+deactivate session
+
+service --> session : getWriter()
+activate session
+service --> session : getReader()
+deactivate session
+
+service --> TCP : send("GET_PROPOSAL <accessCode>")
+activate TCP
+TCP --> service : Proposal lines (until "---END---")
+deactivate TCP
+loop Read until "---END---"
+service --> service : Append line to response
+end
+
+service --> controller : return proposal content
+deactivate service
+activate controller
+controller --> ui : return proposal content
+deactivate controller
+
+alt if response starts with "ERROR:"
+ui --> Customer : Show error message
+
+else
+ui --> ui : saveProposalToFile(content, accessCode)
+ui --> Customer : Show download success message
+
+alt Desktop supported
+ui --> Desktop : open(file)
+activate Desktop
+else
+ui --> Customer : success
+end
+
+
+end
+@enduml

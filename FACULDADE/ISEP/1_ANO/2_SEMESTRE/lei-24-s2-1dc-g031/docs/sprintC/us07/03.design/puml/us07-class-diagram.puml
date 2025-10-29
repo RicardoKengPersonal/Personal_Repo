@@ -1,0 +1,58 @@
+@startuml
+skinparam shadowing false
+skinparam linetype polyline
+
+
+skinparam classAttributeIconSize 0
+
+
+
+class FleetManager {
+}
+
+class VehicleCheckup {
+    - String plateNumber
+    - String date
+    - String kmAtCheckup
+}
+
+
+class MaintenenceRepository {
+    + registerVehicleCheckup(plateNumber, date, kmAtCheckup)
+}
+
+class Repositories {
+    - Repositories()
+    + getInstance() : Repositories
+    + getMaintenenceRepository()
+}
+
+class RegisterMaintenenceController {
+    + RegisterMaintenenceController()
+    + getMaintenenceRepository()
+    + createTask(userEmail, reference, description,\ninformalDescription, technicalDescription,\nduration, cost, categoryDescription)
+    - getTaskCategoryByDescription(taskCategoryDescription)
+    - getEmployeeFromSession()
+}
+
+class RegisterMaintenenceUI {
+}
+
+Repositories -> Repositories : instance
+
+RegisterMaintenenceUI .> RegisterMaintenenceController
+
+RegisterMaintenenceController .> Repositories
+
+RegisterMaintenenceController ..> MaintenenceRepository
+
+Repositories -> "1" MaintenenceRepository
+
+MaintenenceRepository "1" -> "*" VehicleCheckup
+
+
+RegisterMaintenenceController ..> VehicleCheckup
+
+VehicleCheckup "*" --> "*" FleetManager : registed by
+
+@enduml

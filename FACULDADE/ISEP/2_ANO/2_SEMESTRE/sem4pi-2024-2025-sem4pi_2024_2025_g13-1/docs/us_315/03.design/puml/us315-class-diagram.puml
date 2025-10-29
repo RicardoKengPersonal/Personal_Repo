@@ -1,0 +1,39 @@
+@startuml
+
+title Class Diagram - US315 Add video of simulation to the proposal
+
+class AddVideoToShowProposalUI {
+  +doShow() : boolean
+}
+
+class AddVideoToShowProposalController {
+  +updateVideo(proposalId : String, videoLink : String)
+}
+
+class ShowProposalService {
+  +updateVideoLink(proposalId : String, videoLink : String)
+}
+
+class ShowProposalRepository {
+  +ofIdentity(ShowProposalID) : Optional<ShowProposal>
+  +save(ShowProposal)
+}
+
+class ShowProposal {
+  -videoLink : String
+  +setVideoLink(videoLink : String)
+}
+
+class ShowProposalID
+class AuthorizationService
+class Roles
+
+AddVideoToShowProposalUI --> AddVideoToShowProposalController
+AddVideoToShowProposalController --> ShowProposalService
+AddVideoToShowProposalController --> AuthorizationService
+AddVideoToShowProposalController --> Roles
+ShowProposalService --> ShowProposalRepository
+ShowProposalService --> ShowProposal
+ShowProposal --> ShowProposalID
+
+@enduml

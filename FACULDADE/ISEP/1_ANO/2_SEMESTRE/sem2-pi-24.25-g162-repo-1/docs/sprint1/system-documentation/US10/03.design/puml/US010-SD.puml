@@ -1,0 +1,134 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+autonumber
+
+actor "Player" as PLAYER
+participant ":GameScreen" as UI
+participant ":GameController" as CTRL
+participant ":CurrentGame" as CG
+participant "trainMapper\n:TrainMapper" as TM
+participant "trainDTO\n:TrainDTO" as TDTO
+participant "currentMap\n:CurrentMap" as CM
+participant "stationMapper\n:StationMapper" as SM
+participant "StationDTO\n:StationDTO" as SDTO
+participant "pointOfRoute\n:PointOfRoute" as POR
+participant "train\n:Train" as TRAIN 
+participant "route\n:Route" as ROUTE
+PLAYER -> UI : requests to assign a train
+
+activate PLAYER
+
+    PLAYER -> UI : requests to assign a train
+    activate UI
+        UI -> CTRL : getTrains()
+        activate CTRL
+            CTRL -> CG : getPlayerTrains()
+            activate CG
+                CG --> CTRL : List<Train>
+            deactivate CG
+            CTRL -> TM : toDTOList(List<Train>)
+            activate TM
+                loop for each train
+                    TM -> TDTO : toDTO(Train)
+                    activate TDTO
+                    TDTO --> TM : TrainDTO
+                    deactivate TDTO
+                end
+            TM --> CTRL : List<TrainDTO>
+            deactivate TM
+            CTRL --> UI : List<TrainDTO>
+            deactivate CTRL
+        UI --> PLAYER : List<TrainDTO>
+        deactivate UI
+        PLAYER -> UI : selects a train
+        activate UI
+            UI -> CTRL : getStations()
+            activate CTRL
+                CTRL -> CG : getStations()
+                activate CG
+                    CG -> CM : getStations()
+                    activate CM
+                        CM --> CG : List<Station>
+                    deactivate CM
+                    CG --> CTRL : List<Station>
+                deactivate CG
+                CTRL -> SM : toDTOList(List<Station>)
+                activate SM
+                    loop for each station
+                        SM -> SDTO : toDTO(Station)
+                        activate SDTO
+                        SDTO --> SM : StationDTO
+                        deactivate SDTO
+                    end
+                    SM --> CTRL : List<StationDTO>
+                deactivate SM
+                CTRL --> UI : List<StationDTO>
+            deactivate CTRL
+            UI --> PLAYER : show all available stations
+            deactivate UI
+            PLAYER -> UI : selects a station
+            activate UI
+            UI --> PLAYER :  show cargo available for pick up
+            deactivate UI
+            PLAYER -> UI : selects cargo to pick up
+            activate UI
+            UI --> PLAYER : show pick up modes
+            deactivate UI
+            PLAYER -> UI : selects a pick up mode
+            activate UI
+            loop while the player wants to add stations
+                UI -> CTRL : getConnectedStations(StationDTO)
+                activate CTRL
+                    CTRL -> CG : getConnectedStations(StationDTO)
+                    activate CG
+                        CG -> CM : getConnectedStations(StationDTO)
+                        activate CM
+                            CM --> CG : List<Station>
+                        deactivate CM
+                        CG --> CTRL : List<Station>
+                    deactivate CG
+                    CTRL -> SM : toDTOList(List<Station>)
+                    activate SM
+                        loop for each station
+                            SM -> SDTO : toDTO(Station)
+                            activate SDTO
+                            SDTO --> SM : StationDTO
+                            deactivate SDTO
+                        end
+                        SM --> CTRL : List<StationDTO>
+                    deactivate SM
+                    CTRL --> UI : List<StationDTO>
+                deactivate CTRL
+                UI --> PLAYER : show all connected stations
+                deactivate UI
+                PLAYER -> UI : selects a station
+                activate UI
+                UI --> PLAYER :  show cargo available for pick up
+                deactivate UI
+                PLAYER -> UI : selects cargo to pick up
+                activate UI
+                UI --> PLAYER : show pick up modes
+                deactivate UI
+                PLAYER -> UI : selects a pick up mode
+                activate UI
+            end
+            UI -> CTRL : assignTrain(TrainDTO, List<StationDTO>, List<CargoDTO>, List<PickUpMode>)
+            activate CTRL
+                loop for each Station
+                    CTRL -> POR **: createPOR
+                end 
+                CTRL -> ROUTE **: create(List<PointOfRoute>) 
+                CTRL -> CG : assignTrain(TrainDTO, route)
+                activate CG
+                    CG -> TRAIN : assignTrain(TrainDTO, List<PointOfRoute>)
+                    activate TRAIN
+                        TRAIN --> CG : void
+                    deactivate TRAIN
+                    CG --> CTRL : void
+                deactivate CG
+                CTRL --> UI : void
+            deactivate CTRL
+            UI --> PLAYER : train assigned successfully
+            deactivate UI
+    @enduml

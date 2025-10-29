@@ -1,0 +1,1 @@
+In this review, each member presents the achieved outcomes, and the team assesses each team member’s task completion.

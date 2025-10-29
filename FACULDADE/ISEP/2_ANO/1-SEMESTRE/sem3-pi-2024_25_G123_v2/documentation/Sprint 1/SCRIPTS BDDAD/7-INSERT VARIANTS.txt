@@ -1,0 +1,18 @@
+INSERT INTO "VARIANTS"(variant_id,product_id,variant_name) VALUES (1,1,'La Belle 22 5l pot');
+INSERT INTO "VARIANTS"(variant_id,product_id,variant_name) VALUES (2,2,'Pro 22 5l pot');
+INSERT INTO "VARIANTS"(variant_id,product_id,variant_name) VALUES (3,3,'Pro 20 3l pot');
+INSERT INTO "VARIANTS"(variant_id,product_id,variant_name) VALUES (4,4,'Pro 17 2l pot');
+INSERT INTO "VARIANTS"(variant_id,product_id,variant_name) VALUES (5,5,'Pro 17 2l sauce pan');
+INSERT INTO "VARIANTS"(variant_id,product_id,variant_name) VALUES (6,6,'Pro 17 lid');
+INSERT INTO "VARIANTS"(variant_id,product_id,variant_name) VALUES (7,7,'Pro Clear 17 lid');
+INSERT INTO "VARIANTS"(product_id,variant_name,variant_id) VALUES (8,'Screw M6 35 mm',8);
+INSERT INTO "VARIANTS"(product_id,variant_name,variant_id) VALUES (9,'300x300 mm 5mm stainless steel sheet',9);
+INSERT INTO "VARIANTS"(product_id,variant_name,variant_id) VALUES (10,'300x300 mm 1mm stainless steel sheet',10);
+INSERT INTO "VARIANTS"(product_id,variant_name,variant_id) VALUES (11,'Rivet 6 mm',11);
+INSERT INTO "VARIANTS"(product_id,variant_name,variant_id) VALUES (12,'Stainless steel handle model U6',12);
+INSERT INTO "VARIANTS"(product_id,variant_name,variant_id) VALUES (13,'Stainless steel handle model R12',13);
+INSERT INTO "VARIANTS"(product_id,variant_name,variant_id) VALUES (14,'Stainless steel handle model R11',14);
+INSERT INTO "VARIANTS"(product_id,variant_name,variant_id) VALUES (15,'250x250 mm 5mm stainless steel sheet',15);
+INSERT INTO "VARIANTS"(product_id,variant_name,variant_id) VALUES (16,'250x250 mm 1mm stainless steel sheet',16);
+INSERT INTO "VARIANTS"(product_id,variant_name,variant_id) VALUES (17,'Stainless steel handle model S26',17);
+select * FROM "VARIANTS"

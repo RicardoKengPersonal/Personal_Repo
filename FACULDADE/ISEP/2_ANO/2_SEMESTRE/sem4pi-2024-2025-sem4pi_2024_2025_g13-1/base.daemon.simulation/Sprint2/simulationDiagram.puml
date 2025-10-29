@@ -1,0 +1,46 @@
+@startuml
+title Drone Simulation
+
+package "Drone Simulation" {
+
+    rectangle "timeline[tick][drone]" as Timeline
+    package "Files" as Files {
+        database "droneX.txt" as DroneFile
+        file "simulation_report.txt" as Report
+        file "wind.txt" as WindFile
+    }
+
+    rectangle "pipe_fd[drone][2]" as DataPipe
+    rectangle "control_fd[drone][2]" as ControlPipe
+
+    rectangle "Father Process" as Father
+    package "Son Process" {
+        rectangle "Drone" as Drone
+    }
+
+    database "Collision List" as CollisionList
+    rectangle "drone_status[MAX_DRONES][64]" as Status
+
+    ' Comunicação e sincronização
+    Drone <-- ControlPipe : wait
+    Drone --> DataPipe : send position
+    Drone --> DroneFile : load script
+
+    ' Pipes e processos
+    Father --> ControlPipe : create pipe
+    Father --> DataPipe : create pipe
+
+    ' Armazenamento
+    Father -up-> Timeline : store position
+    Father --> Status : update status
+    Father --> CollisionList : save collision
+    Father --> Report : generate report
+
+    ' Detecção de colisões
+    Father --> Drone : terminate with SIGTERM
+
+    ' Carregamento de ficheiros
+    Father --> WindFile : load wind vector
+}
+
+@enduml

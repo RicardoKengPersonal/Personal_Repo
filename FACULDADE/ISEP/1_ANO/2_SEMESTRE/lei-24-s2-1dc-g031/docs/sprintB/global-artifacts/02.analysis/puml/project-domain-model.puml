@@ -1,0 +1,204 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide circle
+hide methods
+
+
+
+class Collaborator {
+     Name
+     BirthDate
+     AdmissionDate
+     Address
+     MobileNumber
+     Email
+     TaxPayerNumber
+     DocumentIdentificationNumber
+}
+
+class Feedback {
+     Commentary
+     Report
+}
+
+class Team {
+}
+
+class Job {
+     Name
+     Description
+}
+
+class Skill {
+     NameOfTheSkill«
+}
+
+class Task {
+     TaskDescription
+
+}
+
+class Entry {
+     DateOfEntry
+}
+
+class GreenSpace {
+     TypeOfGreenSpace
+}
+
+class GreenSpacesManager {
+}
+
+class GreenSpacesUser {
+}
+
+class SoftwareQualityAssessmentTeamManager {
+}
+
+class Diary {
+}
+
+class VehicleFleetManager {
+}
+
+class HumanResourcesManager {
+}
+
+class Vehicle{
+     VehiclePlateID
+     VehicleModel
+     VehicleBrand
+     VehicleType
+     VehicleTare
+     VehicleGrossWeight
+     VehicleCurrentKm
+     VehicleRegisterDate
+     VehicleAcquisitionDate
+     VehicleMaintenanceCheckUpFrequency
+}
+
+class Machines {
+   TypeOfMachines
+}
+
+class Equipment {
+}
+
+
+class UserEquipment{
+    designation
+    UserEquipmentNumber
+}
+
+class IrrigationSystem{
+
+}
+
+class IrrigationEquipment{
+    designation
+    IrrigationEquipmentNumber
+}
+
+class LightningSystem{
+
+}
+
+class LightningEquipment{
+    designation
+    lightningEquipmentNumber
+}
+
+class DrainageSystem{
+
+}
+
+class DrainageEquipment{
+    designation
+    drainageEquipmentNumber
+}
+
+class DrinkingSystem{
+
+}
+
+class DrinkingEquipment{
+    designation
+    drinkingEquipmentNumber
+}
+
+class Zones{
+    zoneIdentification
+}
+
+class StatsUserPortal{
+}
+
+class Portal{
+}
+
+
+
+Collaborator "1" - "*" Feedback: sends >
+Collaborator "*" -- "1" Team: is inserted <
+Collaborator "*" -- "1" Job: has a >
+Collaborator "*" - "*" Skill: has >
+
+HumanResourcesManager "1" ---- "0..*" Skill: creates/assigns >
+HumanResourcesManager "1" - "0..*" Job: creates/assigns >
+HumanResourcesManager "1" - "0..*" Team: generates >
+
+Team "1" - "1" Entry: associated >
+
+Job "1" -- "*" Task: has >
+Skill "*" - "1" Task: requires <
+
+Task "1" -- "1" Entry: defines <
+Task "1" -- "*" Machines: needs >
+Task "1" -- "*" Vehicle: needs <
+Task "1" ---- "*" Equipment: needs >
+
+Entry "1" -- "1" GreenSpace: located >
+Entry "*" -- "*" Diary: has <
+
+GreenSpacesManager "1" -- "1" GreenSpace: manages >
+
+GreenSpacesUser "1" -- "1" GreenSpace: uses >
+
+Vehicle "1" -- "*" Machines: transports >
+Vehicle "1" -- "*" Equipment: transports >
+Vehicle "*" -- "1" VehicleFleetManager: registers <
+
+GreenSpace "1" -- "1" WaterStatisticalAnalysis : is analysed >
+GreenSpace "1" -- "1" Address : has an >
+GreenSpace "1" -- "*" UserEquipment: has >
+GreenSpace "1" -- "*" Zones: is divided >
+Task "*" -- "1" GreenSpace: assigned to:
+GreenSpace "1" -- "1..*" ElectronicDevice: has >
+ElectronicDevice "1" -- "1" EquipmentStatisticalAnalysis: is analysed >
+SoftwareQualityAssessmentTeamManager "1" -- "*" Team: evaluates >
+
+
+
+Zones "1" -- "*" DrainageSystem: has >
+
+DrainageSystem "1" -- "*" DrainageEquipment: has >
+
+Zones "1"--"*" LightningSystem: has >
+
+LightningSystem "1" -- "*" LightningEquipment: has >
+
+Zones "1" -- "*" DrinkingSystem: has >
+
+DrinkingSystem "1" -- "*" DrinkingEquipment: has >
+
+Zones "1" -- "*" IrrigationSystem:has >
+IrrigationSystem "1" -- "*" IrrigationEquipment: has >
+ReportIssues "*" -- "1" Portal: is reported >
+
+GreenSpace "1" --- "1" Portal : is connected >
+
+Portal "1" -- "1" StatsUserPortal : is analysed >
+@enduml

@@ -1,0 +1,14 @@
+INSERT INTO "Workstation Type"(workstation_type_id,workstation_type_name,workstation_type_legacy_id) VALUES (1,'600t cold forging stamping press','A4578');
+INSERT INTO "Workstation Type"(workstation_type_id,workstation_type_name,workstation_type_legacy_id) VALUES (2,'600t cold forging precision stamping press','A4588');
+INSERT INTO "Workstation Type"(workstation_type_id,workstation_type_name,workstation_type_legacy_id) VALUES (3,'1000t cold forging precision stamping press','A4598');
+INSERT INTO "Workstation Type"(workstation_type_id,workstation_type_name,workstation_type_legacy_id) VALUES (4,'Handle rivet','S3271');
+INSERT INTO "Workstation Type"(workstation_type_id,workstation_type_name,workstation_type_legacy_id) VALUES (5,'Packaging','K3675');
+INSERT INTO "Workstation Type"(workstation_type_id,workstation_type_name,workstation_type_legacy_id) VALUES (6,'Packaging for large itens','K3676');
+INSERT INTO "Workstation Type"(workstation_type_id,workstation_type_name,workstation_type_legacy_id) VALUES (7,'Border trimming','C5637');
+INSERT INTO "Workstation Type"(workstation_type_id,workstation_type_name,workstation_type_legacy_id) VALUES (8,'Spot welding','D9123');
+INSERT INTO "Workstation Type"(workstation_type_id,workstation_type_name,workstation_type_legacy_id) VALUES (9,'Teflon application station','Q5478');
+INSERT INTO "Workstation Type"(workstation_type_id,workstation_type_name,workstation_type_legacy_id) VALUES (10,'Stainless steel polishing','Q3547');
+INSERT INTO "Workstation Type"(workstation_type_id,workstation_type_name,workstation_type_legacy_id) VALUES (11,'Assembly T1','T3452');
+INSERT INTO "Workstation Type"(workstation_type_id,workstation_type_name,workstation_type_legacy_id) VALUES (12,'Circular glass cutting','G9273');
+INSERT INTO "Workstation Type"(workstation_type_id,workstation_type_name,workstation_type_legacy_id) VALUES (13,'Glass trimming','G9274');
+select * FROM "Workstation Type";

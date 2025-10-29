@@ -1,0 +1,200 @@
+@startuml
+' Definição das classes com atributos
+class Address {
+  address_id
+  Street
+  "Floor or Apt"
+  ZipCode
+  Town
+  City
+  Country
+}
+
+class Customer {
+  customer_id
+  customer_name
+  phone_number
+  email
+  IBAN
+  NIF
+  customer_type
+  address_id
+  customer_legacy_id
+}
+
+class "Order" {
+  order_id
+  customer_id
+  order_date
+  delivery_date
+  order_status
+  delivery_address_id
+}
+
+class "Ordered Items" {
+  order_id
+  variant_id
+  quantity
+  unidade
+}
+
+class "Production Order" {
+  production_order_id
+  Orderorder_id
+  variant_id
+  priority
+}
+
+class "Variants" {
+  variant_id
+  variant_description
+  variant_type_id
+  product_id
+  variant_legacy_id
+}
+
+class "Bill of Operations" {
+    boo_id
+    finished_variant_id
+    operation_id
+    input_id
+    output_id
+    sequence_number
+}
+
+class "Input" {
+    input_id
+}
+
+class "Output" {
+    output_id
+}
+
+class "Output Variants" {
+    variants_id
+    output_id
+    quantity
+    unit
+}
+
+class "Inputted Variants" {
+    input_id
+    variant_id
+    quantity
+    unit
+}
+
+
+class "Category" {
+  category_id
+  category_name
+}
+
+class Product {
+  product_id
+  product_name
+  category_id
+  product_description
+  product_legacy_id
+  family_id
+}
+
+class "Product Family" {
+  family_id
+  family_name
+  family_legacy_id
+}
+
+class "Product Options" {
+  option_id
+  option_name
+}
+
+class "Options Values" {
+  value_id
+  value_name
+  option_id
+}
+
+class "Variant Type" {
+    variant_type_id
+    variant_type_name
+}
+
+class "STOCK" {
+  variant_id
+  quantity_available
+}
+
+class Workstation {
+  workstation_id
+  workstation_name
+  workstation_description
+  workstation_type_id
+  workstation_legacy_id
+  facility_id
+  machine_id
+  workstation_kind_id
+}
+
+class "Workstation Type" {
+  workstation_type_id
+  workstation_type_name
+  workstation_type_legacy_id
+}
+
+class "Workstation Kind" {
+    workstation_kind_id
+    workstation_kind_name
+}
+
+class "Operation" {
+  operation_id
+  legacy_operation_id
+  operation_description
+  time_required
+}
+
+class "Machine" {
+    machine_id
+    machine_description
+    machine_type_id
+    machine_legacy_id
+}
+
+class "Machine Type" {
+    machine_type_id
+    machine_type_name
+    machine_type_legacy_id
+}
+
+"Customer" "1"---"1" "Address"
+"Customer" "1"---"0*" "Order"
+"Order" "1"---"0..1" "Address"
+"Order" "0..1"---"0*" "Production Order"
+"Order" "1"---"0*" "Ordered Items"
+"Ordered Items" "0*"---"1" "Variants"
+"Production Order" "1"---"1" "Variants"
+"Category" "0..1"---"0*" "Product"
+"Product" "0*"---"0..1" "Product Family"
+"Product" "0..1"---"0*" "Variants"
+"Variants" "0*"---"1" "Variant Type"
+"Variants" "1"---"0*" "Inputted Variants"
+"Variants" "1"---"0*" "Output Variants"
+"STOCK" "1"---"1" "Variants"
+"Bill of Operations" "1"---"1" "Variants"
+"Bill of Operations" "1"---"1" "Input"
+"Bill of Operations" "1"---"1" "Output"
+"Bill of Operations" "1"---"1" "Operation"
+"Output" "1"---"0*" "Output Variants"
+"Input" "1"---"0*" "Inputted Variants"
+"Variants" "1*"---"1*" "Options Values"
+"Operation" "1*"---"1*" "Workstation Type"
+"Workstation Type" "1"---"1" "Workstation"
+"Workstation" "0*"---"0..1" "Facility"
+"Facility" "1"---"0*" "Address"
+"Workstation Kind" "0..1"---"0*" "Workstation"
+"Workstation" "1"---"0..1" "Machine"
+"Machine" "0*"---"1" "Machine Type"
+"Product Options" "1"---"0*" "Options Values"
+@enduml

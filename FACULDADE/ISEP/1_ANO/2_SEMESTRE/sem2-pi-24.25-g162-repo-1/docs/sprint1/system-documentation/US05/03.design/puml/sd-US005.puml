@@ -1,0 +1,238 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing true
+skinparam classAttributeIconSize 0
+
+title US05 - Build Station
+
+autonumber
+
+actor "Player" as PLAYER
+participant ":BuildStationUI" as UI
+participant ":BuildStationController" as CTRL
+participant ":Repositories" as REPO
+participant "repositories\n:Repositories" as REPOInstance
+participant "ApplicationSession" as APP
+participant "appSession\n:ApplicationSession" as APPINSTANCE
+participant "currentSession:\nUserSession" as SESSION
+participant "mapRepository\n:MapRepository" as mapRepository
+participant "map\n:Map" as MAP
+participant "StationTypeRepository" as STAT_TYPE_REPO
+participant "Scenario\n:Scenario" as SCENARIO
+participant "obj : StationTypes" as STAT_TYPE
+participant "StationTypeMapper" as STAT_TYPE_MAP
+participant "Location\n:Location" as POSITION
+participant "CardinalPoints\n:CardinalPoints" as CARDINAL_POINTS
+participant "Station" as STATION
+participant "Player\n:Player" as PLAYER_CLASS
+participant "currentSession\n:UserSession" as CURRENT_SESSION
+
+
+activate PLAYER
+
+    PLAYER -> UI : asks to build a station
+            activate UI
+                UI --> CTRL ** : create()
+                UI --> CTRL : displayStationTypes()
+            activate CTRL
+            CTRL -> REPO : getInstance()
+            activate REPO
+                REPO --> CTRL : repositories
+            deactivate REPO
+            CTRL -> CTRL : getMapFromSession()
+            activate CTRL
+            CTRL -> APP : getInstance()
+            activate APP
+                APP --> CTRL : appSession
+            deactivate APP
+
+            CTRL -> APPINSTANCE : getCurrentSession()
+            activate APPINSTANCE
+                APPINSTANCE --> CTRL : currentSession
+            deactivate APPINSTANCE
+
+            CTRL -> SESSION : getCurrentMapName()
+            activate SESSION
+                SESSION --> CTRL : currentMapName
+            deactivate SESSION
+
+            CTRL -> REPOInstance : getInstance()
+            activate REPOInstance
+                REPOInstance --> CTRL : repositories
+            deactivate REPOInstance
+
+            CTRL -> REPOInstance : getMapRepository()
+            activate REPOInstance
+                REPOInstance --> CTRL : mapRepository
+            deactivate REPOInstance
+
+            CTRL -> mapRepository : getMapByName(mapName)
+            activate mapRepository
+                mapRepository --> CTRL : map
+                deactivate mapRepository
+                deactivate CTRL
+            CTRL -> MAP : getCurrentScenario()
+            activate MAP
+                MAP --> CTRL : currentScenario
+            deactivate MAP
+
+             CTRL -> SCENARIO : getAvailableStationTypes()
+             activate SCENARIO
+                SCENARIO --> STAT_TYPE** : create()
+
+                loop for each station type
+                    SCENARIO -> STAT_TYPE : getStationType()
+                        activate STAT_TYPE
+                        STAT_TYPE --> STAT_TYPE : addToList()
+                    end loop
+                        STAT_TYPE --> SCENARIO : stationTypeList
+                        deactivate STAT_TYPE
+
+                SCENARIO --> CTRL : stationTypeList
+            deactivate SCENARIO
+            CTRL -> STAT_TYPE_MAP : toDTO(stationTypeList)
+            activate STAT_TYPE_MAP
+                ref over STAT_TYPE_MAP
+                    SD_toDTO_ListStationTypes
+                end ref
+            STAT_TYPE_MAP -> CTRL : stationTypeDTOList
+            deactivate STAT_TYPE_MAP
+
+            CTRL --> UI : stationTypeDTOList
+        deactivate CTRL
+        UI --> PLAYER : displays station types and requests selection
+        deactivate UI
+
+        PLAYER -> UI : selects station type
+        activate UI
+
+
+        opt StationType = Station
+            UI --> PLAYER : requests typed data (coordinateX, coordinateY)
+
+            deactivate UI
+            PLAYER -> UI : types requested data
+            activate UI
+            UI -> CTRL : createLocation(coordinateX, coordinateY)
+                activate CTRL
+                CTRL --> MAP : createLocation(coordinateX, coordinateY)
+
+
+
+                activate MAP
+
+                   MAP --> POSITION**: create(coordinateX, coordinateY)
+
+                    activate POSITION
+                    POSITION -> POSITION : validateCoordinates(coordinateX, coordinateY)
+
+                   MAP -> MAP: addLocation(location)
+                   deactivate POSITION
+
+                   activate MAP
+                       MAP -> MAP: validateLocation(location)
+                       activate MAP
+                           MAP --> MAP : true
+                       deactivate MAP
+
+                       MAP --> MAP : true
+                   deactivate MAP
+                   MAP --> CTRL : location
+
+                   deactivate MAP
+        else StationType  != Station
+            UI --> PLAYER : requests typed data (coordinateX, coordinateY, orientation)
+
+                deactivate UI
+                PLAYER -> UI : types requested data
+                activate UI
+                UI -> CTRL : createLocation(coordinateX, coordinateY, orientation)
+
+
+                    activate CTRL
+
+                    CTRL --> MAP : createLocation(coordinateX, coordinateY, orientation)
+
+                    activate MAP
+
+                       MAP --> POSITION**: create(coordinateX, coordinateY, orientation)
+
+                        activate POSITION
+                        POSITION -> POSITION : validateCoordinates(coordinateX, coordinateY, orientation)
+
+                       MAP -> MAP: addLocation(location, orientation)
+                       deactivate POSITION
+
+                       activate MAP
+                           MAP -> MAP: validateLocation(location)
+                           activate MAP
+                               MAP --> MAP : true
+                           deactivate MAP
+
+                           MAP --> MAP : true
+                       deactivate MAP
+                       MAP --> CTRL : location
+
+                       deactivate MAP
+        end opt
+
+                CTRL -> MAP : generateStationName(location)
+                   activate MAP
+
+                   MAP -> MAP : generateStationName(location)
+
+                   MAP --> CTRL : (in)sucess
+                deactivate MAP
+
+                CTRL -> UI : (in)sucess
+            deactivate CTRL
+            deactivate CTRL
+            UI --> PLAYER : displays entered data and requests confirmation
+            deactivate UI
+
+        PLAYER -> UI : confirms data
+        activate UI
+
+        UI -> CTRL : createStation(location, stationType)
+
+        activate CTRL
+                                CTRL -> STATION : getAcquisitionPrice()
+                                    activate STATION
+                                    STATION --> CTRL : acquisitionPrice
+                                    deactivate STATION
+                                CTRL -> CURRENT_SESSION : getCurrentPlayer()
+                                    activate CURRENT_SESSION
+                                    CURRENT_SESSION --> CTRL : player
+                                    deactivate CURRENT_SESSION
+                                CTRL -> PLAYER_CLASS : debit(acquisitionPrice)
+                                    activate PLAYER_CLASS
+                                    PLAYER_CLASS -> PLAYER_CLASS : validates purchase
+                                    PLAYER_CLASS --> CTRL : true
+                                    deactivate PLAYER_CLASS
+
+
+
+
+        CTRL -> MAP : createStation(location, stationType, name)
+        activate MAP
+           MAP --> STATION**: create(location, stationType, name)
+
+           MAP -> MAP: addStation(station)
+
+           activate MAP
+               MAP -> MAP: validateStation(station)
+               activate MAP
+                   MAP --> MAP : true
+               deactivate MAP
+
+               MAP --> MAP : true
+           deactivate MAP
+              MAP --> CTRL : (in)sucess
+              deactivate MAP
+              CTRL --> UI : (in)sucess
+        deactivate CTRL
+        UI --> PLAYER : displays operation (in)sucess
+
+
+deactivate PLAYER
+@enduml

@@ -1,0 +1,18 @@
+-- First customer
+INSERT INTO customer(name, vatin, idaddress, email, phoneNumber, idcustomerType, idcustomerStatus,idlegacyidentification) 
+VALUES ('Carvalho and Carvalho Lda','PT501245987', 1, 'idont@care.com', '003518340500', 2, 1, (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '456'));
+
+-- Second customer
+INSERT INTO customer(name, vatin, idaddress, email, phoneNumber, idcustomerType, idcustomerStatus, idlegacyidentification) 
+VALUES ('Tudo para a casa Lda','PT501245488', 2, 'me@neither.com', '003518340500', 2, 1, (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '785'));
+
+-- Third customer
+INSERT INTO customer(name, vatin, idaddress, email, phoneNumber, idcustomerType, idcustomerStatus, idlegacyidentification) 
+VALUES ('Sair de Cena','PT501242417', 3, 'some@email.com', '003518340500', 1, 1, (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '657'));
+
+-- Fourth customer
+INSERT INTO customer(name, vatin, idaddress, email, phoneNumber, idcustomerType, idcustomerStatus, idlegacyidentification) 
+VALUES ('U Fleku','CZ6451237810', 4, 'some.random@email.cz', '004201234567', 1, 1, (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '348'));
+
+-- Select all customers
+select * FROM customer;

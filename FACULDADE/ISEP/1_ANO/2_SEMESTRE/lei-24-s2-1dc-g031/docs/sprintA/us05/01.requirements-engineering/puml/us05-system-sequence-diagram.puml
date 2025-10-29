@@ -1,0 +1,48 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US05
+
+autonumber
+
+actor "Human Resources \nManager" as Employee
+participant ":System" as System
+
+activate Employee
+
+    Employee -> System :Requests an automatic submission of a team proposal
+
+    activate System
+
+        System --> Employee : displays the users who are available, along\n with their respective roles, for team formation
+
+
+    deactivate System
+
+    Employee -> System : selects users
+    activate System
+
+        System --> Employee : asks for specifics regarding the team, such \nas the maximum team size and required skills
+    deactivate System
+
+    Employee -> System : offers details about the team
+
+    activate System
+
+        System --> Employee : displays team specifics and requests confirmation of all information
+
+    deactivate System
+
+    Employee -> System : verifies and confirms the information
+
+    activate System
+
+        System --> Employee : team proposal saved
+
+
+         System --> Employee : displays that the operation has been successfully executed
+         deactivate System
+
+@enduml

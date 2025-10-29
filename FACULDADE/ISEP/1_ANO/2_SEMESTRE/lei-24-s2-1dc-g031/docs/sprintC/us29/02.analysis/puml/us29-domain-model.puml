@@ -1,0 +1,55 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+class Agenda {
+}
+
+class Collaborator {
+    birthdate
+    admissionDate
+    emailAddress
+    taxpayerNumber
+    otherRelevantInformation
+}
+
+class Team {
+description
+numberMaxCollaborators
+numberMinCollaborators
+
+}
+
+class AgendaEntry {
+    startingDate
+    finishingDate
+    status
+}
+
+class Task{
+    description
+    expectedDuration
+}
+
+class Skill {
+skillName
+}
+
+Agenda "1" -up- "*" Task : organizes >
+AgendaEntry "1" -- "1" Task : corresponds to >
+Team "*"--- "1..*" Collaborator : needs >
+Team "*"-- "1..*" Skill : needs >
+Collaborator "*" -left- "*" Skill : has >
+Agenda "1" -- "*" AgendaEntry : has >
+AgendaEntry "*" -- "1" Team : responsible for <
+
+
+@enduml

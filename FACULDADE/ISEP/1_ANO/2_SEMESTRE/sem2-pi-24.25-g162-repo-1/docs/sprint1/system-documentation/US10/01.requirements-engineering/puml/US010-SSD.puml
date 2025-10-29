@@ -1,0 +1,45 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "Player" as Player
+participant "System" as System
+
+activate Player
+
+Player -> System : Select train
+
+activate System
+
+System -> Player : Show available trains
+
+deactivate System
+
+Player -> System : Select Route (list of stations)
+
+activate System
+
+System -> System : Verify railway connections between stations
+alt If missing connections
+    System -> Player : Warn about missing connections and offer cancel/continue
+end
+
+deactivate System
+
+Player -> System : Define cargo for each station
+
+activate System
+
+System -> System : Verify compatibility of wagons with cargo
+alt If train is electric
+    System -> System : Verify if route has electrified lines
+end
+
+System -> Player : Confirm successful assignment
+
+deactivate System
+
+@enduml

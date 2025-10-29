@@ -1,0 +1,58 @@
+-------------------------------- Procedure USBD30 ----------------------------------
+
+CREATE OR REPLACE PROCEDURE consume_material (
+    p_idProduct NUMBER,
+    p_quantity NUMBER
+)
+IS
+    v_availableStock NUMBER;
+    v_reservedQuantity NUMBER;
+BEGIN
+    -- Obter o stock disponível e a quantidade reservada
+    SELECT p.availableStock,
+           COALESCE(SUM(r.quantity), 0) AS reservedQuantity
+    INTO v_availableStock, v_reservedQuantity
+    FROM part p
+    LEFT JOIN Reservation r ON p.idProduct = r.idProduct
+    WHERE p.idProduct = p_idProduct
+    GROUP BY p.availableStock;
+
+    -- Verificar se o consumo é permitido
+    IF v_availableStock - p_quantity < v_reservedQuantity THEN
+        RAISE_APPLICATION_ERROR(
+            -20001,
+            'Consumo não permitido: Stock insuficiente.'
+        );
+    ELSE
+        -- Reduzir o stock
+        UPDATE part
+        SET availableStock = availableStock - p_quantity
+        WHERE idProduct = p_idProduct;
+
+        DBMS_OUTPUT.PUT_LINE('Material consumido com sucesso: Stock atualizado.');
+    END IF;
+END;
+/
+
+----- Chamar o procedimento com o ID do produto e a quantidade
+BEGIN
+    consume_material(1, 10); -- Tenta consumir 10 unidades do produto com ID 1
+END;
+/
+
+
+
+---- Visualizar os stocks disponíveis
+SELECT
+    p.idProduct AS "ID do Produto",
+    p.availableStock AS "stock Disponível",
+    COALESCE(SUM(r.quantity), 0) AS "Quantidade Reservada",
+    (p.availableStock - COALESCE(SUM(r.quantity), 0)) AS "stock Restante"
+FROM
+    part p
+LEFT JOIN
+    Reservation r ON p.idProduct = r.idProduct
+GROUP BY
+    p.idProduct, p.availableStock
+ORDER BY
+    p.idProduct;

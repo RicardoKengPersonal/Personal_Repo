@@ -1,0 +1,175 @@
+INSERT INTO unitType(name) VALUES ('Unit');
+INSERT INTO unitType(name) VALUES ('Volume');
+
+INSERT INTO unit(name, idunittype) VALUES ('Unit', 1);
+INSERT INTO unit(name, idunittype) VALUES ('Milimiter', 2);
+
+INSERT INTO partType(name) VALUES ('Component');
+INSERT INTO partType(name) VALUES ('Raw Material');
+INSERT INTO partType(name) VALUES ('Intermediate Product');
+
+--Customer Type
+INSERT INTO customerType (name) VALUES ('Individual');
+INSERT INTO customerType (name) VALUES ('Company');
+
+--Customer Status
+INSERT INTO customerStatus (name) VALUES ('Active');
+INSERT INTO customerStatus (name) VALUES ('Deactivated');
+
+INSERT INTO customerOrderStatus (name) VALUES ('Delivered');
+INSERT INTO customerOrderStatus (name) VALUES ('Not Delivered');
+
+INSERT INTO reservationStatus (name) VALUES ('Deducted');
+INSERT INTO reservationStatus (name) VALUES ('Not Deducted');
+
+INSERT INTO workstationType (name, idLegacyIdentification)
+VALUES ('600t cold forging stamping press', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'A4578'));
+
+INSERT INTO workstationType (name, idLegacyIdentification)
+VALUES ('600t cold forging precision stamping press', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'A4588'));
+
+INSERT INTO workstationType (name, idLegacyIdentification)
+VALUES ('1000t cold forging precision stamping press', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'A4598'));
+
+INSERT INTO workstationType (name, idLegacyIdentification)
+VALUES ('Handle rivet', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'S3271'));
+
+INSERT INTO workstationType (name, idLegacyIdentification)
+VALUES ('Packaging', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'K3675'));
+
+INSERT INTO workstationType (name, idLegacyIdentification)
+VALUES ('Packaging for large items', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'K3676'));
+
+INSERT INTO workstationType (name, idLegacyIdentification)
+VALUES ('Border trimming', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'C5637'));
+
+INSERT INTO workstationType (name, idLegacyIdentification)
+VALUES ('Spot welding', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'D9123'));
+
+INSERT INTO workstationType (name, idLegacyIdentification)
+VALUES ('Teflon application station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'Q5478'));
+
+INSERT INTO workstationType (name, idLegacyIdentification)
+VALUES ('Stainless steel polishing', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'Q3547'));
+
+INSERT INTO workstationType (name, idLegacyIdentification)
+VALUES ('Assembly T1', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'T3452'));
+
+INSERT INTO workstationType (name, idLegacyIdentification)
+VALUES ('Circular glass cutting', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'G9273'));
+
+INSERT INTO workstationType (name, idLegacyIdentification)
+VALUES ('Glass trimming', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = 'G9274'));
+
+SELECT * FROM workstationType;
+
+INSERT INTO input (idInput) VALUES (1);
+INSERT INTO input (idInput) VALUES (2);
+INSERT INTO input (idInput) VALUES (3);
+INSERT INTO input (idInput) VALUES (4);
+INSERT INTO input (idInput) VALUES (5);
+INSERT INTO input (idInput) VALUES (6);
+INSERT INTO input (idInput) VALUES (7);
+INSERT INTO input (idInput) VALUES (8);
+INSERT INTO input (idInput) VALUES (9);
+INSERT INTO input (idInput) VALUES (10);
+INSERT INTO input (idInput) VALUES (11);
+INSERT INTO input (idInput) VALUES (12);
+INSERT INTO input (idInput) VALUES (13);
+INSERT INTO input (idInput) VALUES (14);
+INSERT INTO input (idInput) VALUES (15);
+INSERT INTO input (idInput) VALUES (16);
+INSERT INTO input (idInput) VALUES (17);
+INSERT INTO input (idInput) VALUES (18);
+INSERT INTO input (idInput) VALUES (19);
+INSERT INTO input (idInput) VALUES (20);
+
+INSERT INTO output (idOutput) VALUES (1);
+INSERT INTO output (idOutput) VALUES (2);
+INSERT INTO output (idOutput) VALUES (3);
+INSERT INTO output (idOutput) VALUES (4);
+INSERT INTO output (idOutput) VALUES (5);
+INSERT INTO output (idOutput) VALUES (6);
+INSERT INTO output (idOutput) VALUES (7);
+INSERT INTO output (idOutput) VALUES (8);
+INSERT INTO output (idOutput) VALUES (9);
+INSERT INTO output (idOutput) VALUES (10);
+INSERT INTO output (idOutput) VALUES (11);
+INSERT INTO output (idOutput) VALUES (12);
+INSERT INTO output (idOutput) VALUES (13);
+INSERT INTO output (idOutput) VALUES (14);
+INSERT INTO output (idOutput) VALUES (15);
+INSERT INTO output (idOutput) VALUES (16);
+INSERT INTO output (idOutput) VALUES (17);
+INSERT INTO output (idOutput) VALUES (18);
+INSERT INTO output (idOutput) VALUES (19);
+INSERT INTO output (idOutput) VALUES (20);
+
+-- First client address
+INSERT INTO address (street, ZipCode, Town, City, Country) 
+VALUES ('Tv. Augusto Lessa 23', '4200-047', 'Porto', 'Porto', 'Portugal');
+
+-- Second client address
+INSERT INTO address (street, ZipCode, Town, City, Country) 
+VALUES ('R. Dr. Barros 93', '4465-219', 'São Mamede de Infesta', 'Porto', 'Portugal');
+
+-- Third client address
+INSERT INTO address (street, ZipCode, Town, City, Country) 
+VALUES ('EDIFICIO CRISTAL lj18, R. António Correia de Carvalho 88', '4400-023', 'Vila Nova de Gaia', 'Porto', 'Portugal');
+
+-- Fourth client address
+INSERT INTO address (street, ZipCode, Town, City, Country) 
+VALUES ('Křemencova 11', '110 00', 'Nové Město', 'Prague', 'Czechia');
+
+INSERT INTO productFamily (idLegacyIdentification, name) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '125'), 'Stainless Steel Pots and Bottoms');
+
+INSERT INTO productFamily (idLegacyIdentification, name) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '130'), 'Aluminum and Teflon-Coated Pots');
+
+INSERT INTO productFamily (idLegacyIdentification, name) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '132'), 'Saucepans');
+
+INSERT INTO productFamily (idLegacyIdentification, name) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '145'), 'Stainless Steel Lids');
+
+INSERT INTO productFamily (idLegacyIdentification, name) 
+VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '146'), 'Glass Lids');
+
+INSERT INTO productFamily (name) 
+VALUES ('Screws');
+
+INSERT INTO productFamily (name) 
+VALUES ('Stainless Steel Sheets');
+
+INSERT INTO productFamily (name) 
+VALUES ('Rivets');
+
+INSERT INTO productFamily (name) 
+VALUES ('Handles');
+
+INSERT INTO productFamily (name) 
+VALUES ('Stainless Steel Discs');
+
+INSERT INTO productFamily (name) 
+VALUES ('Coolube');
+
+--Supplier
+INSERT INTO supplier (idLegacyIdentification, name) VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode ='12345'), 'Supplier X');
+INSERT INTO supplier (idLegacyIdentification, name) VALUES ((SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode ='12298'), 'Supplier Y');
+
+select * FROM supplier;
+select * FROM productFamily;
+
+
+select * FROM address;
+
+select * from input;
+
+
+select * FROM customerType;
+select * FROM customerStatus;
+select * FROM unitType;
+select * FROM unit;
+select * FROM partType;
+

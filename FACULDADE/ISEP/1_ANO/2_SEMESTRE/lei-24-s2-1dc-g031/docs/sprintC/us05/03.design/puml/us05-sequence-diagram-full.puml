@@ -1,0 +1,95 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "Human Resources Manager" as HRM
+participant ":GenerateTeamProposalUI" as UI
+participant ":GenerateTeamProposalController" as CTRL
+participant ":Repositories" as REP
+participant "repositories\n:Repositories" as PLAT
+participant "collaboratorRepository\n:collaboratorRepository" as CREP
+participant "skillRepository\n:skillRepository" as SREP
+participant "teamRepository\n:teamRepository" as TREP
+
+activate HRM
+
+HRM -> UI : Requests an automatic submission of \n a team proposal
+activate UI
+
+UI --> HRM : displays the users who are available, along \nwith their respective roles, for team formation
+deactivate UI
+
+HRM -> UI : select users
+activate UI
+
+UI --> HRM : asks for specifics regarding the team, \nsuch as the maximum team size and\n required skills
+deactivate UI
+
+HRM -> UI : offers details about the team
+activate UI
+
+loop until team proposal is Accepted
+
+UI -> CTRL** : create
+ UI -> CTRL : getTeam()
+
+activate CTRL
+
+
+CTRL -> REP : getInstance()
+activate REP
+REP --> CTRL : repositories
+deactivate REP
+
+CTRL -> PLAT : getCollaboratorRepository()
+activate PLAT
+PLAT --> CTRL : collaboratorRepository
+deactivate PLAT
+
+CTRL -> CREP : getCollaborator()
+activate CREP
+CREP -> CTRL : collaborator
+deactivate CREP
+
+CTRL -> PLAT : getSkillRepository()
+activate PLAT
+PLAT --> CTRL : skillRepository
+deactivate PLAT
+
+CTRL -> SREP : getSkill()
+activate SREP
+SREP -> CTRL : skill
+deactivate SREP
+
+CTRL -> PLAT : getTeamRepository()
+activate PLAT
+PLAT -> CTRL : teamRepository
+deactivate PLAT
+
+CTRL -> TREP : registerTeam(collaborator, skill)
+activate TREP
+
+
+TREP -> TREP : validateTeam()
+activate TREP
+TREP --> TREP : validation result
+deactivate TREP
+
+
+TREP -> CTRL : validation completed
+deactivate TREP
+end
+
+CTRL --> UI : display message success
+deactivate CTRL
+
+
+UI --> HRM : displays operation success
+deactivate UI
+
+deactivate HRM
+
+@enduml

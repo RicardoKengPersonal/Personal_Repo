@@ -1,0 +1,39 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US07
+
+autonumber
+
+actor "Vehicle and Equipment\nFleet Manager" as VFM
+participant ":System" as System
+
+activate VFM
+
+    VFM -> System : asks to list the vehicles needing a check-up
+    activate System
+
+        System --> VFM : types the requested data
+    deactivate System
+
+    VFM -> System : asks to register a vehicle check-up
+    activate System
+
+        System --> VFM : requests data (vehicle identification, date)
+    deactivate System
+
+    VFM -> System : Types requested data
+    activate System
+
+        System --> VFM : shows all data and requests confirmation
+    deactivate System
+
+    VFM -> System : confirms data
+    activate System
+
+        System --> VFM : displays operation success
+    deactivate System
+
+@enduml

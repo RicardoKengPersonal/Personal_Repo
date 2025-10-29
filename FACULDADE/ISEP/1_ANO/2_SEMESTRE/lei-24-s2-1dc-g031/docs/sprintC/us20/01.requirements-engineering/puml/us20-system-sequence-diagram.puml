@@ -1,0 +1,61 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US20
+
+autonumber
+
+actor "Green Space Manager\n(GSM)" as GSM
+participant ":System" as System
+
+activate GSM
+
+
+    GSM -> System : request registration of a green space
+    activate System
+loop until all data is validated
+        System --> GSM :  asks the name of green spaces
+    deactivate System
+
+    GSM -> System : selects requested data
+        activate System
+
+    System --> GSM : requests the address (street, zipcode, city) \nof the green space
+        deactivate System
+
+        GSM -> System : select the address
+            activate System
+
+            System -> System : validate information
+
+            end
+
+
+        loop until all data is validated
+            System --> GSM : asks the size of the green space (garden, \nmedium-sized park or large-sized park)
+        deactivate System
+
+    GSM -> System : selects green space size
+    activate System
+
+        System --> GSM : requests the area of the green space
+    deactivate System
+
+    GSM -> System : insert the area of the respective green space
+    activate System
+
+        System --> GSM : provides all data and solicits verification
+    deactivate System
+
+    GSM -> System : validates the data
+    activate System
+
+    System -> System : validate information
+
+end
+        System --> GSM : displays operation success
+    deactivate System
+
+@enduml

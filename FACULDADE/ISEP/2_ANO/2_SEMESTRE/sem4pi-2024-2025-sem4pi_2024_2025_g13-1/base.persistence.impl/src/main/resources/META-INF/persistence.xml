@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence">
+  <persistence-unit name="shodronePU">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+    <class>eapli.framework.infrastructure.pubsub.impl.simplepersistent.model.EventRecord</class>
+    <class>eapli.framework.infrastructure.pubsub.impl.simplepersistent.model.EventConsumption</class>
+    <class>eapli.framework.infrastructure.authz.domain.model.SystemUser</class>
+    <class>eapli.framework.infrastructure.authz.domain.model.Role</class>
+    <class>eapli.framework.infrastructure.authz.domain.model.RoleSet</class>
+    <class>eapli.framework.infrastructure.authz.domain.model.RoleAssignment</class>
+
+    <class>eapli.shodrone.shodroneusermanagement.domain.ShodroneUser</class>
+    <class>eapli.shodrone.shodroneusermanagement.domain.SignupRequest</class>
+    <class>eapli.shodrone.figuremanagement.domain.FigureCategory</class>
+    <class>eapli.shodrone.dronemanagement.domain.DroneModel</class>
+    <class>eapli.shodrone.dronemanagement.domain.Drone</class>
+    <class>eapli.shodrone.figuremanagement.domain.Figure</class>
+    <class>eapli.shodrone.figuremanagement.domain.FigureVersion</class>
+    <class>eapli.shodrone.figuremanagement.domain.FigureElement</class>
+    <class>eapli.shodrone.showrequestmanagement.domain.ShowRequest</class>
+    <class>eapli.shodrone.customermanagement.domain.Customer</class>
+    <class>eapli.shodrone.customermanagement.domain.VatNumber</class>
+    <class>eapli.shodrone.customermanagement.domain.CustomerRepresentative</class>
+    <class>eapli.shodrone.dronemanagement.domain.MaintenanceType</class>
+    <class>eapli.shodrone.dronemanagement.domain.DroneMaintenance</class>
+    <class>eapli.shodrone.showproposalmanagement.domain.ShowProposal</class>
+    <class>eapli.shodrone.showproposalmanagement.domain.ShowProposalID</class>
+    <class>eapli.shodrone.showproposalmanagement.domain.ShowProposalFigureEntry</class>
+    <class>eapli.shodrone.showmanagement.domain.Show</class>
+
+    <properties>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:tcp://localhost/~/shodroneG13"/>
+      <property name="jakarta.persistence.jdbc.user" value="sa"/>
+      <property name="jakarta.persistence.jdbc.password" value=""/>
+      <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+      <property name="hibernate.show_sql" value="false"/>
+    </properties>
+
+
+  </persistence-unit>
+</persistence>

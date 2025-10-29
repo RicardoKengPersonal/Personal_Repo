@@ -1,0 +1,79 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+
+skinparam classAttributeIconSize 0
+
+MyTasksGUI .> MyTasksController
+
+MyTasksController .> Repositories : repositories
+
+Repositories --> Repositories : instance
+
+Repositories --> "1" AgendaRepository
+
+AgendaRepository --> Task
+
+MyTasksController ..> AgendaRepository : agenda
+
+MyTasksController ..> TaskDTO : DTO
+
+MyTasksController ..> TaskMapper : Mapper
+
+TaskMapper --> TaskDTO
+
+TaskMapper --> Task
+
+MyTasksController ..> Task : tasks
+class MyTasksGUI{
+- TextField startDateField
+- TextField endDateField
+-TableView<AgendaEntry> agendaEntriesTable
+-TableColumn<AgendaEntry, String> entryColumn
+-ComboBox<TaskStatus> taskStatusComboBox
+-Button markAsDoneButton
+-MyTasksController myTasksController
++MyTasksGUI()
++initialize() : void
++populateTable() : void
++ handleApplyFilterButtonAction() : void
++goBack() : void
++handleMarkTaskAsDone() : void
+}
+
+class MyTasksController{
+-Agenda agenda
++MyTasksController()
+-Agenda getAgenda()
++ArrayList<AgendaEntry> getMyAgendaEntries(TaskStatus status)
++ArrayList<AgendaEntry> getMyAgendaEntries(TaskStatus status, String startDate, String endDate)
++ArrayList<AgendaEntry> getMyAgendaEntries()
+}
+
+class AgendaRepository{
++tasksGiven(email, inData, endData, status)
+}
+
+class Repositories{
+- Repositories()
+    +getInstance() : Repositories
+    +getAgendaRepository()
+}
+
+class TaskDTO {
+    - String taskName
+    - String taskDate
+    - String taskLocal
+}
+
+class TaskMapper {
+    + toDTO(task)
+    + toDTOList(tasks)
+}
+
+class Task{
+    -String taskDescription
+}
+
+@enduml

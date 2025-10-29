@@ -1,0 +1,113 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+
+actor "Human Recourses Manager" as Admin
+participant ":CreateCollaboratorAssignJobUI" as UI
+participant ":CreateCollaboratorAssignJobController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "jobCategoryRepository:\nJobCategoryRepository" as JobCategoryRepository
+participant "collaboratorRepository:\nCollaboratorRepository" as CollaboratorRepository
+participant "collaborator:\nCollaborator" as Collaborator
+
+
+activate Admin
+
+        Admin -> UI : requests registration of a new collaborator
+
+        activate UI
+
+            UI -> CTRL** : create
+
+            UI -> CTRL : getJobCategory()
+            activate CTRL
+
+                CTRL -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                    RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getJobCategoryRepository()
+                activate PLAT
+
+                    PLAT --> CTRL: jobCategoryRepository
+                deactivate PLAT
+
+                CTRL -> JobCategoryRepository : getJobCategoryList()
+                activate JobCategoryRepository
+
+                    JobCategoryRepository --> CTRL : jobCategoryList
+                deactivate JobCategoryRepository
+
+                CTRL --> UI : jobCategoryList
+            deactivate CTRL
+
+            UI --> Admin : displays list of available job categories and requests selecetion of one
+        deactivate UI
+
+    Admin -> UI : chooses and select a job category
+
+        activate UI
+    loop until collaborator details are valid
+                    UI --> Admin :  asks for collaborator information (name, residence, date of birth, admission date, \n contact details (phone and email), document identification and its number)
+
+                deactivate UI
+
+    deactivate UI
+
+    Admin -> UI : Supplies collaborator information
+    activate UI
+
+        UI --> Admin : displays collaborator information and requests confirmation of all the data
+
+    deactivate UI
+
+    Admin -> UI : confirms the data
+
+
+
+    alt if the data is invalid or the job does not exist.
+
+    UI --> Admin : Shows canceled operation (invalid data or job non-existent).
+
+end
+    activate UI
+
+
+
+
+
+        UI -> CTRL : registerNewCollaborator(nameOfCollaborator, dateOfBirth, dateOfAdmission, address, \nphoneNumber, email, identificationDocument, identificationDocumentNumber)
+
+        activate CTRL
+
+            CTRL -> CollaboratorRepository : addCollaborator()
+            activate CollaboratorRepository
+
+
+'
+                CollaboratorRepository -> Collaborator** : addCollaborator()
+'
+           end
+                CollaboratorRepository --> CTRL : success
+            deactivate CollaboratorRepository
+            CTRL --> UI : success
+        deactivate CTRL
+
+        UI --> Admin : displays operation success
+
+
+
+
+    deactivate UI
+
+deactivate Admin
+
+@enduml

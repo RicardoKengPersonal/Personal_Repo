@@ -1,0 +1,52 @@
+ @startuml
+ skinparam monochrome true
+ skinparam packageStyle rectangle
+ skinparam shadowing false
+
+ title System Sequence Diagram (SSD)
+
+ autonumber
+
+ actor "Green Spaces \nManager (GSM)" as GSM
+ participant ":System" as System
+
+ activate GSM
+
+     GSM -> System : asks to add a new entry in the Agenda
+     activate System
+
+         System --> GSM : It shows the entries from the To-Do List and requests \nfor the selection of one containing the specific task and\n its corresponding duration to assign to the new entry in the Agenda
+     deactivate System
+
+     GSM -> System : chooses an entry from the To-Do List
+     activate System
+
+loop until all information is validated
+
+         System --> GSM : requests the date when the task is scheduled to start
+     deactivate System
+
+     GSM -> System : enters the starting date
+     activate System
+
+     System -> System: validate information
+
+         System --> GSM : requests the starting time
+     deactivate System
+
+     GSM -> System : enters the starting time
+         activate System
+
+         System --> GSM : displays all information regarding the new entry in \n the Agenda and asks for confirmation
+     deactivate System
+
+     GSM -> System : confirms data
+     activate System
+
+      System -> System: validate information
+end
+
+         System --> GSM : displays operation success
+     deactivate System
+
+ @enduml

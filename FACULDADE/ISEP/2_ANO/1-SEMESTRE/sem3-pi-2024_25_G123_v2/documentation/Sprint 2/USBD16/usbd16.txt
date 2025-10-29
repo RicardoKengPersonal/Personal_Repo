@@ -1,0 +1,31 @@
+CREATE OR REPLACE NONEDITIONABLE FUNCTION RegisterProduct(
+    p_product_name IN VARCHAR2,        -- Nome do produto
+    p_family_id IN NUMBER,             -- ID da família do produto
+    p_product_description IN VARCHAR2  -- Descrição do produto
+)
+RETURN VARCHAR2 IS
+    v_result VARCHAR2(255);            -- Variável para armazenar a mensagem de resultado
+    v_product_id NUMBER;               -- Variável para armazenar o ID gerado
+BEGIN
+    -- Insere os dados na tabela Product
+    INSERT INTO Product (
+        product_name,                  -- Nome do produto
+        family_id,                     -- ID da família
+        product_description            -- Descrição
+    ) VALUES (
+        p_product_name,                -- Valor do nome do produto
+        p_family_id,                   -- Valor do ID da família
+        p_product_description          -- Valor da descrição
+    ) RETURNING product_id INTO v_product_id; -- Captura o ID gerado automaticamente
+
+    -- Define a mensagem de sucesso
+    v_result := 'Product registered successfully. Product ID: ' || v_product_id;
+    RETURN v_result;                   -- Retorna a mensagem de sucesso
+
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Captura erros e retorna uma mensagem com a descrição
+        v_result := 'Error: ' || SQLERRM;
+        RETURN v_result;
+END;
+/

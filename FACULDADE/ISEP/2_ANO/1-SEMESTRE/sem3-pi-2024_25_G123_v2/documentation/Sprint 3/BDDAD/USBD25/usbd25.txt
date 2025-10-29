@@ -1,0 +1,43 @@
+CREATE OR REPLACE FUNCTION get_product_operations(p_idProduct IN NUMBER)
+RETURN SYS_REFCURSOR IS
+    v_cursor SYS_REFCURSOR;
+    v_count NUMBER;
+BEGIN
+    -- Check if the query will return any rows
+    SELECT COUNT(*)
+    INTO v_count
+    FROM (
+        WITH parts_cte (idProduct, idOperation, sequenceNumber) AS (
+            SELECT b.idProduct, b.idOperation, b.sequenceNumber
+            FROM billOfOperation b
+            WHERE b.idProduct = p_idProduct
+            UNION ALL
+            SELECT p.idProduct, b.idOperation, b.sequenceNumber
+            FROM part p
+            JOIN billOfOperation b ON p.idProduct = b.idProduct
+            JOIN parts_cte c ON p.idProduct = c.idProduct
+        )
+        SELECT * FROM parts_cte
+    );
+
+    -- If no rows are found, raise an error
+    IF v_count = 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'No operations found for the specified product.');
+    END IF;
+
+    -- Open the cursor
+    OPEN v_cursor FOR
+        WITH parts_cte (idProduct, idOperation, sequenceNumber) AS (
+            SELECT b.idProduct, b.idOperation, b.sequenceNumber
+            FROM billOfOperation b
+            WHERE b.idProduct = p_idProduct
+            UNION ALL
+            SELECT p.idProduct, b.idOperation, b.sequenceNumber
+            FROM part p
+            JOIN billOfOperation b ON p.idProduct = b.idProduct
+            JOIN parts_cte c ON p.idProduct = b.idProduct
+        )
+        SELECT * FROM parts_cte ORDER BY sequenceNumber;
+
+    RETURN v_cursor;
+END get_product_operations;

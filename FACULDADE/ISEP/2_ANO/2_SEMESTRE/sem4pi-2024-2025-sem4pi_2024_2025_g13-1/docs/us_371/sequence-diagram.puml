@@ -1,0 +1,70 @@
+    @startuml
+    title Sequence Diagram - US371 Accept/reject proposal
+
+    actor Customer
+    participant AcceptProposalAction
+    participant DroneLanguageUI
+    participant AcceptProposalController
+    participant "TCP Socket Client" as TCP
+    participant ShowProposalRepository
+    participant ShowRepository
+    participant ShowProposal
+    participant ShowRequest
+    participant Show
+
+    Customer --> AcceptProposalAction : Requests to accept a show proposal
+    AcceptProposalAction --> AcceptProposalUI: show()
+    loop while invalid input
+    AcceptProposalUI --> Customer : Ask to enter the proposal ID
+    Customer --> AcceptProposalUI : Enter the proposal ID
+    AcceptProposalUI --> Customer : error message
+    end
+    AcceptProposalUI --> Customer : Ask if the customer want to accept or reject this proposal
+    alt Accept
+    AcceptProposalUI --> AcceptProposalController : acceptProposal(proposalId)
+    AcceptProposalController --> AcceptProposalService : acceptProposal(proposalId)
+    AcceptProposalService --> TCP : openSocket(host=localhost, port=8889)
+    AcceptProposalService --> TCP : send("ACCEPT_PROPOSAL <proposalID>")
+
+    TCP --> CustomerCommandServer : TCP connection established
+    CustomerCommandServer --> CustomerCommandHandler : spawn handler thread(socket)
+
+    CustomerCommandHandler --> CustomerCommandHandler : handleAcceptProposal()
+
+    CustomerCommandHandler --> ShowProposalRepository : showProposalRepository()
+    ShowProposalRepository --> ShowProposal : ofIdentity()
+    ShowProposal --> CustomerCommandHandler : showProposalId
+
+    CustomerCommandHandler --> ShowRepository : showRepository()
+    ShowRepository --> ShowRequest : showRequest()
+    ShowRequest --> CustomerCommandHandler : showRequest
+
+    CustomerCommandHandler --> ShowRequest : eventDate()
+    ShowRequest --> CustomerCommandHandler : eventDate
+    CustomerCommandHandler --> ShowRequest : eventTime()
+    ShowRequest --> CustomerCommandHandler : eventTime
+
+    CustomerCommandHandler --> ShowProposal : status()
+    ShowProposal --> CustomerCommandHandler : status
+
+    alt if status is not "ACCEPTED_CUSTOMER"
+    CustomerCommandHandler --> ShowProposal : updateStatus(ShowProposalStatus.ACCEPTED_CUSTOMER)
+    CustomerCommandHandler --> ShowProposalRepository : save(proposal)
+    end
+
+    CustomerCommandHandler --> CustomerCommandHandler : createShowFromProposal(proposal, request, date, time)
+
+    CustomerCommandHandler --> CustomerCommandHandler : return new Show(showId, proposal, request, date, time)
+
+    CustomerCommandHandler --> ShowRepository : save(show)
+
+    CustomerCommandHandler --> TCP : sends formatted show lines
+    TCP --> AcceptProposalService : lines received
+    TCP --> AcceptProposalService : receives lines until "END"
+
+    AcceptProposalService --> Customer : Message about the created show
+
+    else Reject
+    AcceptProposalUI --> Customer : Message "Reject proposal!"
+    end
+    @enduml

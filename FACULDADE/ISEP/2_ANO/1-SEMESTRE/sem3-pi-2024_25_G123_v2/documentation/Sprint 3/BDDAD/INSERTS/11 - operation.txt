@@ -1,0 +1,181 @@
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5647'), 120, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '100'), 1);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5649'), 90, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '103'), 2);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5651'), 120, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '112'), 3);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5653'), 300, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '114'), 4);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5659'), 600, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '115'), 5);
+
+-- AS12947S22
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5647'), 105, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '120'), 6);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5655'), 60, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '121'), 7);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5657'), 240, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '122'), 8);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5661'), 150, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '123'), 9);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5667'), 1200, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '124'), 10);
+
+-- AS12945S22
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5663'), 240, 
+        109, 11);
+
+-- AS12946S20
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5647'), 120, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '150'), 12);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5649'), 90, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '151'), 13);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5651'), 120, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '152'), 14);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5653'), 320, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '153'), 15);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5659'), 600, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '154'), 16);
+
+-- AS12947S20
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5647'), 90, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '160'), 17);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5655'), 60, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '161'), 18);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5657'), 240, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '162'), 19);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5661'), 150, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '163'), 20);
+
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5667'), 1200, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '164'), 21);
+
+-- AS12945S20
+INSERT INTO operation(idOperationType, expectedExecutionTime, idLegacyIdentification, idOperation) 
+VALUES ((SELECT o.idOperationType 
+         FROM operationType o
+         JOIN legacyIdentification l 
+         ON o.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = '5663'), 240, 
+        (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '170'), 22);
+

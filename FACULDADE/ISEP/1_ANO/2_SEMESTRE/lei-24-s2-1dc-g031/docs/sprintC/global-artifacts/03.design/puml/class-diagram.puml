@@ -1,0 +1,515 @@
+@startuml
+
+class CreateSkillController {
+    - skillsRepository: SkillsRepository
+    + CreateSkillController()
+    + createSkill(skillName: String): boolean
+    - getSkillsRepository(): SkillsRepository
+}
+
+class GenerateTeamProposalUI {
+    - controller: GenerateTeamProposalController
+    - skillsRepository: SkillsRepository
+    - min: int
+    - max: int
+    - skills: ArrayList<Skill>
+    + GenerateTeamProposalUI()
+    + run(): void
+    + requestData(): void
+    + submitData(): void
+    + displayAvailableSkills(List<Skill>): void
+    + requestSkills(ArrayList<Skill>): ArrayList<Skill>
+}
+
+class GenerateTeamProposalController {
+    - skillRepository: SkillsRepository
+    - teamRepository: TeamRepository
+    - teamProposalService: CreateTeamProposalService
+    + GenerateTeamProposalController()
+    + getSkillsList(): ArrayList<Skill>
+    + createTeamProposal(int, int, ArrayList<Skill>): Team
+}
+
+class TeamRepository {
+    - teams: ArrayList<Team>
+    + registerTeam(Team): boolean
+    - teamAlreadyExists(Team): boolean
+}
+
+class Team {
+    - skills: ArrayList<Skill>
+    - collaborators: ArrayList<Collaborator>
+    + Team(collaborators: ArrayList<Collaborator>,
+            skills: ArrayList<Skill>)
+    + getSkills(): ArrayList<Skill>
+    + setSkills(skills: ArrayList<Skill>): void
+    + getCollaborators(): ArrayList<Collaborator>
+    + setCollaborators(collaborators: ArrayList<Collaborator>): void
+    + toString(): String
+}
+
+class SkillRepository {
+    - skillsArrayList: ArrayList<Skill>
+    + getSkillsArrayList(): ArrayList<Skill>
+    - skillAlreadyExist(skill: Skill): boolean
+    - skillNameIsValid(skillName: String): boolean
+    + addSkill(skillName: String)
+}
+
+class Skill {
+   - nameOfTheSkill: String
+    + Skill(nameOfTheSkill: String)
+    + getNameOfTheSkill(): String
+    + setNameOfTheSkill(nameOfTheSkill: String): void
+    + equals(obj: Object): boolean
+    + hashCode(): int
+    + toString(): String
+}
+
+class CreateJobController {
+    - jobsRepository: JobsRepository
+    + CreateJobController()
+    - getJobsRepository(): JobsRepository
+    + createJob(jobName: String): boolean
+}
+
+class JobsRepository {
+    - jobsArrayList: ArrayList<Job>
+    + getJobsArrayList(): ArrayList<Job>
+    - jobAlreadyExist(jobName: String): boolean
+    - jobNameIsValid(jobName: String): boolean
+    + addJob(jobName: String): void
+}
+
+class Job {
+    - jobName: String
+    + Job(jobName: String)
+    + getjobName(): String
+    + setjobName(jobName: String): void
+    + equals(jobName: String): boolean
+    + toString(): String
+}
+
+class CreateCollaboratorAssignJobUI {
+    - controller: CreateCollaboratorAssignJobController
+    + displayJobsList(jobs: ArrayList<Job>): void
+    + displayCollaboratorsList(collaborators: ArrayList<Collaborator>): void
+    + selectAndAddJob(): Job
+    + displayAndSelectDocumentType(): DocumentTypeRepository
+    + displayDocumentTypeList(documentTypeList: List<DocumentTypeRepository>): void
+    + backToHRMUI(): void
+    + createCollaborator(): boolean
+    + run(): void
+}
+
+class CreateCollaboratorAssignJobController {
+    - jobsRepository: JobsRepository
+    - collaboratorsRepository: CollaboratorsRepository
+    + getJobsList(): ArrayList<Job>
+    + getCollaboratorsList(): ArrayList<Collaborator>
+    + getDocTypesList(): ArrayList<DocumentTypeRepository>
+    + addCollaborator(name: String, documentIdentificationNum: int, taxPayerNumber: int, email: String, mobileNumber: int, address: String, admissionDate: String, birthDate: String, identificationDocumentType: DocumentTypeRepository, chosenJob: Job): boolean
+}
+
+class CollaboratorRepository {
+    - collaboratorsArrayList: ArrayList<Collaborator>
+    + getCollaboratorsArrayList(): ArrayList<Collaborator>
+    + addCollaborator(name: String, documentIdentificationNumber: int, taxPayerNumber: int, email: String, mobileNumber: int, address: String, admissionDate: String, birthDate: String, identificationDocumentType: DocumentTypeRepository, chosenJob: Job): boolean
+    + isValidPhone(phone: int): boolean
+    + isValidDateFormat(dateString: String): boolean
+    + isNumeric(str: String): boolean
+    + isValidName(name: String): boolean
+    + getDeactivatedCollaboratorsBySkill(skills: ArrayList<Skill>): ArrayList<Collaborator>
+    + addSkill(collab: Collaborator, skills: ArrayList<Skill>): boolean
+}
+
+class Collaborator {
+    - String name
+    - String birthDate
+    - String admissionDate
+    - String address
+    - int mobileNumber
+    - String email
+    - int taxPayerNumber
+    - int documentIdentificationNumber
+    - Job job
+    - DocumentTypeRepository identificationDocumentType
+    - ArrayList<Skill> skills
+    - CollaboratorStatus status
+    + getName()
+    + getSkills()
+    + activateCollaborator()
+    + addSkillToCollaboratorSkills()
+    + skillAlreadyAssigned()
+    + getName(): String
+    + setName(name: String): void
+    + getBirthDate(): String
+    + setBirthDate(birthDate: String): void
+    + getAdmissionDate(): String
+    + setAdmissionDate(admissionDate: String): void
+    + getAddress(): String
+    + setAddress(address: String): void
+    + getMobileNumber(): int
+    + setMobileNumber(mobileNumber: int): void
+    + getEmail(): String
+    + setEmail(email: String): void
+    + getTaxPayerNumber(): int
+    + setTaxPayerNumber(taxPayerNumber: int): void
+    + getStatus(): CollaboratorStatus
+    + activateCollaborator(): void
+    + getIdentificationDocumentType(): DocumentTypeRepository
+    + setIdentificationDocumentType(identificationDocumentType: DocumentTypeRepository): void
+    + getDocumentIdentificationNumber(): int
+    + setDocumentIdentificationNumber(documentIdentificationNumber: int): void
+    + getSkills(): ArrayList<Skill>
+    + getJob(): Job
+}
+
+Class JobRepository {
+- jobsArrayList: ArrayList<Job>
++ getJobsArrayList(): ArrayList<Job>
++ jobAlreadyExist(jobName: String): boolean
++ jobNameIsValid(jobName: String): boolean
++ addJob(jobName: String): void
+}
+
+class Job {
+- jobName: String
++ Job(jobName: String)
++ getjobName(): String
++ setjobName(jobName: String): void
++ equals(jobName: String): boolean
++ toString(): String
+}
+
+class CollaboratorsRepository {
+    - ArrayList<Collaborator> collaboratorsArrayList
+    + getCollaboratorsArrayList()
+    + addCollaborator()
+    + isValidPhone()
+    + isValidDateFormat()
+    - isNumeric()
+    - isValidName()
+    + getDeactivatedCollaboratorsBySkill()
+    + addSkill()
+}
+
+class Repositories {
+    - instance: Repositories
+    - collaboratorsRepository: CollaboratorsRepository
+    - skillsRepository: SkillsRepository
+    - jobsRepository: JobsRepository
+    - teamsRepository: TeamRepository
+    - vehicleRepository: VehicleRepository
+    - maintenenceRepository: MaintenenceRepository
+    - greenSpaceRepository: GreenSpaceRepository
+    - Agenda: Agenda
+    - authenticationRepository: AuthenticationRepository
+    + getInstance(): Repositories
+    + getSkillsRepository(): SkillsRepository
+    + getJobsRepository(): JobsRepository
+    + getTeamsRepository(): TeamRepository
+    + getVehicleRepository(): VehicleRepository
+    + getMaintenenceRepository(): MaintenenceRepository
+    + getGreenSpaceRepository(): GreenSpaceRepository
+    + getAgenda(): Agenda
+    + getCollaboratorsRepository(): CollaboratorsRepository
+    + getAuthenticationRepository(): AuthenticationRepository
+}
+
+class AssignSkillController {
+    - SkillsRepository skillsRepository
+    - CollaboratorsRepository collaboratorsRepository
+    + getCollaboratorsRepository()
+    + getSkillsRepository()
+    + getCollaboratorsList()
+    + getSkillsList()
+    + assignSkill()
+}
+
+class SkillsRepository {
+    - ArrayList<Skill> skillsArrayList
+    - boolean skillAlreadyExist()
+    - boolean skillNameIsValid()
+    + getSkillsArrayList()
+    + addSkill()
+}
+
+class Skill {
+    - String nameOfTheSkill
+    + getNameOfTheSkill()
+}
+
+class Vehicle {
+    - String plate
+    - String brand
+    - String model
+    - double tareWeight
+    - double grossWeight
+    - double currentKm
+    - Date registerDate
+    - Date acquisitionDate
+    - double maintenanceFrequency
+    + getPlate()
+    + getBrand()
+    + getModel()
+    + getCurrentKm()
+    + needsMaintenance()
+}
+
+class VehicleRepository {
+    - ArrayList<Vehicle> vehiclesArrayList
+    + getVehiclesArrayList()
+    + addVehicle()
+    + getVehiclesNeedingMaintenance()
+    + generateMaintenanceReport()
+}
+
+class CreateVehicleController {
+    - vehicleRepository: VehicleRepository
+    + CreateVehicleController()
+    + addVehicle(Brand: String, Model: String, Type: String, TareWeight: float, GrossWeight: float, CurrentKm: float, RegisterDate: String, AcquisitionDate: String, MaintenanceFrequency: float): boolean
+}
+
+class CreateVehicleUI {
+    + displayVehicleForm()
+    + getVehicleDataFromUser()
+    + displayOperationSuccess()
+    + displayOperationFailure()
+    + run()
+}
+
+class AssignSkillUI {
+    + displaySkillsList()
+    + displayCollaboratorsList()
+    + selectAndAddSkill()
+    + selectCollaborator()
+    + run()
+}
+
+
+class VehicleCheckup {
+    - String plateNumber
+    - String date
+    - String kmAtCheckup
+    + VehicleCheckup(plateNumber: String, date: String, kmAtCheckup: String)
+    + getPlate()
+    + setDate(date: String)
+    + getKmAtCheckup()
+    + setKmAtCheckup(kmAtCheckup: String)
+}
+
+class MaintenenceRepository {
+    + registerVehicleCheckup(plateNumber, date, kmAtCheckup)
+}
+
+class RegisterMaintenenceController {
+    + RegisterMaintenenceController()
+    + getMaintenenceRepository()
+    + createTask(userEmail, reference, description,\ninformalDescription, technicalDescription,\nduration, cost, categoryDescription)
+    - getTaskCategoryByDescription(taskCategoryDescription)
+    - getEmployeeFromSession()
+}
+
+class RegisterMaintenenceUI {
+}
+
+class AssignMaintenanceController {
+    - VehiclesRepository vehiclesRepository
+    + getVehiclesRepository()
+    + displayVehiclesList()
+    + getVehiclesNeedingMaintenance()
+}
+
+class AssignMaintenanceUI {
+    + backToVFMUI()
+    + run()
+}
+
+class RegisterGreenSpaceUI {
+}
+
+class RegisterGreenSpaceController {
+    + getGreenSpaceRepository() : GreenSpaceRepository
+    + registerGreenSpace(greenSpaceDTO) : GreenSpaceDTO
+    + registerGreenSpace (greenSpaceDTO)
+}
+
+class GreenSpaceRepository {
+    + registerGreenSpace(greenSpace) : GreenSpace
+    + validateGreenSpace(greenSpace) : GreenSpace
+    + getGreenSpaceSizeList() : List<String>
+}
+
+class GreenSpace {
+    - String name
+    - String size
+    - double area
+    - Address address
+    + GreenSpace(name: String, size: String, area: double, address: Address)
+}
+
+class Address {
+    - String street
+    - int doorNumber
+    - String zipcode
+    - String city
+    + Address(street: String, doorNumber: int, zipCode: String, city: String)
+}
+
+class GreenSpaceMapper {
+    + toDomain(greenSpaceDTO: GreenSpaceDTO) : GreenSpace
+}
+
+class GreenSpaceDTO {
+    - String name
+    - String size
+    - double area
+    - Address address
+    + GreenSpaceDTO(name: String, size: String, area: double, address: Address)
+}
+
+class AgendaEntry {
+    - id : String
+    - description : String
+    - date : Date
+    - assignedVehicles : List<Vehicle>
+
+    + AgendaEntry(id: String, description: String, date: Date)
+    + addVehicle(vehicle: Vehicle) : void
+}
+
+class Agenda {
+    - agendaEntryList : List<AgendaEntry>
+
+    + addEntry(entry: AgendaEntry): Boolean
+    + validateAgendaEntry(entry: AgendaEntry): Boolean
+    + Agenda()
+    + getAgendaEntryList () : List<AgendaEntry>
+    + addAgendaEntry(agendaEntry: AgendaEntry) : void
+    + findAgendaEntryByID(agendaEntryID: String) : AgendaEntry
+}
+
+class AssignVehicleToAgendaEntryUI {
+    - controller : AssignVehicleToAgendaEntryController
+    + AssignVehicleToAgendaEntryUI()
+    + assignVehicle() : void
+}
+
+class AssignVehicleToAgendaEntryController {
+    - repositories: Repositories
+    - Agenda : Agenda
+    - vehicleRepository : VehicleRepository
+
+    + AssignVehicleToAgendaEntryController()
+    + assignVehicle(agendaEntryID: String, vehicleIDs: List<String>) : Boolean
+    + createDTO() : void
+    + toDomain(dto: AgendaEntryDTO) : AgendaEntry
+}
+
+class Task {
+    +description: String
+    +duration: Duration
+}
+
+class Duration {
+    +hours: int
+    +days: int
+}
+
+class AddAgendaEntryUI {
+    +displayEntries(entries: List<Task>)
+    +requestTaskSelection()
+    +keepTask(task: Task)
+    +requestStartingDate()
+    +keepStartingDate(date: Date)
+    +requestStartingTime()
+    +keepStartingTime(time: Time)
+    +showAllDataAndRequestConfirmation()
+    +displayOperationSuccess(success: Boolean)
+}
+
+class AddAgendaEntryController {
+    +getToDoList(): List<Task>
+    +addAgendaEntry(task: Task, startDate: Date, startTime: Time)
+}
+
+class ToDoListRepository {
+    +getAllTasks(): List<Task>
+}
+
+AddAgendaEntryUI --> AddAgendaEntryController : calls
+AddAgendaEntryController --> Repositories : uses
+Repositories --> ToDoListRepository : gets
+Repositories --> AgendaRepository : gets
+ToDoListRepository --> Task : contains
+AgendaRepository --> AgendaEntry : contains
+AgendaEntry --> Task : contains
+AgendaEntry --> Duration : contains
+
+AssignVehicleToAgendaEntryUI ..> AssignVehicleToAgendaEntryController
+AssignVehicleToAgendaEntryController ..> Repositories: repositories
+AssignVehicleToAgendaEntryController ..> Agenda: Agenda
+AssignVehicleToAgendaEntryController ..> VehicleRepository: vehicleRepository
+Agenda -->"*" AgendaEntry: agendaEntry
+AgendaEntry --> "*" Vehicle: assignedVehicles
+VehicleRepository -->"*" Vehicle: vehicle
+
+RegisterGreenSpaceUI .> RegisterGreenSpaceController
+RegisterGreenSpaceController .> Repositories : repositories
+RegisterGreenSpaceController .> GreenSpaceRepository
+GreenSpaceRepository --> "*" GreenSpace
+GreenSpace -> Address
+RegisterGreenSpaceController -> GreenSpaceMapper
+GreenSpaceMapper -> GreenSpaceDTO
+
+AssignMaintenanceUI ..> AssignMaintenanceController
+AssignMaintenanceController ..> VehicleRepository
+Vehicle "1" -- "0..*" VehicleCheckup : registers >
+
+RegisterMaintenenceUI .> RegisterMaintenenceController
+RegisterMaintenenceController .> Repositories
+RegisterMaintenenceController ..> MaintenenceRepository
+MaintenenceRepository "1" -> "*" VehicleCheckup
+RegisterMaintenenceController ..> VehicleCheckup
+VehicleCheckup "*" --> "*" FleetManager : registered by
+
+CreateSkillController ..> Repositories : repositories
+CreateSkillController ..> SkillRepository : skillRepository
+SkillRepository --> "*" Skill : skills
+
+CreateJobController .> Repositories
+CreateJobController ..> JobsRepository
+JobsRepository -> "*" Job : has
+
+CreateCollaboratorAssignJobUI ..> CreateCollaboratorAssignJobController
+CreateCollaboratorAssignJobController ..> Collaborator
+CreateCollaboratorAssignJobController ..> Job
+CreateCollaboratorAssignJobController ..> Repositories
+CollaboratorRepository "1" --"*" Collaborator : has
+JobRepository "1" --"*" Job : has
+
+Repositories --> CollaboratorsRepository
+Repositories --> SkillsRepository
+Skill "*" <-- "1" SkillsRepository : has
+Collaborator "*" <-- "1" CollaboratorsRepository : has
+Skill "1..*" -- "1" Collaborator : is attributed to >
+AssignSkillUI .> AssignSkillController
+AssignSkillController ..> Repositories : repositories
+
+GenerateTeamProposalUI ..> GenerateTeamProposalController
+GenerateTeamProposalController ..> Repositories
+GenerateTeamProposalController ..> CollaboratorsRepository
+GenerateTeamProposalController ..> SkillsRepository
+GenerateTeamProposalController ..> TeamRepository
+TeamRepository --> Team
+TeamRepository --|> Repositories
+SkillsRepository --|> Repositories
+CollaboratorsRepository --|> Repositories
+
+CreateVehicleUI .> CreateVehicleController
+CreateVehicleController ..> Repositories : repositories
+Vehicle "*" <-- "1" VehicleRepository : has
+
+
+@enduml

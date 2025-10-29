@@ -1,0 +1,109 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam classAttributeIconSize 0
+
+class AddCityUI {
+}
+
+class AddCityController {
+    + AddCityController()
+    + getAvailableMaps()
+    + setMap(map)
+    + createLocation(x, y)
+    + isLocationValid(position)
+    + getAvailableCitiesTypes()
+    + createCity(type, position, numberBlocks)
+}
+
+class Repositories {
+    - Repositories()
+    + getInstance()
+    + getMapRepository()
+    + getCityRepository()
+}
+
+class MapRepository {
+    + getMaps()
+    + findByName(name)
+}
+
+class CityRepository {
+    + save(city)
+}
+
+class City {
+    - name : String
+    - position : Location
+    - blocks : List<HouseBlock>
+    + City(name, position, blocks)
+}
+
+class HouseBlock {
+    - city : City
+    - position : Location
+    + HouseBlock(city, position)
+}
+
+class Map {
+    - name : String
+    - width : int
+    - height : int
+    - cities : List<City>
+    - blocks : List<HouseBlock>
+    + checkCoordinates(position)
+    + createCity(name, position, houseBlocks)
+    + createBlock(position)
+    + addLocation(position)
+    + validateLocation(position)
+    + validateCity(city)
+    + addCity(city)
+    + addBlock(block)
+}
+
+class Location {
+    - x : int
+    - y : int
+    + Location(x, y)
+}
+
+class MapMapper {
+    + toDTO(map: Map) : MapDTO
+    + toDTOList(maps: List<Map>) : List<MapDTO>
+}
+
+class MapDTO {
+    - name : String
+    - width : int
+    - height : int
+}
+
+AddCityUI ..> AddCityController
+AddCityController ..> Repositories
+AddCityController --> MapRepository
+AddCityController --> CityRepository
+AddCityController --> Location
+AddCityController --> City
+AddCityController --> Map
+AddCityController --> HouseBlock
+AddCityController --> MapMapper
+AddCityController --> MapDTO
+
+Repositories --> MapRepository
+Repositories --> CityRepository
+Repositories -> Repositories : instance
+
+MapRepository --> "*" Map : maps
+CityRepository --> "*" City : cities
+
+Map --> "*" City : cities
+Map --> "*" HouseBlock : blocks
+City --> "1" Location : position
+City --> "*" HouseBlock : blocks
+HouseBlock --> "1" City : city
+HouseBlock --> "1" Location : position
+
+MapMapper --> MapDTO
+
+@enduml

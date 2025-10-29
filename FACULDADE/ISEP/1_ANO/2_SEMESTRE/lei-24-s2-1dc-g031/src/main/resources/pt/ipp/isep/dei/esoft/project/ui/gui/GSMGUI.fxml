@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="pt.ipp.isep.dei.esoft.project.ui.gui.GSMGUI"
+          hgap="10" vgap="10" alignment="center"
+          stylesheets="@css/GSMGUI.css">
+    <children>
+        <VBox>
+            <VBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="1" alignment="center">
+                <Label text="GSM MENU" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label"/>
+            </VBox>
+            <VBox spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="1" alignment="center">
+                <Button fx:id="registerGreenSpaceButton" text="Register Green Space" onAction="#handleRegisterGreenSpaceButtonAction" styleClass="button"/>
+                <Button fx:id="agendaButton" text="Agenda" onAction="#handleAgendaButtonAction" styleClass="button"/>
+                <Button fx:id="myGreenSpacesButton" text="My Green Spaces" onAction="#handleMyGreenSpacesButtonAction" styleClass="button"/>
+                <Button fx:id="toDoListButton" text="To-Do List" onAction="#handleToDoListButtonAction" styleClass="button"/>
+                <Button fx:id="logoutButton" text="Logout" onAction="#handleLogoutButtonAction" styleClass="button"/>
+            </VBox>
+        </VBox>
+    </children>
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+</GridPane>

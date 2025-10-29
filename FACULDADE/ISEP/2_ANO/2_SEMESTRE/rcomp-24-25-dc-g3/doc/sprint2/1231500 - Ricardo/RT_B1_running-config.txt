@@ -1,0 +1,119 @@
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Router
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO2811/K9 sn FTX10173700-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 87.5.127.70 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface FastEthernet1/0
+ ip address 10.22.14.1 255.255.255.192
+!
+interface FastEthernet1/0.356
+ encapsulation dot1Q 356
+ ip address 10.22.13.1 255.255.255.192
+!
+interface FastEthernet1/0.357
+ encapsulation dot1Q 357
+ ip address 12.22.12.193 255.255.255.192
+!
+interface FastEthernet1/0.358
+ encapsulation dot1Q 358
+ ip address 10.22.11.1 255.255.255.128
+!
+interface FastEthernet1/0.359
+ encapsulation dot1Q 359
+ ip address 10.22.9.129 255.255.255.128
+!
+interface FastEthernet1/0.360
+ encapsulation dot1Q 360
+ ip address 10.22.11.129 255.255.255.128
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip classless
+ip route 10.22.3.0 255.255.255.0 10.22.14.2 
+ip route 10.22.3.0 255.255.255.0 10.22.14.3 
+ip route 10.22.3.0 255.255.255.0 10.22.14.4 
+ip route 10.22.3.0 255.255.255.0 10.22.14.5 
+ip route 10.22.5.0 255.255.255.0 10.22.14.2 
+ip route 10.22.5.0 255.255.255.0 10.22.14.3 
+ip route 10.22.5.0 255.255.255.0 10.22.14.4 
+ip route 10.22.5.0 255.255.255.0 10.22.14.5 
+ip route 10.22.6.0 255.255.255.0 10.22.14.2 
+ip route 10.22.6.0 255.255.255.0 10.22.14.3 
+ip route 10.22.6.0 255.255.255.0 10.22.14.4 
+ip route 10.22.6.0 255.255.255.0 10.22.14.5 
+ip route 10.22.8.0 255.255.255.128 10.22.14.2 
+ip route 10.22.8.0 255.255.255.128 10.22.14.3 
+ip route 10.22.8.0 255.255.255.128 10.22.14.4 
+ip route 10.22.8.0 255.255.255.128 10.22.14.5 
+ip route 10.22.12.128 255.255.255.192 10.22.14.2 
+ip route 10.22.12.128 255.255.255.192 10.22.14.3 
+ip route 10.22.12.128 255.255.255.192 10.22.14.4 
+ip route 10.22.12.128 255.255.255.192 10.22.14.5 
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+

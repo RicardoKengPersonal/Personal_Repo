@@ -1,0 +1,33 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #F9E79F
+  BorderColor Black
+}
+
+actor "Drone Tech" as DT
+participant "DroneModelCreationUI" as UI
+participant "DroneModelCreationController" as Controller
+participant "DroneInventoryService" as Service
+participant "DroneRepository" as Repo
+
+loop While drone model name is invalid (duplicate)
+    DT -> UI : Insert Drone model's name
+    UI -> Controller : addDroneModel(name,manufacturer,xAxisTolerance,yAxisTolerance,zAxisTolerance)
+    Controller -> Service : registerDroneModel(name,manufacturer,xAxisTolerance,yAxisTolerance,zAxisTolerance)
+    Service -> Repo : findByNameIgnoreCase(name)
+    alt category exists
+        Service -> Controller : throw DuplicateCategoryException
+        Controller -> UI : error message
+        UI -> DT : display error
+    else
+        Service -> Repo : save(new DroneModel(name,manufacturer,xAxisTolerance,yAxisTolerance,zAxisTolerance))
+        Repo --> Service : confirmation
+        Service --> Controller : success
+        Controller --> UI : success message
+        UI -> DT : display success
+        break
+    end
+  end
+end
+@enduml

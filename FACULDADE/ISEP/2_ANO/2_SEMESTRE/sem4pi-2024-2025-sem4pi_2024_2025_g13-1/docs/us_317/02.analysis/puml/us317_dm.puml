@@ -1,0 +1,61 @@
+@startuml
+
+skinparam linetype ortho
+
+skinparam package {
+  BackgroundColor #D6EAF8
+  BorderColor Black
+}
+
+' ==== USER ====
+package "shodrone.core.usermanagement.domain" <<Aggregate>> {
+
+class User <<Entity, AggregateRoot>> {}
+enum Role <<Enum>> {
+  ADMIN,
+  CRM_MANAGER,
+  CRM_COLLABORATOR,
+  SHOW_DESIGNER,
+  DRONE_TECH,
+  CUSTOMER_REPRESENTATIVE
+}
+}
+
+package "shodrone.core.usermanagement.repository" {
+interface UserRepository
+}
+
+' ==== SHOW PROPOSAL ====
+package "shodrone.core.showproposalmanagement.domain" <<Aggregate>> {
+
+class ShowProposal <<Entity, AggregateRoot>> {}
+class ShowProposalID <<ValueObject>> {}
+
+enum ShowProposalStatus <<Enum>> {
+  ACCEPTED,
+  REJECTED
+}
+}
+
+package "shodrone.core.showproposalmanagement.service" {
+
+class ShowProposalService <<DomainService>> {
+  This domain service orchestrates the preparation of a show proposal
+  and manages the proposal’s acceptance or rejection status.
+}
+
+}
+
+package "shodrone.core.showproposalmanagement.repository" {
+interface ShowProposalRepository
+}
+
+' ==== RELATIONSHIPS ====
+
+User "1" --> "1...*" Role
+ShowProposal --> ShowProposalStatus
+ShowProposal *-- ShowProposalID
+ShowProposalService ..> ShowProposal
+ShowProposalRepository ..> ShowProposal
+
+@enduml

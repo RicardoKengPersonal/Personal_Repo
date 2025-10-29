@@ -1,0 +1,30 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam actorStyle rectangle
+
+title System Diagram
+
+left to right direction
+actor "Human Resources Manager" as hmr
+actor "Fleet Manager" as fm
+
+usecase "Registers skills that a collaborator could have" as Function1
+usecase "Registers a job that a collaborator should have" as Function2
+usecase "Registers a collaborator with a job and fundamental features" as Function3
+usecase "Assigns one or more skills to a collaborator to ensure accurate\n representation of their expertise within the organizational system" as Function4
+usecase "Creates a team proposal automatically" as Function5
+usecase "Registers a vehicle including the requested information" as Function6
+usecase "Registers the vehicle's check-up" as Function7
+usecase "Lists the vehicles that need to be checked" as Function8
+
+hmr --> Function1
+hmr --> Function2
+hmr --> Function3
+hmr --> Function4
+hmr --> Function5
+Function6 <-- fm
+Function7 <-- fm
+Function8 <-- fm
+
+@enduml

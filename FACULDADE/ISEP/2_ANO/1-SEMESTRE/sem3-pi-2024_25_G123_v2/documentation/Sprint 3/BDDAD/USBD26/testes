@@ -1,0 +1,77 @@
+select * FROM finishedProduct;
+select * FROM customerOrder;
+select * FROM order;
+
+-- Insert into customerOrder
+INSERT INTO customerOrder  (idCustomer, orderDate, idOrderStatus)
+VALUES (1, SYSDATE, 1);
+
+-- Insert into customerOrder
+INSERT INTO customerOrder  (idCustomer, orderDate, idOrderStatus)
+VALUES (2, SYSDATE, 1);
+
+--Insert into variant
+INSERT INTO variant (idProduct,name)
+VALUES(11,'Teste');
+
+INSERT INTO product (description, idProductFamily, idUnit)
+VALUES ('Teste Part', 4, 1);
+INSERT INTO part (description, idProductFamily, idUnit)
+VALUES ('Teste Part', 4, 1);
+
+
+INSERT INTO input (idInput) VALUES (25);
+INSERT INTO output (idOutput) VALUES (25);
+
+INSERT INTO part (idProduct, idPartType, minimumStock, availableStock)
+VALUES (25,1,5,10)
+
+INSERT INTO inputProduct (idInput, idProduct, quantity) VALUES (20,25 ,20 );
+
+INSERT INTO outputProduct (idOutput, idProduct, quantity)
+VALUES (1, 11 1);
+
+-- Insert into orderedItem
+INSERT INTO orderedItem (idOrder, idVariant, quantity)
+VALUES (8, 1, 1);
+
+SET SERVEROUTPUT ON;
+
+-- Case 1: Order exists and all materials/components are in stock (Expected: "All materials and components are in stock.")
+DECLARE
+    v_message VARCHAR2(4000);
+BEGIN
+    -- Call the function for an existing order with all items in stock
+    v_message := check_order_stock(4); -- Change 101 to a valid order ID where stock is sufficient
+    DBMS_OUTPUT.PUT_LINE('Message: ' || v_message);
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+-- Case 2: Order exists, but some materials/components are not in stock (Expected: "Some materials or components are not in stock.")
+DECLARE
+    v_message VARCHAR2(4000);
+BEGIN
+    -- Call the function for an existing order with insufficient stock
+    v_message := check_order_stock(102); -- Change 102 to a valid order ID with insufficient stock
+    DBMS_OUTPUT.PUT_LINE('Message: ' || v_message);
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+-- Case 3: Order does not exist (Expected: "Order does not exist.")
+DECLARE
+    v_message VARCHAR2(4000);
+BEGIN
+    -- Call the function for a non-existent order
+    v_message := check_order_stock(999); -- Change 999 to an order ID that does not exist
+    DBMS_OUTPUT.PUT_LINE('Message: ' || v_message);
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/

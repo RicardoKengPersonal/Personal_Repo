@@ -1,0 +1,21 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #AED6F1
+  BorderColor Black
+}
+
+actor "Admin" as CRM
+participant "DeactivateUserUI" as UI
+participant "DeactivateUserController" as Controller
+participant "UserManagementService" as Service
+participant "UserRepository" as registry
+
+
+    CRM -> UI : Asks to deactivate user
+    UI -> Controller : Send user to deactivate and checks permissions
+    Controller -> Service : Deactivates user
+    Service -> registry : Saves user new state
+    registry -> CRM :  Returns operation result
+
+@enduml

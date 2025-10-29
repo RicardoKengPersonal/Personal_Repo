@@ -1,0 +1,16 @@
+@startuml
+actor "User" as User
+participant "System" as System
+
+activate User
+activate System
+User --> System : load program file
+System --> System : create lexer with file content
+System -> System : generate tokens
+System --> System : create parser with tokens
+System -> System : parse tokens to build parse tree
+System --> System : visit parse tree and interprets the program
+System --> User : show results or erros
+deactivate User
+deactivate System
+@enduml

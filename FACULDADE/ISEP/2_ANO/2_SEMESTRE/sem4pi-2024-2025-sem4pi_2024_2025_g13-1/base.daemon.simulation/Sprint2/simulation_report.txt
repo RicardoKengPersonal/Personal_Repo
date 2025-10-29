@@ -1,0 +1,15 @@
+=== Simulation Report ===
+Total Drones: 5
+
+Drone Statuses:
+  - Drone 0: Completed
+  - Drone 1: Completed
+  - Drone 2: Terminated after collision
+  - Drone 3: Terminated after collision
+  - Drone 4: Completed
+
+Collisions:
+  - Tick 8: Drone 3 at (0.18, 0.46, 0.19)
+  - Tick 8: Drone 2 at (0.18, 0.46, 0.19)
+
+Validation: FAILED

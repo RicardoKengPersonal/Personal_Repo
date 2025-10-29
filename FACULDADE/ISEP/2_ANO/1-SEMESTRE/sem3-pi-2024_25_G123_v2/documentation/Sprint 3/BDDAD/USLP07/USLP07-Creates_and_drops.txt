@@ -1,0 +1,27 @@
+-----------Creates necessarios para USLP07---------------
+
+CREATE TABLE OperationScheduled (
+    idOperation NUMBER PRIMARY KEY,
+    operationName VARCHAR2(100),
+    workstationId NUMBER,
+    startTime NUMBER,
+    endTime NUMBER,
+    operationNumber NUMBER,
+    articleId NUMBER
+);
+
+
+Criar a Tabela para os Tempos Médios de Produção:
+CREATE TABLE production_times (
+    articleId VARCHAR2(255) PRIMARY KEY,
+    averageProductionTime NUMBER,
+    averageWaitTime NUMBER
+);
+
+---------Drops no caso de ser preciso----------------
+
+-- Drop the "OperationScheduled" table
+DROP TABLE OperationScheduled CASCADE CONSTRAINTS;
+
+-- Drop the "production_times" table
+DROP TABLE production_times CASCADE CONSTRAINTS;

@@ -1,0 +1,88 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam sequence {
+    ParticipantPadding 30
+    ActorPadding 20
+}
+
+actor "CRM Collaborator" as CRM
+participant "AddDronesToProposalUI" as UI
+participant "AddDronesToProposalController" as Controller
+participant "AddDronesToProposalService" as Service
+participant "ShowProposalRepository" as ProposalRepo
+participant "DroneRepository" as DroneRepo
+participant "DroneModelRepository" as DroneModelRepo
+participant ":ShowProposal" as Proposal
+
+
+activate CRM
+CRM -> UI : asks to add drones to a show proposal
+activate UI
+
+UI -> Controller : listAvailableDroneModels()
+activate Controller
+Controller -> Service : getAvailableDroneModels()
+activate Service
+
+Service -> DroneModelRepo : findByActiveTrue()
+activate DroneModelRepo
+DroneModelRepo --> Service : list of active DroneModels
+deactivate DroneModelRepo
+
+Service -> DroneRepo : findByModelAndStatus(model, ACTIVE)
+activate DroneRepo
+DroneRepo --> Service : list of active Drones per model
+deactivate DroneRepo
+
+Service --> Controller : List<AvailableDroneModelDTO>
+deactivate Service
+Controller --> UI : AvailableDroneModelDTO list
+
+UI --> CRM : shows all available drones and asks to select the drones that he desires
+
+CRM -> UI : selects drones (AvailableDroneModelDTO list)
+
+UI -> Controller : addDronesToProposal(proposalId, droneSelection)
+
+Controller -> Service : addDronesToProposal(proposalId, droneSelection)
+activate Service
+
+Service -> ProposalRepo : ofIdentity(proposalId)
+activate ProposalRepo
+ProposalRepo --> Service : ShowProposal
+deactivate ProposalRepo
+
+loop for each model in droneSelection
+    Service -> DroneModelRepo : findByNameIgnoreCase(modelName)
+    activate DroneModelRepo
+    DroneModelRepo --> Service : Optional<DroneModel>
+    deactivate DroneModelRepo
+
+    Service -> DroneRepo : findByModelAndStatus(model, ACTIVE)
+    activate DroneRepo
+    DroneRepo --> Service : List<Drone>
+    deactivate DroneRepo
+
+    Service -> Proposal : addDronesOfModel(model, count)
+    activate Proposal
+    Proposal --> Service : success
+     deactivate Proposal
+end loop
+
+
+Service -> ProposalRepo : save(proposal)
+activate ProposalRepo
+ProposalRepo --> Service : confirmation
+deactivate ProposalRepo
+
+Service --> Controller : success
+deactivate Service
+
+Controller --> UI : success
+deactivate Controller
+UI --> CRM : Drones added to proposal successfully.
+deactivate UI
+
+@enduml

@@ -1,0 +1,1 @@
+int get_n_element(int* buffer, int length, int* tail, int* head);

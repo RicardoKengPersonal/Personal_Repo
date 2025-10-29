@@ -1,0 +1,88 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam linetype orto
+
+class CollaboratorsRepository {
+    - ArrayList<Collaborator> collaboratorsArrayList
+    + getCollaboratorsArrayList()
+    + addCollaborator()
+    + isValidPhone()
+    + isValidDateFormat()
+    - isNumeric()
+    - isValidName()
+    + getDeactivatedCollaboratorsBySkill()
+    + addSkill()
+}
+
+class Collaborator {
+    - String name
+    - String birthDate
+    - String admissionDate
+    - String address
+    - int mobileNumber
+    - String email
+    - int taxPayerNumber
+    - int documentIdentificationNumber
+    - Job job
+    - DocumentTypeRepository identificationDocumentType
+    - ArrayList<Skill> skills
+    - CollaboratorStatus status
+    + getName()
+    + getSkills()
+    + activateCollaborator()
+    + addSkillToCollaboratorSkills()
+    + skillAlreadyAssigned()
+}
+
+class Repositories {
+    - CollaboratorsRepository collaboratorsRepository
+    - SkillsRepository skillsRepository
+    + getInstance()
+    + getCollaboratorsRepository()
+    + getSkillsRepository()
+}
+
+class AssignSkillController {
+    - SkillsRepository skillsRepository
+    - CollaboratorsRepository collaboratorsRepository
+    + getCollaboratorsRepository()
+    + getSkillsRepository()
+    + getCollaboratorsList()
+    + getSkillsList()
+    + assignSkill()
+}
+
+class SkillsRepository {
+    - ArrayList<Skill> skillsArrayList
+    - boolean skillAlreadyExist()
+    - boolean skillNameIsValid()
+    + getSkillsArrayList()
+    + addSkill()
+}
+
+class Skill {
+    - String nameOfTheSkill
+    + getNameOfTheSkill()
+}
+
+class AssignSkillUI {
+    + displaySkillsList()
+    + displayCollaboratorsList()
+    + selectAndAddSkill()
+    + selectCollaborator()
+    + run()
+}
+
+Repositories -> CollaboratorsRepository
+Repositories --> SkillsRepository
+Skill "*" <-- "1" SkillsRepository : has
+Collaborator "*" <-- "1" CollaboratorsRepository : has
+Skill "1..*" -- "1" Collaborator : is atributed to >
+AssignSkillUI .> AssignSkillController
+AssignSkillController ..> Repositories : repositories
+
+@enduml

@@ -1,0 +1,25 @@
+OPERATION_ID,OPERATION_DESCRIPTION,WORKSTATION_TYPE_NAME
+1,Disc cutting,600t cold forging stamping press
+1,Disc cutting,600t cold forging precision stamping press
+1,Disc cutting,1000t cold forging precision stamping press
+2,Initial pot base pressing,600t cold forging precision stamping press
+2,Initial pot base pressing,1000t cold forging precision stamping press
+3,Final pot base pressing,600t cold forging precision stamping press
+3,Final pot base pressing,1000t cold forging precision stamping press
+4,Pot base finishing,Border trimming
+5,Lid pressing,600t cold forging precision stamping press
+5,Lid pressing,1000t cold forging precision stamping press
+6,Lid finishing,Border trimming
+7,Pot handles riveting,Handle rivet
+8,Lid handle screw,Assembly T1
+9,Pot test and packaging,Packaging
+10,Handle welding,Spot welding
+11,Lid polishing,Stainless steel polishing
+12,Pot base polishing,Stainless steel polishing
+13,Teflon painting,Teflon application station
+14,Initial pan base pressing,600t cold forging precision stamping press
+14,Initial pan base pressing,1000t cold forging precision stamping press
+15,Final pan base pressing,600t cold forging precision stamping press
+15,Final pan base pressing,1000t cold forging precision stamping press
+16,Pan base finishing,Border trimming
+18,Pan test and packaging,Packaging

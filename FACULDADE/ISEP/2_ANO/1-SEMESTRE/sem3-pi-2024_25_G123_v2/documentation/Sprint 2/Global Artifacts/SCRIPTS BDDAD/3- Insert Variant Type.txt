@@ -1,0 +1,5 @@
+INSERT INTO "Variant Type" (variant_type_name) VALUES ('Component');
+INSERT INTO "Variant Type" (variant_type_name) VALUES ('Product');
+INSERT INTO "Variant Type" (variant_type_name) VALUES ('Intermediate Product');
+INSERT INTO "Variant Type" (variant_type_name) VALUES ('Raw Material');
+select * FROM "Variant Type";

@@ -1,0 +1,49 @@
+@startuml
+
+left to right direction
+
+actor "Player"
+actor "Editor"
+actor "Product Owner"
+
+usecase "UC01 - Create a map" as UC01
+usecase "UC02 - Add an industry" as UC02
+usecase "UC03 - Add a city" as UC03
+usecase "UC04 - Create a scenario" as UC04
+usecase "UC05 - Build a station" as UC05
+usecase "UC06 - Upgrade a station" as UC06
+usecase "UC07 - See station details" as UC07
+usecase "UC08 - Build a railway line" as UC08
+usecase "UC09 - Buy a train" as UC09
+usecase "UC10 - Assign train to a route" as UC10
+usecase "UC11 - List all trains" as UC11
+usecase "UC12 - Create a simulator" as UC12
+usecase "UC13 - Save a Map in a file" as UC13
+usecase "UC14 - Load a Map from a file" as UC14
+usecase "UC15 - Save a Scenario in a file" as UC15
+usecase "UC16 - Load a Scenario from a file" as UC16
+usecase "UC17 - Save a Simulation in a file" as UC17
+usecase "UC18 - Load a Simulation from a file" as UC18
+usecase "UC19 - See the Year Financial Results" as UC19
+
+"Editor" ---> UC01
+"Editor" ---> UC02
+"Editor" ---> UC03
+"Editor" ---> UC04
+"Editor" ---> UC13
+"Editor" ---> UC14
+"Editor" ---> UC15
+"Editor" ---> UC16
+"Player" ---> UC05
+"Player" ---> UC06
+"Player" ---> UC07
+"Player" ---> UC08
+"Player" ---> UC09
+"Player" ---> UC10
+"Player" ---> UC11
+"Player" ---> UC17
+"Player" ---> UC18
+"Player" ---> UC19
+"Product Owner" ---> UC12
+
+@enduml

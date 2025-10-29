@@ -1,0 +1,68 @@
+CREATE OR REPLACE NONEDITIONABLE PROCEDURE ReserveMaterials(idOrder IN NUMBER)
+IS
+    insufficient_stock EXCEPTION;
+    l_variant_id NUMBER;
+    l_quantity NUMBER;
+    l_available_stock NUMBER;
+    l_status_id NUMBER;
+BEGIN
+    -- Fetch the status ID for 'Not Deducted'
+    SELECT idReservationStatus
+    INTO l_status_id
+    FROM reservationStatus
+    WHERE name = 'Not Deducted';
+
+    -- Cursor to iterate through ordered items
+    FOR ordered_item IN (
+        SELECT oi.quantity, oi.idVariant
+        FROM orderedItem oi
+        WHERE oi.idOrder = idOrder
+    )
+    LOOP
+        -- Check stock availability using the variant table
+        SELECT availableStock
+        INTO l_available_stock
+        FROM variant
+        WHERE idVariant = ordered_item.idVariant;
+
+        -- If requested quantity exceeds available stock, raise an exception
+        IF ordered_item.quantity > l_available_stock THEN
+            RAISE insufficient_stock;
+        END IF;
+    END LOOP;
+
+    -- Reserve materials after stock check
+    FOR ordered_item IN (
+        SELECT oi.quantity, oi.idVariant
+        FROM orderedItem oi
+        WHERE oi.idOrder = idOrder
+    )
+    LOOP
+        -- Check if a reservation already exists for this combination
+        BEGIN
+            -- Attempt to insert reservation into the Reservation table
+            INSERT INTO Reservation (idOrder, idProduct, quantity, idReservationStatus)
+            VALUES (
+                idOrder,
+                (SELECT idProduct FROM variant WHERE idVariant = ordered_item.idVariant),
+                ordered_item.quantity,
+                l_status_id
+            );
+        EXCEPTION
+            WHEN DUP_VAL_ON_INDEX THEN
+                -- If a reservation already exists, you can either skip the insert or update the quantity
+                UPDATE Reservation
+                SET quantity = quantity + ordered_item.quantity
+                WHERE idOrder = idOrder
+                AND idProduct = (SELECT idProduct FROM variant WHERE idVariant = ordered_item.idVariant);
+        END;
+    END LOOP;
+
+    DBMS_OUTPUT.PUT_LINE('Materials reserved successfully.');
+
+EXCEPTION
+    WHEN insufficient_stock THEN
+        DBMS_OUTPUT.PUT_LINE('Insufficient stock to fulfill the order.');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('An error occurred: ' || SQLERRM);
+END;

@@ -1,0 +1,36 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #F9E79F
+  BorderColor Black
+}
+
+actor "Show Designer" as SD
+participant "AddFigureCategoryUI" as UI
+participant "AddFigureCategoryController" as Controller
+participant "FigureCategoryService" as Service
+participant "PersistenceContext" as PC
+participant "RepositoryFactory" as RF
+participant "FigureCategoryRepository" as Repo
+
+
+    SD -> UI : Insert category name
+    UI -> Controller : create
+    Controller -> PC : repositories()
+    PC -> RF : create
+    RF -> Repo : create
+    UI -> Controller : addCategory(name)
+    Controller -> Service : registerCategory(name)
+    Service -> Repo : findByNameIgnoreCase(name)
+    alt category exists
+        Service -> Controller : throw DuplicateCategoryException
+        Controller -> UI : error message
+        UI -> SD : display error
+    else
+        Service -> Repo : save(new FigureCategory(name))
+        Repo --> Service : confirmation
+        Service --> Controller : success
+        Controller --> UI : success message
+        UI -> SD : display success
+    end
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+title System Sequence Diagram - US346 Validate Drone Program
+
+actor "DroneTech" as DT
+participant "System" as SYS
+
+autonumber
+
+activate DT
+    DT -> SYS : requestValidation()
+
+        activate SYS
+        SYS -> SYS : listDronesWithLanguages()
+        SYS -> DT : displayDroneList()
+        deactivate SYS
+
+    DT -> SYS : selectDrone(droneNumber)
+
+        activate SYS
+        SYS -> SYS : getProgrammingLanguage(droneNumber)
+
+        alt Language is "One"
+        SYS -> SYS : validateDroneProgram(filePathOne)
+        else Language is "Two"
+            SYS -> SYS : validateDroneProgram(filePathTwo)
+        end
+
+        SYS -> DT : displayValidationResult(success/failure)
+        deactivate SYS
+
+deactivate DT
+
+@enduml

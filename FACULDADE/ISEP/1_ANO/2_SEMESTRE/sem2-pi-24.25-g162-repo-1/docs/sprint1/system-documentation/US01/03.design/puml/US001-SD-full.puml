@@ -1,0 +1,105 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Editor" as USER
+participant ":CreateMapUI" as UI
+participant ":CreateMapController" as CTRL
+participant "Repositories" as REPOS_SINGLETON
+participant "repositories\n:Repositories" as REPOS
+participant "mapRepository\n:MapRepository" as MAP_REPO
+participant "map\n:Map" as MAP
+participant ":MapMapper" as MAPPER
+participant "objDto\n:MapDto" as MapDto
+
+activate USER
+
+    USER -> UI : asks to create a new map
+
+    activate UI
+
+        UI --> USER : requests data (i.e: name, width, height)
+
+    deactivate UI
+
+    USER -> UI : sends request data
+
+    activate UI
+
+        UI --> USER : shows all data and requests confirmation
+
+    deactivate UI
+
+    USER -> UI : confirms data
+
+    activate UI
+
+        UI --> CTRL** : create
+
+        UI -> CTRL : createMap(name, width, height)
+
+        activate CTRL
+
+            CTRL -> REPOS_SINGLETON : getInstance()
+
+            activate REPOS_SINGLETON
+
+                REPOS_SINGLETON --> CTRL : repositories
+
+            deactivate REPOS_SINGLETON
+
+            CTRL -> REPOS : getMapRepository()
+
+            activate REPOS
+
+                REPOS --> CTRL : mapRepository
+
+            deactivate REPOS
+
+            CTRL -> MAP_REPO : checkNameExists(name)
+
+            activate MAP_REPO
+
+                MAP_REPO --> CTRL : false
+
+            deactivate MAP_REPO
+
+            CTRL -> MAP_REPO : addMap(name, width, height)
+
+            activate MAP_REPO
+
+                MAP_REPO --> MAP** : create
+
+                MAP_REPO -> MAP_REPO : addMap(map)
+
+                MAP_REPO --> CTRL : map
+
+            deactivate MAP_REPO
+
+            CTRL -> MAPPER: toDto(map)
+
+            activate MAPPER
+
+                MAPPER -> MAPPER: toDto(map)
+
+                MAPPER --> MapDto**: create
+
+                MAPPER --> CTRL: mapDto
+
+            deactivate MAPPER
+
+            CTRL --> UI : mapDto
+
+        deactivate CTRL
+
+        UI --> USER : displays operation success
+    
+    deactivate UI
+
+deactivate USER
+
+@enduml

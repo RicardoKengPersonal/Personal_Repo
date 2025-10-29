@@ -1,0 +1,88 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "Human Resource Manager" as HRM
+participant ":CreateSkillUI" as UI
+participant ":CreateSkillController" as CTRL
+participant ":Repositories" as GlobRepo
+participant "repositories\n:Repositories" as PLAT
+participant "skillRepository:\nskillRepository" as skillRepository
+participant ":Skill" as Skill
+
+activate HRM
+
+HRM ->UI : asks to create a skill
+activate UI
+
+UI -> CTRL** : create
+
+UI --> HRM : asks for a skill designation
+deactivate UI
+
+HRM -> UI : enters a skill designation
+activate UI
+
+UI->CTRL : createSkill(designation)
+deactivate UI
+activate CTRL
+
+activate CTRL
+CTRL -> GlobRepo : getInstance()
+activate GlobRepo
+GlobRepo --> CTRL : repositories
+deactivate GlobRepo
+
+CTRL -> PLAT : getSkillsRepository()
+activate PLAT
+PLAT -->  CTRL: skillsRepository
+deactivate PLAT
+
+CTRL -> skillRepository : createSkill(designation)
+deactivate CTRL
+deactivate CTRL
+activate skillRepository
+
+    skillRepository -> Skill** : create(designation)
+    deactivate skillRepository
+
+        activate Skill
+
+    Skill -> Skill : verifyFilled(skill)
+        activate Skill
+        Skill -> Skill : verifySpecialCharacters(skill)
+        activate Skill
+        Skill --> Skill
+    deactivate Skill
+    Skill --> Skill
+    deactivate Skill
+
+    Skill --> skillRepository : skill
+     deactivate Skill
+    activate skillRepository
+
+    skillRepository -> skillRepository : check for duplicates
+    activate skillRepository
+    skillRepository -->skillRepository
+    deactivate skillRepository
+    skillRepository -> skillRepository: addSkill(skill)
+    deactivate Skill
+
+    CTRL <-- skillRepository : skill
+    deactivate skillRepository
+    activate CTRL
+
+
+
+    CTRL --> UI : skill
+    deactivate CTRL
+    activate UI
+
+
+    UI --> HRM : displays success message (skill created successfully)
+    deactivate UI
+deactivate HRM
+@enduml

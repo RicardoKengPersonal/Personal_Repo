@@ -1,0 +1,113 @@
+--Products
+INSERT INTO legacyIdentification (legacyCode) VALUES ('PN12344A21');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('PN52384R50');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('PN52384R10');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('PN18544A21');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('PN18544C21');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('PN18324C54');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('PN52384R45');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('PN52384R12');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('PN18324C91');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('PN18324C51');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('AS12945T22');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('AS12945S22');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('AS12946S22');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('AS12947S22');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('AS12945S20');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('AS12946S20');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('AS12947S20');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('AS12945S17');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('AS12945P17');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('AS12945S48');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('AS12945G48');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12945A01');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12945A02');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12945A03');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12945A04');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12947A01');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12947A02');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12947A03');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12947A04');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12945A32');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12945A33');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12945A34');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12947A32');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12947A33');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('IP12947A34');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('PN94561L67');
+
+--Product Family
+INSERT INTO legacyIdentification (legacyCode) VALUES ('125');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('130');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('132');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('145');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('146');
+
+--Customer
+INSERT INTO legacyIdentification (legacyCode) VALUES ('456');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('785');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('657');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('348');
+
+--Operation
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5647');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5649');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5651');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5653');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5655');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5657');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5659');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5661');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5663');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5665');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5667');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5669');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5671');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5681');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5682');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5683');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5688');
+
+-- Workstation Type
+INSERT INTO legacyIdentification (legacyCode) VALUES ('A4578');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('A4588');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('A4598');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('S3271');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('K3675');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('K3676');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('C5637');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('D9123');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('Q5478');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('Q3547');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('T3452');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('G9273');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('G9274');
+
+--Workstation
+INSERT INTO legacyIdentification (legacyCode) VALUES ('9875');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('9886');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('9847');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('9855');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('8541');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('8543');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('6814');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('6815');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('6816');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('6821');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('6822');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('8167');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('8170');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('8171');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('7235');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('7236');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('7238');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('5124');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('4123');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('4124');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('4125');
+
+--Supplier
+INSERT INTO legacyIdentification (legacyCode) VALUES ('12345');
+INSERT INTO legacyIdentification (legacyCode) VALUES ('12298');
+
+select * from legacyIdentification;

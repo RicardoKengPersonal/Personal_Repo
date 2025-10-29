@@ -1,0 +1,11 @@
+INSERT INTO Output_Variants(output_id,variant_id,quantity,unit) VALUES (1,22,1,'unit');
+INSERT INTO Output_Variants(output_id,variant_id,quantity,unit) VALUES (2,23,1,'unit');
+INSERT INTO Output_Variants(output_id,variant_id,quantity,unit) VALUES (3,24,1,'unit');
+INSERT INTO Output_Variants(output_id,variant_id,quantity,unit) VALUES (4,25,1,'unit');
+INSERT INTO Output_Variants(output_id,variant_id,quantity,unit) VALUES (5,13,1,'unit');
+INSERT INTO Output_Variants(output_id,variant_id,quantity,unit) VALUES (6,26,1,'unit');
+INSERT INTO Output_Variants(output_id,variant_id,quantity,unit) VALUES (7,27,1,'unit');
+INSERT INTO Output_Variants(output_id,variant_id,quantity,unit) VALUES (8,28,1,'unit');
+INSERT INTO Output_Variants(output_id,variant_id,quantity,unit) VALUES (9,29,1,'unit');
+INSERT INTO Output_Variants(output_id,variant_id,quantity,unit) VALUES (10,14,1,'unit');
+INSERT INTO Output_Variants(output_id,variant_id,quantity,unit) VALUES (11,15,1,'unit');

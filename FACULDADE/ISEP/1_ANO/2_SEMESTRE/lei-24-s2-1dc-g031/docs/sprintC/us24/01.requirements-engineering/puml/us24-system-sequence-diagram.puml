@@ -1,0 +1,35 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US24
+
+autonumber
+
+actor "Green Space Manager (GSM)" as GSM
+participant ":System" as System
+
+activate GSM
+
+    GSM -> System : selects an agenda entry
+    activate System
+
+    System --> GSM : asks user to insert a future date
+    deactivate System
+
+    GSM -> System : writes a future date
+    activate System
+
+    System -> System : checks if the selected date is valid
+    System --> GSM : confirms date validity
+    deactivate System
+
+    GSM -> System : confirms entry postponement
+    activate System
+
+    System -> System : postpones the selected agenda entry to the future date
+    System --> GSM : displays success message
+    deactivate System
+
+@enduml

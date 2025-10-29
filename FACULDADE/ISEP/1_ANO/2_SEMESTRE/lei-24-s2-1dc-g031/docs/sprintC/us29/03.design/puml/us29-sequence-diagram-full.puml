@@ -1,0 +1,88 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Collaborator" as Employee
+participant "MyTasksGUI" as UI
+participant "MyTasksController" as CTRL
+participant ":Repositories" as REP
+participant "repositories\n:Repositories" as PLAT
+participant "agendaRepository\n:AgendaRepository" as AG
+participant "AuthenticationRepository\n:authenticationRepository" as aut
+participant "TasksMapper\n:TasksMapper" as Mapper
+participant "TasksDTO\n:TasksDTO" as DTO
+
+activate Employee
+
+    Employee -> UI :  requests to consult assigned tasks between two dates
+
+    activate UI
+
+        UI --> Employee : prompts for start and end dates
+    deactivate UI
+
+    Employee -> UI : provides start and end dates
+
+    activate UI
+
+        UI --> Employee : asks to select the status
+    deactivate UI
+
+    Employee -> UI : selects status
+    activate UI
+
+        UI --> CTRL** : create
+
+        UI -> CTRL : getTasks(email, iniData, endData, status)
+
+        activate CTRL
+
+             CTRL -> REP : getInstance()
+
+            activate REP
+
+                CTRL <-- REP : repositories
+            deactivate REP
+
+            CTRL -> PLAT : getAgendaRepository()
+
+            activate PLAT
+
+                CTRL <-- PLAT : agendaRepository
+            deactivate PLAT
+
+            CTRL -> aut : getAuthenticationRepository()
+
+            activate aut
+
+                aut --> CTRL : authenticationRepository
+            deactivate aut
+            group loop
+
+                CTRL -> AG : tasksGiven(email, iniData, endData, status)
+
+                activate AG
+
+                    AG --> CTRL : tasks
+                deactivate AG
+
+                CTRL -> Mapper : toDTOList(tasks)
+                activate Mapper
+
+                    Mapper --> DTO** : toDTO(task)
+
+            end
+                    Mapper --> CTRL : tasksDTO
+                deactivate Mapper
+            CTRL --> UI : tasksDTO
+        deactivate CTRL
+
+        UI --> Employee : displays operation success
+    deactivate UI
+
+
+@enduml

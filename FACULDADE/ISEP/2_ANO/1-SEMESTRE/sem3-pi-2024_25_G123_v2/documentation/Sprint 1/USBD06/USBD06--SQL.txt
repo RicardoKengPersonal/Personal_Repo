@@ -1,0 +1,21 @@
+SELECT 
+    DISTINCT 
+        "Ordered Items".Orderorder_id AS order_id,
+        "Workstation Type".workstation_type_id,
+        "Workstation Type".workstation_type_name
+FROM 
+    "Ordered Items"
+JOIN 
+    Variants ON "Ordered Items".Variantsvariant_id = Variants.variant_id
+JOIN 
+    Product ON Variants.product_id = Product.product_id
+JOIN 
+    "Bill of Operations" ON Product.family_id = "Bill of Operations".family_id
+JOIN 
+    "Operation_Workstation Compatibility" ON "Bill of Operations".operation_id = "Operation_Workstation Compatibility".operation_id
+JOIN 
+    "Workstation Type" ON "Operation_Workstation Compatibility".workstation_type_id = "Workstation Type".workstation_type_id
+WHERE 
+    "Ordered Items".Orderorder_id = 7
+ORDER BY 
+    "Workstation Type".workstation_type_id;

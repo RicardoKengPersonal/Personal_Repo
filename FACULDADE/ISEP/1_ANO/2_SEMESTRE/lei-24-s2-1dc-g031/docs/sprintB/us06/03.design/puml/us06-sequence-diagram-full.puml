@@ -1,0 +1,56 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Vehicle Fleet Manager" as VFM
+participant ":CreateVehicleUI" as UI
+participant ":CreateVehicleController" as CTRL
+participant ":VehicleRepository" as VehicleRepository
+participant "Vehicle" as Vehicle
+
+activate VFM
+
+        VFM -> UI : asks to create a vehicle
+
+        activate UI
+
+            UI -> CTRL** : create
+
+            activate CTRL
+
+                CTRL -> VehicleRepository : addVehicle(Brand, Model, Type, TareWeight, GrossWeight, CurrentKm, RegisterDate, AcquisitionDate, MaintenanceFrequency)
+                activate VehicleRepository
+
+                    VehicleRepository --> Vehicle**: addVehicle(Brand, Model, Type, TareWeight, GrossWeight, CurrentKm, RegisterDate, AcquisitionDate, MaintenanceFrequency)
+                deactivate VehicleRepository
+
+                activate Vehicle
+
+                    Vehicle --> Vehicle: verifyFilled()
+                activate Vehicle
+
+                Vehicle -> Vehicle: verifySpecialCharacters()
+                deactivate Vehicle
+
+                Vehicle --> VehicleRepository : vehicle
+                deactivate Vehicle
+
+                activate VehicleRepository
+
+                    VehicleRepository -> VehicleRepository: check for duplicates
+                deactivate VehicleRepository
+
+        CTRL <-- VehicleRepository : vehicle
+        deactivate CTRL
+
+        CTRL --> UI : vehicle
+        deactivate UI
+
+        UI --> VFM : Displays successful or unsuccessful operation
+deactivate VFM
+
+@enduml

@@ -1,0 +1,60 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    cur SYS_REFCURSOR; -- Cursor to hold the result set
+    v_idProduct NUMBER; -- Variable to hold idProduct
+    v_idOperation NUMBER; -- Variable to hold idOperation
+    v_sequenceNumber NUMBER; -- Variable to hold sequenceNumber
+    v_count NUMBER; -- Variable to count rows
+    p_idProduct NUMBER := 13; -- Product ID to test
+BEGIN
+    -- Check if operations exist for the product
+    SELECT COUNT(*)
+    INTO v_count
+    FROM (
+        WITH parts_cte (idProduct, idOperation, sequenceNumber) AS (
+            SELECT b.idProduct, b.idOperation, b.sequenceNumber
+            FROM billOfOperation b
+            WHERE b.idProduct = p_idProduct
+
+            UNION ALL
+
+            SELECT p.idProduct, b.idOperation, b.sequenceNumber
+            FROM part p
+            JOIN billOfOperation b ON p.idProduct = b.idProduct
+            JOIN parts_cte c ON p.idProduct = c.idProduct
+        )
+        SELECT * FROM parts_cte
+    );
+
+    -- Raise an error if no operations are found
+    IF v_count = 0 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'No operations found for the specified product.');
+    END IF;
+
+    -- Open the cursor to fetch operations
+    OPEN cur FOR
+        WITH parts_cte (idProduct, idOperation, sequenceNumber) AS (
+            SELECT b.idProduct, b.idOperation, b.sequenceNumber
+            FROM billOfOperation b
+            WHERE b.idProduct = p_idProduct
+
+            UNION ALL
+
+            SELECT p.idProduct, b.idOperation, b.sequenceNumber
+            FROM part p
+            JOIN billOfOperation b ON p.idProduct = b.idProduct
+            JOIN parts_cte c ON p.idProduct = c.idProduct
+        )
+        SELECT * FROM parts_cte ORDER BY sequenceNumber;
+
+    -- Fetch rows and display results
+    LOOP
+        FETCH cur INTO v_idProduct, v_idOperation, v_sequenceNumber;
+        EXIT WHEN cur%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('idProduct: ' || v_idProduct || ', idOperation: ' || v_idOperation || ', sequenceNumber: ' || v_sequenceNumber);
+    END LOOP;
+
+    -- Close the cursor
+    CLOSE cur;
+END;

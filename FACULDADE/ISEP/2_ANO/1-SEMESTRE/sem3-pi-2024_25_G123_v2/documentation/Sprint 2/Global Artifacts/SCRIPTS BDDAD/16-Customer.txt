@@ -1,0 +1,5 @@
+INSERT INTO "CUSTOMER"(customer_name,customer_type,phone_number,IBAN,email,customer_legacy_id,address_id) VALUES ('Carvalho & Carvalho, Lda','Company','003518340500','PT501245987','idont@care.com','456',1);
+INSERT INTO "CUSTOMER"(customer_name,customer_type,phone_number,IBAN,email,customer_legacy_id,address_id) VALUES ('Tudo para a casa, Lda','Company','003518340500','PT501245488','me@neither.com','785',2);
+INSERT INTO "CUSTOMER"(customer_name,customer_type,phone_number,IBAN,email,customer_legacy_id,address_id) VALUES ('Sair de Cena','Individual','003518340500','PT501242417','some@email.com','657',3);
+INSERT INTO "CUSTOMER"(customer_name,customer_type,phone_number,IBAN,email,customer_legacy_id,address_id) VALUES ('U Fleku','Individual','004201234567','CZ6451237810','some.random@email.cz','348',4);
+select * FROM CUSTOMER;

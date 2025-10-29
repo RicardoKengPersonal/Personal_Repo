@@ -1,0 +1,62 @@
+--Check if workstations type are not being used
+SELECT wt.workstation_type_id, wt.workstation_type_name
+FROM "Workstation Type" wt
+LEFT JOIN Operation_Workstation_Type_Compatibility owc
+    ON wt.workstation_type_id = owc.workstation_type_id
+WHERE owc.workstation_type_id IS NULL;
+
+INSERT INTO Operation_Workstation_Type_Compatibility(operation_id,workstation_type_id) VALUES (18,6);
+INSERT INTO Operation_Workstation_Type_Compatibility(operation_id,workstation_type_id) VALUES (18,12);
+INSERT INTO Operation_Workstation_Type_Compatibility(operation_id,workstation_type_id) VALUES (18,13);
+
+--Funtion logic outside function for checks 
+WITH All_Workstation_Types AS (
+    SELECT workstation_type_id
+    FROM "Workstation Type"
+),
+Variant_Workstation_Types AS (
+    SELECT 
+        v.variant_id,
+        wt.workstation_type_id
+    FROM 
+        Variants v
+        JOIN "Bill of Operations" boo ON v.variant_id = boo.finished_variant_id
+        JOIN Operation_Workstation_Type_Compatibility ow ON boo.operation_id = ow.operation_id
+        JOIN "Workstation Type" wt ON ow.workstation_type_id = wt.workstation_type_id
+    GROUP BY v.variant_id, wt.workstation_type_id
+),
+Variants_Using_All_Workstations AS (
+    SELECT 
+        vwt.variant_id
+    FROM 
+        Variant_Workstation_Types vwt
+    GROUP BY vwt.variant_id
+    HAVING COUNT(DISTINCT vwt.workstation_type_id) = (SELECT COUNT(*) FROM All_Workstation_Types)
+)
+SELECT DISTINCT 
+    v.variant_id, 
+    v.variant_description
+FROM 
+    Variants v
+    JOIN Variants_Using_All_Workstations vua ON v.variant_id = vua.variant_id;
+
+--BOO for a product that uses all workstation types
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 1, 5, 8, 1);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 2, 3, 7, 2);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 3, 6, 9, 3);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 4, 4, 2, 4);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 5, 8, 3, 5);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 6, 7, 5, 6);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 7, 9, 6, 7);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 8, 3, 4, 8);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 9, 2, 10, 9);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 10, 5, 11, 10);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 11, 1, 2, 11);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 12, 6, 8, 12);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 13, 10, 7, 13);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 14, 4, 1, 14);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 15, 2, 9, 15);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 16, 7, 5, 16);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 17, 3, 6, 17);
+INSERT INTO "Bill of Operations" (finished_variant_id, operation_id, input_id, output_id, sequence_number) VALUES (12, 18, 9, 4, 18);
+

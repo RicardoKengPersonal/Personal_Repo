@@ -1,0 +1,145 @@
+-----------------Testes para a usbd30-----------------
+
+// -- Teste 1- Pedido de produto com stock suficiente
+
+---- visualizar os stocks disponíveis-----
+SELECT
+    p.idProduct AS "ID do Produto",
+    p.availableStock AS "Stock Disponível",
+    COALESCE(SUM(r.quantity), 0) AS "Quantidade Reservada",
+    (p.availableStock - COALESCE(SUM(r.quantity), 0)) AS "Stock Restante"
+FROM
+    part p
+LEFT JOIN
+    Reservation r ON p.idProduct = r.idProduct
+GROUP BY
+    p.idProduct, p.availableStock
+ORDER BY
+    p.idProduct;
+
+------ Chamar o procedimento com o ID do produto e a quantidade que quero consumir
+BEGIN
+    consume_material(30, 100); -- Tenta consumir 100 unidades do produto com ID 30
+END;
+/
+
+------- Resposta esperada-------
+--Material consumido com sucesso. Stock atualizado.
+
+---- visualizar os stocks disponíveis para garantir que a quantidade foi subtraida -----
+
+
+
+
+
+
+
+
+
+// -- Teste 2- Pedido de produto com stock insuficiente
+
+---- visualizar os stocks disponíveis-----
+SELECT
+    p.idProduct AS "ID do Produto",
+    p.availableStock AS "Estoque Disponível",
+    COALESCE(SUM(r.quantity), 0) AS "Quantidade Reservada",
+    (p.availableStock - COALESCE(SUM(r.quantity), 0)) AS "Estoque Restante"
+FROM
+    part p
+LEFT JOIN
+    Reservation r ON p.idProduct = r.idProduct
+GROUP BY
+    p.idProduct, p.availableStock
+ORDER BY
+    p.idProduct;
+
+------ Chamar o procedimento com o ID do produto e a quantidade que quero consumir
+BEGIN
+    consume_material(30, 10000); -- Tenta consumir 10000 unidades do produto com ID 30
+END;
+/
+
+------- Resposta esperada-------
+--Consumo não permitido: stock insuficiente
+
+---- visualizar os stocks disponíveis para garantir que a quantidade não foi subtraida -----
+
+
+
+
+
+
+
+
+// -- Teste 3- Pedido de produto com stock suficiente com quantidade reservada
+
+---- visualizar os stocks disponíveis-----
+SELECT
+    p.idProduct AS "ID do Produto",
+    p.availableStock AS "Stock Disponível",
+    COALESCE(SUM(r.quantity), 0) AS "Quantidade Reservada",
+    (p.availableStock - COALESCE(SUM(r.quantity), 0)) AS "Stock Restante"
+FROM
+    part p
+LEFT JOIN
+    Reservation r ON p.idProduct = r.idProduct
+GROUP BY
+    p.idProduct, p.availableStock
+ORDER BY
+    p.idProduct;
+
+----- Fazer uma reserva para o produto que quero consumir-----
+
+-- Insert reservation for "Stainless steel handle model U6" (idProduct = 5)
+INSERT INTO Reservation (idOrder, idProduct, quantity, idReservationStatus)
+VALUES (5, 5, 5000,2);
+-- Reservar 5000 unidades do produto com ID 5
+
+
+------ Chamar o procedimento com o ID do produto e a quantidade que quero consumir
+BEGIN
+    consume_material(5, 1000); -- Tenta consumir 1000 unidades do produto com ID 5
+END;
+/
+
+------- Resposta esperada-------
+--Material consumido com sucesso. Stock atualizado.
+
+---- visualizar os stocks disponíveis para garantir que a quantidade foi subtraida -----
+
+
+
+
+
+
+
+
+// -- Teste 4- Pedido de produto com stock insuficiente com quantidade reservada
+
+---- visualizar os stocks disponíveis-----
+SELECT
+    p.idProduct AS "ID do Produto",
+    p.availableStock AS "Estoque Disponível",
+    COALESCE(SUM(r.quantity), 0) AS "Quantidade Reservada",
+    (p.availableStock - COALESCE(SUM(r.quantity), 0)) AS "Estoque Restante"
+FROM
+    part p
+LEFT JOIN
+    Reservation r ON p.idProduct = r.idProduct
+GROUP BY
+    p.idProduct, p.availableStock
+ORDER BY
+    p.idProduct;
+
+------ Chamar o procedimento com o ID do produto e a quantidade que quero consumir
+BEGIN
+    consume_material(5, 5001); -- Tenta consumir 5001 unidades do produto com ID 5
+END;
+/
+
+------- Resposta esperada-------
+--Consumo não permitido: stock insuficiente
+
+
+---- visualizar os stocks disponíveis para garantir que a quantidade não foi subtraida -----
+

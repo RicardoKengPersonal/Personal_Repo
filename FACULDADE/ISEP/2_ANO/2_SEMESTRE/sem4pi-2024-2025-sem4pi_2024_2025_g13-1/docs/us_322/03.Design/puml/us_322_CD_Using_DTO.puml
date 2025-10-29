@@ -1,0 +1,63 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+
+' ==== Domain Model ====
+class MaintenanceType {
+    +toDTO(): MaintenanceTypeDTO
+}
+
+class MaintenanceTypeDTO {
+    -name: String
+    -description: String
+    +getName(): String
+    +getDescription(): String
+}
+
+' ==== UI Layer ====
+class ListMaintenanceTypesDTOUI {
+    -theController: ListMaintenanceTypesDTOController
+    +elements(): Iterable<MaintenanceTypeDTO>
+    +elementPrinter(): Visitor<MaintenanceTypeDTO>
+    +elementName(): String
+    +listHeader(): String
+    +emptyMessage(): String
+    +headline(): String
+}
+
+ListMaintenanceTypesDTOUI --> ListMaintenanceTypesDTOController
+ListMaintenanceTypesDTOUI --> MaintenanceTypesDTOPrinter
+
+' ==== Printer ====
+class MaintenanceTypesDTOPrinter {
+    +visit(visitee: MaintenanceTypeDTO): void
+}
+
+MaintenanceTypesDTOPrinter --> MaintenanceTypeDTO
+
+' ==== Controller Layer ====
+class ListMaintenanceTypesDTOController {
+    -service: ListMaintenaceTypesDTOService
+    +allTypes(): Iterable<MaintenanceTypeDTO>
+}
+
+ListMaintenanceTypesDTOController --> ListMaintenaceTypesDTOService
+
+' ==== Service Layer ====
+class ListMaintenaceTypesDTOService {
+    -authz: AuthorizationService
+    -maintenanceTypeRepository: MaintenanceTypeRepository
+    +listAllMaintenanceTypes(): Iterable<MaintenanceTypeDTO>
+}
+
+ListMaintenaceTypesDTOService --> MaintenanceTypeRepository
+ListMaintenaceTypesDTOService --> MaintenanceType
+
+' ==== Repository ====
+interface MaintenanceTypeRepository {
+    +findByNameIgnoreCase(name: String): Optional<MaintenanceType>
+    +findAllTypes(): Iterable<MaintenanceType>
+    +findAll(): Iterable<MaintenanceType>
+}
+
+@enduml

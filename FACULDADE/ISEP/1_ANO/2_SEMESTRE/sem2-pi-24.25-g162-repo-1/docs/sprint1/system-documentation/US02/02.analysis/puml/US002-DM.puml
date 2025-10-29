@@ -1,0 +1,61 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'left to right direction
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+'title Domain Model
+
+class Role {
+    name
+    description
+}
+
+class User {
+    name
+    email
+    password
+}
+
+class Map {
+    name
+    width
+    height
+}
+
+class Industry {
+    name
+    location
+}
+
+class IndustryType {
+    name
+    description
+}
+
+class Scenario{
+    name
+    description
+    historicalRestrictions
+}
+
+class timeRestrictions{
+    startTime
+    endTime
+}
+
+Scenario "*" - "1" timeRestrictions : Time restrictions
+Map "*" - "*" Scenario : uses
+IndustryType "*" - "*" Scenario : Industry restrictions
+Role "1" - "*" User : has
+Industry "1" - "1*" IndustryType : has
+User "1" - "*" Map : manages
+Map "1" -- "*" Industry : has
+
+@enduml

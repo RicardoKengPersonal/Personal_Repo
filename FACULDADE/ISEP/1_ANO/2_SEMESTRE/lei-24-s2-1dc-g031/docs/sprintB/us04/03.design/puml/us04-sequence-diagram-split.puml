@@ -1,0 +1,67 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Human Resources Manager" as HRM
+participant ":AssignSkillUI" as UI
+participant ":AssignSkillController" as AssSkCTRL
+participant "collaboratorsRepository:\nCollaboratorsRepository" as CollaboratorsRepository
+
+
+activate HRM
+
+    HRM -> UI : asks to assign a skill to a collaborator
+
+    activate UI
+
+        UI -> AssSkCTRL** : create
+        UI -> AssSkCTRL : getCollaboratorList()
+
+        activate AssSkCTRL
+            ref over AssSkCTRL
+                Get Collaborators List
+            end
+        AssSkCTRL --> UI: collaborators list
+        deactivate AssSkCTRL
+
+    deactivate UI
+
+    HRM -> UI : selects a collaborator
+
+    activate UI
+
+        UI -> AssSkCTRL: getSkillsList()
+
+        activate AssSkCTRL
+            ref over AssSkCTRL
+                Get Skills List
+            end
+            AssSkCTRL --> UI: skills list
+        deactivate AssSkCTRL
+
+    deactivate UI
+
+    HRM -> UI: selects a skill
+
+    activate UI
+
+        UI -> AssSkCTRL: assignSkill(collaborator, skill)
+
+        activate AssSkCTRL
+            ref over AssSkCTRL
+                Assign Skill to Collaborator
+            end
+            AssSkCTRL --> UI: success
+
+        deactivate AssSkCTRL
+
+        UI --> HRM: displays operation success
+
+    deactivate UI
+
+deactivate HRM
+@enduml

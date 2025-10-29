@@ -1,0 +1,117 @@
+@startuml
+class CreateCollaboratorAssignJobUI {
+
+- controller: CreateCollaboratorAssignJobController
+ + displayJobsList(jobs: ArrayList<Job>): void
+ + displayCollaboratorsList(collaborators: ArrayList<Collaborator>): void
+ + selectAndAddJob(): Job
+ + displayAndSelectDocumentType(): DocumentTypeRepository
+ + displayDocumentTypeList(documentTypeList: List<DocumentTypeRepository>): void
+ + backToHRMUI(): void
+ + createCollaborator(): boolean
+ + run(): void
+}
+
+class CreateCollaboratorAssignJobController {
+- jobsRepository: JobsRepository
+- collaboratorsRepository: CollaboratorsRepository
++ getJobsList(): ArrayList<Job>
++ getCollaboratorsList(): ArrayList<Collaborator>
++ getDocTypesList(): ArrayList<DocumentTypeRepository>
++ addCollaborator(name: String, documentIdentificationNum: int, taxPayerNumber: int, email: String, mobileNumber: int, address: String, admissionDate: String, birthDate: String, identificationDocumentType: DocumentTypeRepository, chosenJob: Job): boolean
+
+}
+
+class CollaboratorRepository {
+- collaboratorsArrayList: ArrayList<Collaborator>
++ getCollaboratorsArrayList(): ArrayList<Collaborator>
++ addCollaborator(name: String, documentIdentificationNumber: int, taxPayerNumber: int, email: String, mobileNumber: int, address: String, admissionDate: String, birthDate: String, identificationDocumentType: DocumentTypeRepository, chosenJob: Job): boolean
++ isValidPhone(phone: int): boolean
++ isValidDateFormat(dateString: String): boolean
++ isNumeric(str: String): boolean
++ isValidName(name: String): boolean
++ getDeactivatedCollaboratorsBySkill(skills: ArrayList<Skill>): ArrayList<Collaborator>
++ addSkill(collab: Collaborator, skills: ArrayList<Skill>): boolean
+}
+
+class Repositories {
+- instance: Repositories
+- collaboratorsRepository: CollaboratorsRepository
+- skillsRepository: SkillsRepository
+- jobsRepository: JobsRepository
+- authenticationRepository: AuthenticationRepository
++ getInstance(): Repositories
++ getSkillsRepository(): SkillsRepository
++ getJobsRepository(): JobsRepository
++ getCollaboratorsRepository(): CollaboratorsRepository
++ getAuthenticationRepository(): AuthenticationRepository
+}
+
+class Collaborator {
+- name: String
+- birthDate: String
+- admissionDate: String
+- address: String
+- mobileNumber: int
+- email: String
+- taxPayerNumber: int
+- identificationDocumentType: DocumentTypeRepository
+- documentIdentificationNumber: int
+- skills: ArrayList<Skill>
+- job: Job
++ Collaborator(name: String, documentIdentificationNumber: int, taxPayerNumber: int, email: String, mobileNumber: int, address: String, admissionDate: String, birthDate: String, identificationDocumentType: DocumentTypeRepository, job: Job, status: CollaboratorStatus)
++ addSkillToCollaboratorSkills(skill: Skill): void
++ skillAlreadyAssigned(skill: Skill): boolean
++ getName(): String
++ setName(name: String): void
++ getBirthDate(): String
++ setBirthDate(birthDate: String): void
++ getAdmissionDate(): String
++ setAdmissionDate(admissionDate: String): void
++ getAddress(): String
++ setAddress(address: String): void
++ getMobileNumber(): int
++ setMobileNumber(mobileNumber: int): void
++ getEmail(): String
++ setEmail(email: String): void
++ getTaxPayerNumber(): int
++ setTaxPayerNumber(taxPayerNumber: int): void
++ getStatus(): CollaboratorStatus
++ activateCollaborator(): void
++ getIdentificationDocumentType(): DocumentTypeRepository
++ setIdentificationDocumentType(identificationDocumentType: DocumentTypeRepository): void
++ getDocumentIdentificationNumber(): int
++ setDocumentIdentificationNumber(documentIdentificationNumber: int): void
++ getSkills(): ArrayList<Skill>
++ getJob(): Job
+}
+
+Class JobRepository {
+- jobsArrayList: ArrayList<Job>
++ getJobsArrayList(): ArrayList<Job>
++ jobAlreadyExist(jobName: String): boolean
++ jobNameIsValid(jobName: String): boolean
++ addJob(jobName: String): void
+}
+
+class Job {
+- jobName: String
++ Job(jobName: String)
++ getjobName(): String
++ setjobName(jobName: String): void
++ equals(jobName: String): boolean
++ toString(): String
+}
+
+
+Repositories --> Repositories : instance
+CreateCollaboratorAssignJobUI ..> CreateCollaboratorAssignJobController
+CreateCollaboratorAssignJobController ..> Collaborator
+CreateCollaboratorAssignJobController ..> Job
+CreateCollaboratorAssignJobController ..> Repositories
+Repositories "1"--"1" CollaboratorRepository : has
+Repositories "1"--"1" JobRepository : has
+CollaboratorRepository "1" --"*" Collaborator : has
+JobRepository "1" --"*" Job : has
+
+@enduml

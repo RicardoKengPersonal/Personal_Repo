@@ -1,0 +1,43 @@
+-------------------------------- Procedure USBD28 ----------------------------------
+
+CREATE OR REPLACE PROCEDURE fetch_reserved_products(
+    result_cursor OUT SYS_REFCURSOR, -- OUT parameter for the cursor
+    status_message OUT VARCHAR2      -- OUT parameter for the success or error message
+) IS
+BEGIN
+    -- Attempt to open the cursor for the query
+    OPEN result_cursor FOR
+    SELECT
+        r.idProduct AS ReservedProductID,
+        p.description AS ProductDescription,
+        SUM(NVL(r.quantity, 0)) AS ReservedQuantity, -- Handle NULL quantities
+        proc.idSupplier AS SupplierID,
+        NVL(s.name, 'No Supplier') AS SupplierName   -- Handle NULL supplier names
+    FROM
+        Reservation r
+    JOIN
+        product p ON r.idProduct = p.idProduct
+    LEFT JOIN
+        procurement proc ON p.idProduct = proc.idProduct
+    LEFT JOIN
+        supplier s ON proc.idSupplier = s.idSupplier
+    WHERE
+        r.idReservationStatus = 2
+    GROUP BY
+        r.idProduct, p.description, proc.idSupplier, s.name
+    ORDER BY
+        r.idProduct; -- Order by Reserved Product ID
+
+    -- Set the success message
+    status_message := 'Query executed successfully.';
+
+EXCEPTION
+    WHEN OTHERS THEN
+        -- Capture and log the error message
+        status_message := 'An error occurred: ' || SQLERRM || ' at ' || DBMS_UTILITY.FORMAT_CALL_STACK;
+
+        -- Ensure the cursor is not open to prevent resource leaks
+        IF result_cursor%ISOPEN THEN
+            CLOSE result_cursor;
+        END IF;
+END fetch_reserved_products;

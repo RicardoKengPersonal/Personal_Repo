@@ -1,0 +1,134 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam classAttributeIconSize 0
+
+
+' --- Camada de Apresentação ---
+class GameScreen {
+    +getTrains() : List<TrainDTO>
+    +getStations() : List<StationDTO>
+    +getConnectedStations(stationDTO: StationDTO) : List<StationDTO>
+    +assignTrain(trainDTO: TrainDTO, stations: List<StationDTO>, cargos: List<CargoDTO>, pickUpModes: List<PickUpMode>) : void
+}
+
+' --- Camada de Aplicação ---
+class GameController {
+    +getTrains() : List<TrainDTO>
+    +getStations() : List<StationDTO>
+    +getConnectedStations(stationDTO: StationDTO) : List<StationDTO>
+    +assignTrain(trainDTO: TrainDTO, stations: List<StationDTO>, cargos: List<CargoDTO>, pickUpModes: List<PickUpMode>) : void
+}
+
+' --- Camada de Domínio/Negócio ---
+class CurrentGame {
+    +getPlayerTrains() : List<Train>
+    +getStations() : List<Station>
+    +getConnectedStations(station: Station) : List<Station>
+    +assignTrain(trainDTO: TrainDTO, route: Route) : void
+}
+
+class TrainMapper {
+    +toDTOList(trains: List<Train>) : List<TrainDTO>
+    +toDTO(train: Train) : TrainDTO
+}
+
+class StationMapper {
+    +toDTOList(stations: List<Station>) : List<StationDTO>
+    +toDTO(station: Station) : StationDTO
+}
+
+' --- Domínio (do DM) ---
+class Train {
+    +id : int
+    +assignTrain(trainDTO: TrainDTO, points: List<PointOfRoute>) : void
+    +locomotive : Locomotive
+    +carriages : List<Carriage>
+}
+
+class Locomotive {
+    +id : int
+    +power : double
+    +acceleration : double
+    +topSpeed : double
+    +startYearOfOperation : int
+    +aquisitionPrice : double
+    +type : LocomotiveType
+}
+
+class Carriage {
+    +id : int
+    +capacity : int
+    +type : CarriageType
+    +cargo : Cargo
+}
+
+class LocomotiveType {
+    +name : String
+    +description : String
+}
+
+class CarriageType {
+    +name : String
+}
+
+class Cargo {
+    +quantity : int
+}
+
+class Map {
+    +getStations() : List<Station>
+    +getConnectedStations(station: Station) : List<Station>
+    +trains : List<Train>
+    +stations : List<Station>
+}
+
+class Station {
+    +name : String
+    +upgrades : List<BuildingUpgrade>
+    +location : Location
+    +type : StationType
+}
+
+class StationType {
+    +name : String
+    +description : String
+}
+
+class Location {
+    +x : int
+    +y : int
+}
+
+class Route {
+    +id : int
+    +points : List<PointOfRoute>
+}
+
+class PointOfRoute {
+}
+
+' --- Relações (do SD e DM) ---
+GameScreen --> GameController
+GameController --> CurrentGame
+GameController --> TrainMapper
+GameController --> StationMapper
+TrainMapper --> TrainDTO
+StationMapper --> StationDTO
+CurrentGame --> Train
+CurrentGame --> Station
+CurrentGame --> Map
+Train --> Locomotive
+Train --> Carriage
+Carriage --> CarriageType
+Carriage --> Cargo
+Locomotive --> LocomotiveType
+Map --> Train
+Map --> Station
+Station --> StationType
+Station --> Location
+Route --> PointOfRoute
+Route --> Station
+
+@enduml

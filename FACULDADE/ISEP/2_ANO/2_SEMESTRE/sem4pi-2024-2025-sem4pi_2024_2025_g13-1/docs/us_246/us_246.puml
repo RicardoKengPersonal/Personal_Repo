@@ -1,0 +1,57 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #F9E79F
+  BorderColor Black
+}
+
+actor "Show Designer" as SD
+participant "EditFigureCategoryUI" as UI
+participant "EditFigureCategoryController" as Controller
+participant "FigureCategoryService" as Service
+participant "PersistenceContext" as PC
+participant "RepositoryFactory" as RF
+participant "FigureCategoryRepository" as Repo
+
+== List categories ==
+
+SD -> UI : Request to edit a category
+UI -> Controller : create
+Controller -> PC : repositories()
+PC -> RF : create
+RF -> Repo : create
+UI -> Controller : listCategories()
+Controller -> Service : listCategories()
+Service -> Repo : findAll()
+Repo --> Service : all categories
+Service --> Controller : list
+Controller --> UI : list
+UI -> SD : Display categories list
+
+== Edit category ==
+
+SD -> UI : Select category ID + new name
+UI -> Controller : editCategory(id, newName)
+Controller -> Service : editCategory(id, newName)
+Service -> Repo : ofIdentity(id)
+alt not found
+    Service -> Controller : throw error
+    Controller -> UI : show error
+    UI -> SD : show error
+else
+    Service -> Repo : findByNameIgnoreCase(newName)
+    alt name already exists
+        Service -> Controller : throw error
+        Controller -> UI : show error
+        UI -> SD : show error
+    else
+        Service -> FigureCategory : rename(newName)
+        Service -> Repo : save(category)
+        Repo --> Service : confirmation
+        Service --> Controller : success
+        Controller --> UI : show success
+        UI -> SD : show success
+    end
+
+end
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "DroneTech" as DroneTech
+participant ":MaintenanceTypeCreationAction" as Action
+participant ":MaintenanceTypeCreationUI" as UI
+participant ":MaintenanceTypeCreationController" as CTRL
+participant ":DroneInventoryService" as SRVC
+participant ":JpaMaintenanceTypeRepository" as REPO
+participant ":MaintenanceType" as MT
+
+activate DroneTech
+
+    DroneTech -> Action : asks to list maintenance types
+    activate Action
+        Action -> UI : show()
+    deactivate Action
+            activate UI
+            UI --> CTRL** : create()
+            UI -> CTRL : findAllMaintenanceTypes()
+            activate CTRL
+                CTRL -> SRVC : findAllMaintenanceTypes()
+                activate SRVC
+                    SRVC -> REPO : findAllMaintenanceTypes()
+                    activate REPO
+                        REPO -> MT : findAllTypes()
+                        activate MT
+                        MT -> REPO : types
+                        deactivate MT
+                        REPO -> SRVC : types
+                    deactivate REPO
+                        SRVC -> CTRL : types
+                        deactivate SRVC
+                        CTRL -> UI : types
+                        deactivate CTRL
+                        UI -> DroneTech : list of maintenance types
+                        deactivate UI
+deactivate DroneTech
+
+@enduml

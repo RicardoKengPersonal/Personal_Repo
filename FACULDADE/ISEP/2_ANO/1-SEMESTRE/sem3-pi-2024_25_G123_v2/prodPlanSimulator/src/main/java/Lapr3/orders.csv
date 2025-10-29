@@ -1,0 +1,15 @@
+Order ID;Product ID;Priority;Quantity
+1;16;High;10
+1;17;High;5
+1;16;Medium;10
+1;17;Medium;5
+2;19;Low;15
+2;20;Low;25
+2;19;High;15
+2;20;High;25
+2;19;Medium;15
+2;20;Medium;25
+3;16;Low;10
+3;17;Low;5
+3;16;High;10
+3;17;High;5

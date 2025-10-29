@@ -1,0 +1,90 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "Green Space Manager" as GSM
+participant ":MyGreenSpacesGUI" as UI
+participant ":MyGreenSpacesController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "greenSpaceRepository:\nGreenSpaceRepository" as GreenSpaceRepository
+participant "authenticationRepository:\nAuthenticationRepository" as AuthenticationRepository
+participant "GreenSpaceMapper" as GreenSpaceMapper
+participant "GreenSpaceDTO" as GreenSpaceDTO
+
+activate GSM
+
+    GSM -> UI : requests list of all green spaces managed by them
+
+    activate UI
+
+        UI -> CTRL** : create
+
+        UI -> CTRL : initialize(URL location, ResourceBundle resources)
+        activate CTRL
+
+            CTRL -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getGreenSpaceRepository()
+            activate PLAT
+
+                PLAT --> CTRL: greenSpacesRepository
+            deactivate PLAT
+
+            CTRL -> AuthenticationRepository : getAuthenticationRepository().getCurrentUserSession().getUserId().getEmail()
+            activate AuthenticationRepository
+
+                AuthenticationRepository --> CTRL : email
+            deactivate AuthenticationRepository
+
+            CTRL -> GreenSpaceRepository : getGreenSpaceByManagerEmail(email)
+            activate GreenSpaceRepository
+
+                GreenSpaceRepository --> CTRL : greenSpacesManaged
+            deactivate GreenSpaceRepository
+
+            CTRL -> CTRL : getSortingMethod()
+
+
+                CTRL --> CTRL : sortingMethod
+            
+            alt sortingMethod == "bubbleSort"
+                CTRL -> CTRL : bubbleSort (greenSpacesManaged)
+            else sortingMethod == "selectionSort"
+                CTRL -> CTRL : selectionSort (greenSpacesManaged)
+            end
+
+            CTRL -> CTRL : sortedGreenSpaces
+
+
+            CTRL -> GreenSpaceMapper : toDTO (sortedGreenSpaces)
+            activate GreenSpaceMapper
+
+            loop for each greenSpace in sortedGreenSpaces
+                GreenSpaceMapper -> GreenSpaceDTO** : create (greenSpacesManaged)
+                activate GreenSpaceDTO
+
+                    GreenSpaceDTO --> GreenSpaceMapper : greenSpaceDTO
+                deactivate GreenSpaceDTO
+            end
+
+            GreenSpaceMapper --> CTRL : greenSpaceDTOList
+            deactivate GreenSpaceMapper
+            deactivate CTRL
+
+            CTRL --> UI : greenSpaceDTOList
+        deactivate CTRL
+
+        UI --> GSM : displays list of sorted green spaces
+    deactivate UI
+
+deactivate GSM
+
+@enduml

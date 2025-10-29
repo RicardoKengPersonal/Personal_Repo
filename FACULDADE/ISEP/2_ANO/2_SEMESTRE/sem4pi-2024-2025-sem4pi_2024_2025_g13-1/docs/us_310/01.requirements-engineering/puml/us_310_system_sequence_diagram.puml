@@ -1,0 +1,34 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US310 Create Show Proposal
+
+autonumber
+
+actor "CRM Collaborator" as CRM
+participant ":System" as System
+
+activate CRM
+
+    CRM -> System : requests to list all show requests
+    activate System
+        System --> CRM : shows list of show requests
+    deactivate System
+
+    CRM -> System : selects a show request
+    activate System
+        System --> CRM : shows selected show request details
+    deactivate System
+
+    CRM -> System : confirms creation of show proposal
+    activate System
+        System -> System : creates ShowProposal entity
+        System -> System : persists ShowProposal
+        System --> CRM : confirms proposal creation
+    deactivate System
+
+deactivate CRM
+
+@enduml

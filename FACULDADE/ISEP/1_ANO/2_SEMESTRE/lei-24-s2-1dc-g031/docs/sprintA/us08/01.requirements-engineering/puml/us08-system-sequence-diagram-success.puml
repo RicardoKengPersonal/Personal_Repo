@@ -1,0 +1,21 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US08
+
+autonumber
+
+actor "Vehicle and Equipment\nFleet Manager" as VFM
+participant ":System" as System
+
+activate VFM
+
+    VFM -> System : requests list of vehicles needing the check-up
+    activate System
+
+        System --> VFM : lists the vehicles needing the check-up
+    deactivate System
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #AED6F1
+  BorderColor Black
+}
+
+actor "Project Manager" as CRM
+participant "LoginUI" as UI
+participant "AuthenticationCredentialHandler" as Controller
+participant "AuthenticationService" as Service
+participant "AuthzRegistry" as registry
+
+loop While show request is invalid
+    CRM -> UI : Fill user and Password
+    UI -> Controller : Send user information
+    Controller -> Service : Verifying user
+    Service -> registry : Determine authorization
+    registry -> CRM :  Returns login results
+end
+@enduml

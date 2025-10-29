@@ -1,0 +1,9 @@
+@startuml
+actor "CRM Collaborator" as CRM
+participant "System"
+
+CRM -> System : starts proposal sending
+System -> CRM : lists proposals ready to send
+CRM -> System : selects proposal
+System -> CRM : displays operation success
+@enduml

@@ -1,0 +1,62 @@
+@startuml
+
+skinparam packageStyle rectangle
+
+skinparam rectangle{
+    BorderColor green
+}
+
+left to right direction
+
+rectangle "System Actors" as actors {
+    actor "Human Resources Manager" as Employee2
+    actor "Fleet Manager" as Employee
+    actor "Green Space Manager" as Employee3
+    actor "Software Quality Assessment Team Manager" as Employee4
+}
+rectangle "Use Cases" as usecases{
+
+ usecase "UC01 - Registers skills that may be appointed to a collaborator." as UC1
+    Employee2 --> UC1
+
+ usecase "UC02 - Register a job." as UC2
+    Employee2 --> UC2
+
+ usecase "UC03 - Registers a collaborator with a job and fundamental characteristics." as UC3
+        Employee2 --> UC3
+
+  usecase "UC04 - Assign one or more skills to a collaborator." as UC4
+     Employee2 --> UC4
+
+ usecase "UC05 - Generate a team proposal automatically." as UC5
+    Employee2 --> UC5
+
+    usecase "UC06 - Register a vehicle" as UC6
+    Employee --> UC6
+
+     usecase "UC07 - I wish to register a vehicle’s check-up." as UC7
+     Employee --> UC7
+
+      usecase "UC08 - List the vehicles needing the check-up " as UC8
+      Employee --> UC8
+
+      usecase "UC09 - Know the exact costs referring to water consumption of specific green space" as UC9
+            Employee3 --> UC9
+
+        usecase "UC10 - Know which piece(s) of equipment is/are used in each day " as UC10
+              Employee3 --> UC10
+
+        usecase "UC11 - Collect data from the user portal about the use of the park" as UC11
+            Employee3 --> UC11
+
+        usecase "UC12 - import a .csv file containing lines with Water Point X, Water Point Y, Distance" as UC12
+            Employee3 --> UC12
+
+        usecase "UC13 - apply an algorithm that returns the routes to be opened and pipes needed to be laid with a minimum accumulated cost" as UC13
+            Employee3 --> UC13
+
+        usecase "UC14 - run tests for inputs of variable size, to observe the asymptotic behavior of the execution time of the algorithm" as UC14
+            Employee4 --> UC14
+
+}
+@enduml

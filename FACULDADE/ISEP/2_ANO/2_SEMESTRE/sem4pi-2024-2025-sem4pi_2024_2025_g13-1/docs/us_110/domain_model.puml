@@ -1,0 +1,565 @@
+@startuml
+
+skinparam linetype ortho
+
+skinparam package {
+  BackgroundColor #D6EAF8
+  BorderColor Black
+
+}
+
+' ==== CUSTOMER ====
+
+package "shodrone.core.customermanagement.domain" <<Aggregate>> {
+
+class Customer <<Entity, AggregateRoot>> {}
+class CustomerName <<ValueObject>> {}
+class CustomerID <<ValueObject>> {}
+class VATNumber <<ValueObject>> {}
+class Address <<ValueObject>> {}
+
+class CustomerRepresentative <<Entity>> {
+- String position
+}
+
+enum CustomerStatus <<Enum>> {
+REGULAR,
+VIP,
+INFRINGEMENT,
+DELETED,
+CREATED
+}
+
+enum CustomerRepresentativeStatus <<Enum>> {
+ACTIVATED,
+DISABLED
+}
+
+}
+
+package "shodrone.core.customermanagement.service" {
+
+  class CustomerService <<DomainService>> {
+Determines customer priority status
+based on customer data and business rules.
+}
+
+class CustomerRepresentativeService <<DomainService>> {
+This Domain Service encapsulates the business logic required to assign a User to a CustomerRepresentative.
+It ensures that only users with the CUSTOMER_REPRESENTATIVE role can be assigned,
+enforcing the domain rule that links user permissions with customer representation.
+}
+
+}
+
+package "shodrone.core.customermanagement.repository" {
+
+interface CustomerRepository
+
+}
+
+' ==== USER ====
+
+package "shodrone.core.usermanagement.domain" <<Aggregate>> {
+
+class User <<Entity, AggregateRoot>> {}
+class Email <<ValueObject>> {}
+class Name <<ValueObject>> {}
+class PhoneNumber <<ValueObject>> {}
+class UserID <<ValueObject>> {}
+class Password <<ValueObject>> {}
+
+enum Role <<Enum>> {
+ADMIN,
+CRM_MANAGER,
+CRM_COLLABORATOR,
+SHOW_DESIGNER,
+DRONE_TECH,
+CUSTOMER_REPRESENTATIVE
+}
+
+enum UserStatus <<Enum>> {
+ACTIVATED,
+DISABLED
+}
+
+}
+
+package "shodrone.core.usermanagement.repository" {
+
+interface UserRepository
+
+}
+
+' ==== FIGURECATEGORY ====
+
+package "shodrone.core.figurecategorymanagement.domain" <<Aggregate>> {
+
+class FigureCategory <<Entity, AggregateRoot>> {}
+class FigureCategoryID <<ValueObject>> {}
+
+}
+
+package "shodrone.core.figurecategorymanagement.service" {
+
+class FigureCategoryService <<DomainService>> {
+
+    }
+}
+
+package "shodrone.core.figurecategorymanagement.repository" {
+
+interface FigureCategoryRepository
+
+}
+' ==== FIGURE ====
+
+package "shodrone.core.figuremanagement.domain" <<Aggregate>> {
+
+class Figure <<Entity, AggregateRoot>> {
+- String description
+}
+
+class FigureID <<ValueObject>> {}
+class Keyword <<ValueObject>> {}
+class FigureTotalDrone <<ValueObject>> {}
+class FigureElement <<Entity>> {}
+class FigureVersionID <<ValueObject>> {}
+
+class DSL <<ValueObject>> {
+-version
+}
+
+class FigureStatic <<ValueObject>> {}
+class FigureDynamic <<ValueObject>> {}
+
+class FigureVersion <<Entity>> {
+- String versionNumber
+- boolean isExclusive
+- LocalDate exclusivityEndDate
+- LocalDateTime timestamp
+}
+
+enum ElementType <<Enum>> {
+GEOMETRIC,
+3D BITMAPS
+}
+
+enum Movement <<Enum>> {
+ROTATION,
+TRANSLATION
+}
+
+}
+
+package "shodrone.core.figuremanagement.service" {
+
+class FigureService <<DomainService>> {
+Manages figure lifecycle including creation,
+versioning, exclusivity and DSL validation.
+  }
+
+}
+
+package "shodrone.core.figuremanagement.repository" {
+
+interface FigureRepository
+
+}
+
+' ==== SHOW REQUEST ====
+
+package "shodrone.core.showrequestmanagement.domain" <<Aggregate>> {
+
+class ShowRequest <<Entity, AggregateRoot>> {}
+class ShowRequestID <<ValueObject>> {}
+class AddressRequest <<ValueObject>> {}
+class Date <<ValueObject>> {}
+class ShowRequestDuration <<ValueObject>> {}
+class ShowRequestDescription <<ValueObject>> {}
+
+enum ShowRequestStatus <<Enum>> {
+SUBMITTED,
+DESIGNER_ASSIGNED,
+PROPOSAL_PREPARED,
+PROPOSAL_SENT,
+SCHEDULED,
+CANCELED
+}
+
+}
+
+package "shodrone.core.showrequestmanagement.service" {
+
+class ShowRequestService <<DomainService>> {
+This domain service handles the management of show requests
+submitted by CRM Collaborators on behalf of customers.
+It enables the creation, editing and state management of requests,
+including the assignment of a Show Designer if new figures are needed.
+It ensures the request includes all required details such as
+place, date, duration, and figure references.
+}
+
+}
+
+package "shodrone.core.showrequestmanagement.repository" {
+
+interface ShowRequestRepository
+
+}
+
+
+' ==== SHOW PROPOSAL ====
+
+package "shodrone.core.showproposalmanagement.domain" <<Aggregate>> {
+
+class ShowProposal <<Entity, AggregateRoot>> {}
+class ShowProposalID <<ValueObject>> {}
+class Video <<ValueObject>> {}
+class ShowProposalTotalDrone <<ValueObject>> {}
+
+class ShowProposalDocument <<ValueObject>> {
+- String name
+- String description
+- String pluginClass
+}
+
+class ShowProposalDuration <<ValueObject>> {}
+
+enum ShowProposalStatus <<Enum>> {
+CREATED,
+SENT,
+ACCEPTED,
+REJECTED
+
+}
+
+}
+
+package "shodrone.core.showproposalmanagement.service" {
+
+class ShowProposalService <<DomainService>> {
+This domain service orchestrates the preparation of a show proposal
+based on a specific ShowRequest. It is responsible for:
+selecting figures from the catalogue or newly created ones,
+assigning drones and mapping them to figure types,
+initiating and attaching a SimulationID for validation,
+generating video previews and formatted templates,
+and managing the proposal’s acceptance or rejection status.
+}
+
+}
+
+package "shodrone.core.showproposalmanagement.repository" {
+
+interface ShowProposalRepository
+
+}
+
+' ==== SHOW ====
+
+package "shodrone.core.showmanagement.domain" <<Aggregate>> {
+
+entity Show <<Entity, AggregateRoot>> {}
+class DomainDateTime <<ValueObject>> {}
+
+enum ShowStatus <<Enum>> {
+SCHEDULED,
+IN_PROGRESS,
+COMPLETED,
+CANCELED
+}
+
+class ShowDescription <<ValueObject>> {}
+
+
+}
+
+package "shodrone.core.showmanagement.service" {
+
+class ShowService <<DomainService>> {
+Schedules shows based on accepted proposals,
+considering drone availability and time slots.
+}
+
+}
+
+package "shodrone.core.showmanagement.repository" {
+
+interface ShowRepository
+
+}
+
+' ==== SIMULATION ====
+
+package "shodrone.core.simulationmanagement.domain" <<Aggregate>> {
+
+class SimulationID <<ValueObject>> {}
+
+class Simulation <<Entity, AggregateRoot>> {
+- LocalDateTime startedAt
+}
+
+class SimulationVolume <<ValueObject>> {
+- int width
+- int height
+- int depth
+- int cellSizeInMeters
+}
+
+class TestReport <<Entity>> {
+- boolean success
+- List<CollisionEvent> collisions
+- int totalDrones
+}
+
+class CollisionEvent <<ValueObject>> {
+- LocalDateTime timestamp
+- int x
+- int y
+- int z
+}
+
+enum SimulationTarget <<Enum>> {
+FIGURE,
+SHOW
+}
+
+class EnvironmentalCondition <<ValueObject>> {
+- WindSpeed
+- WindDirection
+}
+
+
+}
+
+package "shodrone.core.simulationmanagement.service" {
+
+class SimulationService <<DomainService>> {
+Executes figure and show simulations to
+detect collisions and validate execution safety.
+}
+
+}
+
+package "shodrone.core.simulationmanagement.repository" {
+
+interface SimulationRepository
+
+}
+
+' ==== DRONE ====
+
+package "shodrone.core.dronemanagement.domain" <<Aggregate>> {
+
+  class Drone <<Entity, AggregateRoot>> {
+   - LocalDate acquisitionDate
+  }
+
+  enum DroneStatus <<Enum>> {
+    ACTIVE,
+    IN_REPAIR,
+    DECOMMISSIONED
+  }
+
+  class DroneID <<ValueObject>> {
+    - SerialNumber
+    }
+
+   class MaintenanceType <<Entity>> {
+      - String name
+      - String description
+      }
+
+      class MaintenanceRecord <<Entity>> {
+      - LocalDate date
+      - boolean resetsUsageCounter
+      - String notes
+      }
+
+class DroneUsageTime <<ValueObject>> {
+- Duration totalTime
+}
+
+
+}
+
+
+package "shodrone.core.dronemanagement.service" {
+
+
+ class DroneService <<DomainService>> {
+Checks availability of drones for specific shows,
+considering inventory status and schedule.
+Manages drone inventory: registration,
+repair status and maintenance scheduling.
+ }
+
+}
+
+package "shodrone.core.dronemanagement.repository" {
+
+interface DroneRepository
+
+}
+
+' ==== DRONEMODEL ====
+
+package "shodrone.core.dronemodelmanagement.domain" <<Aggregate>> {
+
+  class DroneModel <<Entity, AggregateRoot>> {
+  }
+
+  enum DroneType <<Enum>> {
+    LED,
+    RGB
+  }
+
+  class DroneModelID <<ValueObject>> {}
+
+  class DroneLanguagePlugin <<Entity>> {
+  - String name
+  - String pluginClass
+  }
+
+}
+
+package "shodrone.core.dronemodelmanagement.service" {
+
+ class DroneModelService <<DomainService>> {
+
+ }
+
+}
+
+package "shodrone.core.dronemodelmanagement.repository" {
+
+interface DroneModelRepository
+
+}
+
+' ==== RELATIONSHIPS ====
+
+Customer  *--  VATNumber
+Customer  *--  CustomerName
+Customer  *--  Address
+Customer  -->  CustomerStatus
+Customer "1" *-- "0...*" CustomerRepresentative
+Customer  -->  CustomerID
+
+CustomerRepresentative  -->  CustomerRepresentativeStatus
+CustomerRepresentative  -->  User
+
+User  *--  Email
+User  *--  Name
+User  *-- PhoneNumber
+User  -->  UserStatus
+User  *--  Password
+User "1" --> "1...*" Role
+User  *--  UserID
+
+Figure  *--  FigureID
+Figure "1" *-- "0...*" Keyword
+Figure "1" *-- "1...*" FigureVersion
+Figure "1" *-- "0..1" FigureCategoryID
+
+
+FigureCategory *-- FigureCategoryID
+
+FigureVersion  *--  DSL
+FigureVersion  *--  FigureCategoryID
+FigureVersion  *--  FigureTotalDrone
+FigureVersion "1" *-- "1...*" FigureElement
+FigureVersion "1" --> "0..1" CustomerID
+FigureVersion  *--  FigureDynamic
+FigureVersion *-- FigureStatic
+FigureVersion "1" --> "0..1" SimulationID
+FigureVersion  *--  FigureVersionID
+FigureVersion "1" --> "1" UserID : author
+
+FigureElement  -->  ElementType
+FigureElement  -->  Movement
+FigureElement "1" --> "1...*" DroneID
+
+ShowRequest  -->  CustomerID
+ShowRequest "1" --> "1" UserID : author
+ShowRequest "0..1" --> "1" UserID : showDesigner
+ShowRequest "1...*" --> "1...*" FigureVersionID
+ShowRequest  *--  AddressRequest
+ShowRequest  *--  Date
+ShowRequest  *--  ShowRequestDuration
+ShowRequest  *--  ShowRequestDescription
+ShowRequest  -->  ShowRequestStatus
+ShowRequest *-- ShowRequestID
+
+ShowProposal "1...*" --> "1...*" FigureVersionID
+ShowProposal *-- ShowRequestID
+ShowProposal  -->  ShowProposalStatus
+ShowProposal  *--  Video
+ShowProposal  *--  ShowProposalDocument
+ShowProposal  *--  ShowProposalTotalDrone
+ShowProposal "1" --> "1...*" SimulationID
+ShowProposal *-- ShowProposalDuration
+ShowProposal *-- DomainDateTime
+ShowProposal *-- ShowProposalID
+
+
+Show  *--  DomainDateTime
+Show  -->  ShowStatus
+Show --> ShowProposalID
+Show *-- ShowDescription
+
+Simulation  -->  SimulationTarget
+Simulation  *--  SimulationVolume
+Simulation  *--  SimulationID
+Simulation *-- EnvironmentalCondition
+Simulation *-- TestReport
+
+TestReport *-- CollisionEvent
+
+Simulation "1" --> "1...*" DroneID
+
+Drone  -->  DroneStatus
+Drone "1" *-- "1...*" DroneModelID
+DroneModel *-- DroneModelID
+DroneModel *-- DroneLanguagePlugin
+Drone  *--  DroneID
+Drone *-- DroneUsageTime
+DroneModel "1" --> "0..*" DroneType
+
+Drone "1" --> "0..*" MaintenanceRecord
+MaintenanceRecord --> MaintenanceType
+
+DroneService ..> Drone
+DroneModelService ..> DroneModel
+CustomerService ..> Customer
+CustomerRepresentativeService ..> Customer
+CustomerRepresentativeService ..> User
+FigureService ..> Figure
+FigureService ..> Customer
+FigureCategoryService ..> FigureCategory
+ShowService ..> ShowProposal
+ShowService ..> Show
+SimulationService ..> Figure
+SimulationService ..> Show
+SimulationService ..> Simulation
+ShowRequestService ..> ShowRequest
+ShowRequestService ..> User
+ShowRequestService ..> FigureVersion
+ShowProposalService ..> ShowProposal
+ShowProposalService ..> ShowRequest
+ShowProposalService ..> Simulation
+ShowProposalService ..> FigureVersion
+
+DroneRepository ..> Drone
+DroneModelRepository ..> DroneModel
+SimulationRepository ..> Simulation
+ShowRepository ..> Show
+ShowProposalRepository ..> ShowProposal
+ShowRequestRepository ..> ShowRequest
+FigureRepository ..> Figure
+UserRepository ..> User
+CustomerRepository ..> Customer
+FigureCategoryRepository ..> FigureCategory
+
+@enduml

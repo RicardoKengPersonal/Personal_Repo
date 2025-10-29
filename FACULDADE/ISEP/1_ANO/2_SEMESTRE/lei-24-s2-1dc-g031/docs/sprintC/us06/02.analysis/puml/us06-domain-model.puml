@@ -1,0 +1,40 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+title Domain Model US06
+
+class User {
+     Name
+     BirthDate
+     AdmissionDate
+     Address
+     MobileNumber
+     Email
+     TaxPayerNumber
+     DocumentIdentificationNumber
+}
+
+class Vehicle{
+     VehiclePlateID
+     VehicleModel
+     VehicleBrand
+     VehicleType
+     VehicleTare
+     VehicleGrossWeight
+     VehicleCurrentKm
+     VehicleRegisterDate
+     VehicleAcquisitionDate
+     VehicleMaintenanceCheckUpFrequency
+
+}
+
+VehicleFleetManager "1" - "*" Vehicle: registers >
+VehicleFleetManager "1" - "1" User: is a >
+@enduml

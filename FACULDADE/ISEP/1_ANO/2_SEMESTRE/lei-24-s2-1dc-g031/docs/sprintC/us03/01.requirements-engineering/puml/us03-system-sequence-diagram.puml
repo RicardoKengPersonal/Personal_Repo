@@ -1,0 +1,53 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US03
+
+autonumber
+
+actor "Human Resources Manager (HRM)" as Employee
+participant ":System" as System
+
+activate Employee
+
+    Employee -> System : requests registration of a new collaborator
+    activate System
+
+
+
+        System --> Employee : displays a list of available job categories and requests selection of one
+    deactivate System
+
+
+    Employee -> System : chooses and select a job category
+    activate System
+
+
+
+  loop  until collaborator details are valid
+
+        System --> Employee : asks for collaborator information (name, residence, date of birth, admission date, \n contact details (phone and email), document identification and its number)
+    deactivate System
+
+    Employee -> System : Supplies collaborator information
+    activate System
+
+        System --> Employee : displays collaborator information and requests confirmation of all the data
+    deactivate System
+
+     Employee -> System : confirms information
+        activate System
+
+    System -> System : verifies information
+
+
+    end
+
+        System --> System : registers collaborator
+
+     System --> Employee : displays operation success
+     deactivate System
+
+@enduml

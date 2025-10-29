@@ -1,0 +1,89 @@
+-- Supplier 12345, Part PN18544C21
+INSERT INTO procurement (idProduct, idSupplier, startDate, endDate, minimumOrderSize, unitCost) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p 
+     JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+     WHERE l.legacyCode = 'PN18544C21'), 
+    1, '2023-10-01', NULL, 20, 1.25);
+
+-- Supplier 12345, Part PN18324C54
+INSERT INTO procurement (idProduct, idSupplier, startDate, endDate, minimumOrderSize, unitCost) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p 
+     JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+     WHERE l.legacyCode = 'PN18324C54'), 
+    1, '2023-10-01', TO_DATE('2024-02-29', 'YYYY-MM-DD'), 10, 1.70);
+
+
+INSERT INTO procurement (idProduct, idSupplier, startDate, endDate, minimumOrderSize, unitCost) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p 
+     JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+     WHERE l.legacyCode = 'PN18324C54'), 
+    1, '2024-04-01', NULL, 16, 1.80);
+
+-- Supplier 12345, Part PN18324C51
+INSERT INTO procurement (idProduct, idSupplier, startDate, endDate, minimumOrderSize, unitCost) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p 
+     JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+     WHERE l.legacyCode = 'PN18324C51'), 
+    1, '2023-07-01', '2024-03-31', 30, 1.90);
+
+INSERT INTO procurement (idProduct, idSupplier, startDate, endDate, minimumOrderSize, unitCost) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p 
+     JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+     WHERE l.legacyCode = 'PN18324C51'), 
+    1, '2024-04-01', NULL, 20, 1.90);
+
+-- Supplier 12298, Part PN18544C21
+INSERT INTO procurement (idProduct, idSupplier, startDate, endDate, minimumOrderSize, unitCost) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p 
+     JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+     WHERE l.legacyCode = 'PN18544C21'), 
+    2, '2023-09-01', NULL, 10, 1.35);
+
+-- Supplier 12298, Part PN18324C54
+INSERT INTO procurement (idProduct, idSupplier, startDate, endDate, minimumOrderSize, unitCost) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p 
+     JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+     WHERE l.legacyCode = 'PN18324C54'), 
+    2, '2023-08-01', '2024-01-29', 10, 1.80);
+
+INSERT INTO procurement (idProduct, idSupplier, startDate, endDate, minimumOrderSize, unitCost) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p 
+     JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+     WHERE l.legacyCode = 'PN18324C54'), 
+    2, '2024-02-15', NULL, 20, 1.75);
+
+-- Supplier 12298, Part PN18324C51
+INSERT INTO procurement (idProduct, idSupplier, startDate, endDate, minimumOrderSize, unitCost) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p 
+     JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+     WHERE l.legacyCode = 'PN18324C51'), 
+    2, '2023-08-01', '2024-05-31', 40, 1.80);
+
+-- Supplier 12298, Part PN12344A21
+INSERT INTO procurement (idProduct, idSupplier, startDate, endDate, minimumOrderSize, unitCost) 
+VALUES (
+    (SELECT p.idProduct 
+     FROM product p 
+     JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification 
+     WHERE l.legacyCode = 'PN12344A21'), 
+    2, '2023-07-01', NULL, 200, 0.65);
+
+select * FROM procurement;

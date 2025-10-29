@@ -1,0 +1,40 @@
+@startuml
+title Sequence Diagram - US341 Validate figure description
+
+actor "User" as User
+participant "FigurePluginUI" as UI
+participant "AddDslPathController" as Controller
+participant "FigureService" as Service
+participant "Figure" as Figure
+participant "FigureRepository" as Repo
+participant "FigurePlugin" as Plugin
+participant "figureLexer" as Lexer
+participant "figureParser" as Parser
+participant "FigureInterpreterVisitor" as Visitor
+
+
+User -> UI : Select figure + DSL file
+
+UI -> Plugin : interpretFigureScript(path)
+Plugin -> Validator : validate(path)
+
+alt Syntax is invalid
+    Validator --> Plugin : false
+    Plugin -> UI : Validation failed
+    UI -> User : Show error message
+else Syntax OK
+    Validator --> Plugin : true
+    Plugin -> Lexer : tokenize DSL
+    Lexer -> Plugin : token stream
+
+    Plugin -> Parser : parse token stream
+    Parser -> Plugin : parse tree
+
+    Plugin -> Visitor : visit(parseTree)
+    Visitor --> Plugin : interpretation result
+
+    Plugin -> UI : Interpretation completed
+    UI -> User : Show success message
+end
+
+@enduml

@@ -1,0 +1,54 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+skinparam classAttributeIconSize 0
+hide circle
+hide methods
+
+title Domain Model - US 315 Add video of simulation to the proposal
+
+class CRM_Collaborator
+
+class ShowRequest {
++id
++address
++duration
++description
++status
++submissionDate
++figures
++numDrones
++customer
++representative
++author
++assignedDesigner
+}
+
+class ShowProposal {
++id
++status
++showRequest
++videoLink
+}
+
+class Customer
+
+class CustomerRepresentative
+
+class SystemUser
+
+enum ShowRequestStatus
+enum ShowProposalStatus
+
+CRM_Collaborator "1" -- "0..*" ShowProposal : creates >
+ShowProposal "1" -- "1" ShowRequest : refers to >
+ShowRequest "1" -- "1" Customer : belongs to >
+ShowRequest "1" -- "1" CustomerRepresentative : requested by >
+ShowRequest "1" -- "1" SystemUser : created by >
+
+ShowRequest --> ShowRequestStatus
+ShowProposal --> ShowProposalStatus
+
+@enduml

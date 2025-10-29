@@ -1,0 +1,47 @@
+@startuml
+actor "GSM" as gsm
+participant "AgendaGUI" as gui
+participant "AgendaController" as controller
+participant "Repositories" as repositories
+participant "AgendaEntriesRepository" as entriesRepo
+participant "AgendaEntryDTO" as entryDTO
+
+gsm -> gui : Clicks on "Postpone Entry" button
+activate gui
+gui -> controller : getActiveAgendaEntries()
+activate controller
+controller -> repositories : getInstance()
+activate repositories
+repositories --> controller : returns instance
+deactivate repositories
+controller -> entriesRepo : getActiveAgendaEntries()
+activate entriesRepo
+entriesRepo --> controller : returns list of active AgendaEntryDTOs
+deactivate entriesRepo
+controller --> gui : returns list of active AgendaEntryDTOs
+deactivate controller
+gui -> gsm : Shows list of active AgendaEntries
+deactivate gui
+loop
+    gsm -> gui : Selects an AgendaEntry and a future date
+    activate gui
+    gui -> controller : isValidDate(futureDate)
+    activate controller
+    controller --> gui : returns validation result
+    deactivate controller
+    alt if date is valid
+        gui -> controller : postponeAgendaEntry(selectedAgendaEntry, futureDate)
+        activate controller
+        controller -> entryDTO : setEntryDate(selectedAgendaEntry, futureDate)
+        activate entryDTO
+        entryDTO --> controller : entry date is set
+        deactivate entryDTO
+        controller --> gui : returns success message
+        deactivate controller
+        gui -> gsm : Shows success message
+        deactivate gui
+    else if date is not valid
+        gui -> gsm : Shows error message
+    end
+end
+@enduml

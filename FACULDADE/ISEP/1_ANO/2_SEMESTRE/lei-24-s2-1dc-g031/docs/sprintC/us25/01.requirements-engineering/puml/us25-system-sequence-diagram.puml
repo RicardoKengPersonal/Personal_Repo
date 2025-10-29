@@ -1,0 +1,33 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US25
+
+autonumber
+
+actor "Green Space Manager (GSM)" as User
+participant ":System" as System
+
+activate User
+
+    User -> System : requests list of Agenda Entries
+    activate System
+
+        System --> User : displays a list of Agenda Entries
+    deactivate System
+
+    User -> System : selects an Agenda Entry
+    activate System
+
+        System --> User : asks confirmation to cancel the Agenda Entry
+    deactivate System
+
+    User -> System : confirms cancellation
+    activate System
+
+        System --> User : displays operation success
+    deactivate System
+
+@enduml

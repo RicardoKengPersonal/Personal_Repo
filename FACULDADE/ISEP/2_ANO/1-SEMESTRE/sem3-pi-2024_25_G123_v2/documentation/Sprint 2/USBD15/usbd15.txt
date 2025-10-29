@@ -1,0 +1,38 @@
+CREATE OR REPLACE FUNCTION registerWorkstation (
+    p_workstation_name        IN VARCHAR2,    -- Nome da estação de trabalho
+    p_workstation_description IN VARCHAR2,    -- Descrição
+    p_workstation_type_id     IN NUMBER,      -- Tipo da estação de trabalho (ID)
+    p_workstation_legacy_id   IN VARCHAR2 DEFAULT NULL -- ID legado, opcional
+) RETURN VARCHAR2
+IS
+    v_result VARCHAR2(255);       -- Mensagem final de resultado
+    v_workstation_id NUMBER;      -- ID da estação gerado automaticamente
+BEGIN
+    -- Tenta inserir os dados na tabela Workstation
+    INSERT INTO Workstation (
+        workstation_name,
+        workstation_description,
+        workstation_legacy_id,
+        workstation_type_id
+    ) VALUES (
+        p_workstation_name,       -- Nome da estação
+        p_workstation_description, -- Descrição da estação
+        p_workstation_legacy_id,  -- ID legado (opcional)
+        p_workstation_type_id     -- Tipo da estação
+    ) RETURNING workstation_id INTO v_workstation_id; -- Captura o ID gerado
+
+    -- Define a mensagem de sucesso
+    v_result := 'Workstation registered successfully with ID: ' || v_workstation_id;
+
+    -- Retorna a mensagem de sucesso
+    RETURN v_result;
+
+EXCEPTION
+    WHEN DUP_VAL_ON_INDEX THEN
+        -- Trata erro de duplicidade (nome ou ID legado já existentes)
+        RETURN 'Error: Duplicate workstation name or legacy ID.';
+    WHEN OTHERS THEN
+        -- Trata outros erros, exibindo a mensagem do sistema
+        RETURN 'Error: ' || SQLERRM;
+END registerWorkstation;
+/

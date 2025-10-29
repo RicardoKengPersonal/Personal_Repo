@@ -1,0 +1,99 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam classAttributeIconSize 0
+
+class ViewStationDetailsUI {
+}
+
+class ViewStationDetailsController {
+  +ViewStationDetailsController()
+  +getAvailableStations() : List<Station>
+  +getStationDetails(station: Station) : StationDetails
+}
+
+class Map {
+    - name : String
+    - width : int
+    - length : int
+    + getNearbyIndustries(station: Station) : List<Industry>
+}
+
+class Repositories {
+  - Repositories()
+  + getInstance()
+  + getStationRepository()
+}
+
+class StationRepository {
+  +getAllStations() : List<Station>
+  +getStationDetails(stationId: int) : Station
+}
+
+class Station {
+    -position : Position
+    -type : StationType
+    -name : String
+    -List<Building> buildings
+    -industries : List<Industry>
+    +getBuildings() : List<Building>
+}
+
+class Building {
+  -name : String
+  -type : BuildingType
+  +Building(position, type)
+}
+
+enum BuildingType {
+}
+
+class Industry {
+  -position : Position
+  -type : IndustryType
+  -resourceType: ResourceType
+  +Industry(position, type, resourceType)
+}
+
+enum IndustryType {
+  Primary Sector
+  Transforming
+  Mixed
+}
+
+class ResourceType {
+  -name : String
+  +getName() : String
+}
+
+class StationDto {}
+
+class BuildingDto {}
+
+class IndustryDto {}
+
+BuildingDto --> Building
+Building --> "1" BuildingType : type
+
+' Relationships
+ViewStationDetailsUI ..> ViewStationDetailsController
+ViewStationDetailsController ..> Repositories
+ViewStationDetailsController ..> StationRepository
+ViewStationDetailsController ..> Station
+ViewStationDetailsController ..> Map
+
+Repositories --> "1" StationRepository : station repository
+Repositories -> "1" Repositories : instance
+
+Station --> "*" Building : buildings
+Station --> "*" Industry : nearby industries
+StationDto --> Station
+
+IndustryDto --> Industry
+Industry --> "1" ResourceType : producedResource
+Industry --> "1" ResourceType : consumedResource
+Industry --> "1" IndustryType : industry type
+
+
+@enduml

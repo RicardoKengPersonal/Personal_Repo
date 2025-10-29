@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="pt.ipp.isep.dei.esoft.project.ui.gui.CreateToDoListTaskGUI"
+          hgap="10" vgap="10"
+          stylesheets="@css/CreateToDoListTask.css">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Task Name:" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="label"/>
+    <TextField fx:id="taskNameField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+    <Label text="Task description:" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="label"/>
+    <TextField fx:id="taskDescriptionField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+    <Label text="Task duration:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="label"/>
+    <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <TextField fx:id="taskDurationField"/>
+        <ComboBox fx:id="taskDurationUnitComboBox" prefWidth="100">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Minutes"/>
+                    <String fx:value="Hours"/>
+                    <String fx:value="Days"/>
+                </FXCollections>
+            </items>
+        </ComboBox>
+    </HBox>
+
+    <Label text="Task GreenSpace:" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="label"/>
+    <ComboBox fx:id="taskGreenSpaceComboBox" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="200"/>
+
+    <Label text="Task Urgency Degree:" GridPane.columnIndex="0" GridPane.rowIndex="4" styleClass="label"/>
+    <ComboBox fx:id="taskUrgencyDegreeComboBox" GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="200"/>
+    <!-- Submit and Go Back buttons -->
+    <Button fx:id="submitButton" text="Submit" onAction="#submit" GridPane.columnIndex="0" GridPane.rowIndex="10" GridPane.halignment="LEFT" styleClass="button"/>    <Button fx:id="goBackButton" text="Go Back" onAction="#goBack" GridPane.columnIndex="1" GridPane.rowIndex="10" GridPane.halignment="RIGHT" styleClass="button"/>
+</GridPane>

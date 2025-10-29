@@ -1,0 +1,147 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "Green Space Manager" as GSM
+participant ":ToDoListGUI" as UI
+participant ":ToDoListController" as GSC
+participant ":CreateTaskController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "greenSpacesRepository\n:GreenSpacesRepository" as GSR
+participant "GreenSpaceMapper" as GSMapper
+participant "GreenSpaceDTO" as GSDto
+participant "ToDoList" as TDL
+participant "task:Task" as Task
+participant "GreenSpace" as GS
+
+activate GSM
+
+    GSM -> UI : asks to add a new entry to the To-Do List
+    activate UI
+
+        UI -> GSC : getGreenSpaces()
+        activate GSC
+
+            GSC -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
+
+                RepositorySingleton --> GSC : repositories
+            deactivate RepositorySingleton
+
+            GSC -> PLAT : getGreenSpaceRepository()
+            activate PLAT
+
+                PLAT --> GSC : greenSpaceRepository
+            deactivate PLAT
+
+            GSC -> GSR : getGreenSpaces()
+            activate GSR
+
+                GSR --> GSC : greenSpaces
+            deactivate GSR
+            loop for each green space in the repository
+            GSC --> GSMapper: toDTO(greenspace)
+            activate GSMapper
+
+            GSMapper --> GSDto**: create()
+            activate GSDto
+
+            GSDto --> GSMapper: greenSpaceDto
+            deactivate GSDto
+
+            GSMapper --> GSC: greenSpaceDto
+            deactivate GSMapper
+
+            end
+
+            GSC --> UI : greenSpaces
+        deactivate GSC
+
+loop if an error appears
+
+        UI --> GSM : displays a list of green spaces
+    deactivate UI
+
+    GSM -> UI : selects a green space
+    activate UI
+
+    UI --> GSM :  requests data (i.e. title, description, state, \nduration, degree of urgency)
+    deactivate UI
+
+    GSM -> UI : types requested data
+    activate UI
+
+        UI -> CTRL** : create
+
+        UI -> CTRL : createTask(title, description, degreeOfUrgency, \nexpectedDuration, status)
+        activate CTRL
+
+            CTRL -> RepositorySingleton : getInstance()
+                       activate RepositorySingleton
+
+                           RepositorySingleton --> CTRL : repositories
+                       deactivate RepositorySingleton
+
+                       CTRL -> GS : getToDoList()
+                       activate GS
+
+                           GS --> CTRL : toDoList
+                       deactivate GS
+
+
+                       CTRL --> UI : task
+                   deactivate CTRL
+
+                   end
+
+               UI --> GSM : shows all data and requests confirmation
+                deactivate UI
+
+                loop until all data is validated
+
+                GSM -> UI : confirms data
+                activate UI
+
+
+        UI -> CTRL : createToDoListEntry(task)
+        activate CTRL
+
+            CTRL -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
+
+                RepositorySingleton --> CTRL : repositories
+            deactivate RepositorySingleton
+
+            CTRL -> GS : getToDoListRepository()
+            activate GS
+
+                GS --> CTRL : toDoListRepository
+            deactivate GS
+
+            CTRL -> TDL : addToDoListEntry(toDoListEntry)
+            activate TDL
+            TDL --> Task** : <<creates>>
+            TDL -> TDL : registerTask(task)
+
+                TDL --> CTRL : true/false
+            deactivate TDL
+
+            CTRL -> GSR : updateGreenSpace(greenSpace)
+            activate GSR
+
+            GSR --> CTRL : greenSpaceUpdated
+            deactivate GSR
+end
+            CTRL --> UI : greenSpaceUpdated
+        deactivate CTRL
+
+        UI --> GSM : displays operation success
+
+    deactivate UI
+    deactivate GSM
+@enduml

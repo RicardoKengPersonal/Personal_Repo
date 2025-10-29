@@ -1,0 +1,40 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam sequence {
+    ParticipantPadding 30
+    ActorPadding 20
+}
+
+actor "CRM Collaborator" as Collaborator
+participant "MarkProposalAcceptedUI" as UI
+participant ":MarkProposalAcceptedController" as Controller
+participant ":ShowProposalService" as Service
+participant "JpaShowProposalRepository" as Repository
+participant ":ShowProposal" as Proposal
+activate Collaborator
+
+Collaborator -> UI : Mark proposal as accepted (proposalId)
+activate UI
+UI -> Controller : markProposalAsAccepted(showProposalId)
+activate Controller
+Controller -> Service : markProposalAsAccepted(showProposalId)
+activate Service
+Service -> Repository : findById(showProposalId)
+activate Repository
+Repository --> Service : ShowProposal
+deactivate Repository
+Service -> Proposal : markShowProposalAsAccepted()
+activate Proposal
+Proposal -> Service : success
+deactivate Proposal
+Service -> Repository : save(showProposal)
+activate Repository
+Repository --> Service : confirmation
+deactivate Repository
+Service --> Controller : success
+Controller --> UI : confirmation message
+UI --> Collaborator : displays operation success
+
+@enduml

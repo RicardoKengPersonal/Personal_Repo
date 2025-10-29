@@ -1,0 +1,78 @@
+SET SERVEROUTPUT ON;
+
+-- Case 1: Product has operations (Expected: Print operations)
+DECLARE
+    cur SYS_REFCURSOR;
+    v_idProduct NUMBER;
+    v_idOperation NUMBER;
+    v_sequenceNumber NUMBER;
+BEGIN
+    -- Call the function for a product that has operations
+    cur := get_product_operations(13);  -- Change 13 to a valid product ID with operations
+
+    -- Loop through the cursor to fetch and display rows
+    LOOP
+        FETCH cur INTO v_idProduct, v_idOperation, v_sequenceNumber;
+        EXIT WHEN cur%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('idProduct: ' || v_idProduct ||
+                             ', idOperation: ' || v_idOperation ||
+                             ', sequenceNumber: ' || v_sequenceNumber);
+    END LOOP;
+
+    -- Close the cursor after fetching all rows
+    CLOSE cur;
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+-- Case 2: Product exists but has no operations (Expected: ORA-20001 error)
+DECLARE
+    cur SYS_REFCURSOR;
+    v_idProduct NUMBER;
+    v_idOperation NUMBER;
+    v_sequenceNumber NUMBER;
+BEGIN
+    -- Call the function for a product that exists but has no operations
+    cur := get_product_operations(1);  -- Change 1 to a product without operations
+
+    LOOP
+        FETCH cur INTO v_idProduct, v_idOperation, v_sequenceNumber;
+        EXIT WHEN cur%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('idProduct: ' || v_idProduct ||
+                             ', idOperation: ' || v_idOperation ||
+                             ', sequenceNumber: ' || v_sequenceNumber);
+    END LOOP;
+
+    CLOSE cur;
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/
+
+-- Case 3: Product does not exist (Expected: ORA-20001 error)
+DECLARE
+    cur SYS_REFCURSOR;
+    v_idProduct NUMBER;
+    v_idOperation NUMBER;
+    v_sequenceNumber NUMBER;
+BEGIN
+    -- Call the function for a non-existent product
+    cur := get_product_operations(999);  -- Change 999 to a non-existent product
+
+    LOOP
+        FETCH cur INTO v_idProduct, v_idOperation, v_sequenceNumber;
+        EXIT WHEN cur%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('idProduct: ' || v_idProduct ||
+                             ', idOperation: ' || v_idOperation ||
+                             ', sequenceNumber: ' || v_sequenceNumber);
+    END LOOP;
+
+    CLOSE cur;
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/

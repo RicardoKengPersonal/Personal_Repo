@@ -1,0 +1,49 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #F9E79F
+  BorderColor Black
+}
+
+actor "Show Designer" as SD
+participant "ToggleFigureCategoryActivationUI" as UI
+participant "ToggleFigureCategoryActivationController" as Controller
+participant "FigureCategoryService" as Service
+participant "PersistenceContext" as PC
+participant "RepositoryFactory" as RF
+participant "FigureCategoryRepository" as Repo
+
+== List categories ==
+
+SD -> UI : Request to change category status
+UI -> Controller : create
+Controller -> PC : repositories()
+PC -> RF : create
+RF -> Repo : create
+UI -> Controller : listCategories()
+Controller -> Service : listAllCategories()
+Service -> Repo : findAll()
+Repo --> Service : list
+Service --> Controller : list
+Controller --> UI : list
+UI -> SD : display list
+
+== Toggle status ==
+
+SD -> UI : Select category ID
+UI -> Controller : toggleActivation(id)
+Controller -> Service : toggleCategoryActivation(id)
+Service -> Repo : ofIdentity(id)
+alt not found
+    Service -> Controller : throw error
+    Controller -> UI : show error
+    UI -> SD : show error
+else
+    Service -> FigureCategory : activate() or deactivate()
+    Service -> Repo : save(category)
+    Repo --> Service : confirmation
+    Service --> Controller : success
+    Controller --> UI : show updated status
+    UI -> SD : show success
+end
+@enduml

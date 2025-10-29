@@ -1,0 +1,28 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #F9E79F
+  BorderColor Black
+}
+
+actor "Show Designer \n CRM Collaborator" as User
+participant "ListFigureCategoriesUI" as UI
+participant "ListFigureCategoriesController" as Controller
+participant "FigureCategoryService" as Service
+participant "PersistenceContext" as PC
+participant "RepositoryFactory" as RF
+participant "FigureCategoryRepository" as Repo
+
+User -> UI : Request to view categories
+UI -> Controller : create
+Controller -> PC : repositories()
+PC -> RF : create
+RF -> Repo : create
+UI -> Controller : listAllCategories()
+Controller -> Service : listAllCategories()
+Service -> Repo : findAll()
+Repo --> Service : categories
+Service --> Controller : categories
+Controller --> UI : categories
+UI -> User : Display list
+@enduml

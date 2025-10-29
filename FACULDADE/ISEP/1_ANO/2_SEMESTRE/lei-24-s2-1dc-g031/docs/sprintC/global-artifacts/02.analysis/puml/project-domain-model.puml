@@ -1,0 +1,142 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide circle
+hide methods
+
+class HumanResourcesManager{
+}
+
+class GreenSpacesManager{
+}
+
+class VehicleFleetManager{
+}
+
+class Collaborator {
+    name
+    birthDate
+    admissionDate
+    address
+    mobileNumber
+    email
+    taxPayerNumber
+    identificationDocumentType
+    documentIdentificationNumber
+    skills
+    job
+}
+
+class UserPortal{
+}
+
+class Team {
+    collaborators
+    skills
+}
+
+class Job {
+     name
+}
+
+class Skill {
+     name
+}
+
+class Task {
+    taskName
+    description
+    greenSpace
+    estimatedDuration
+    taskStatus
+    taskUrgencyDegree
+}
+
+class Entry {
+    date
+}
+
+class Address {
+    street
+    doorNumber
+    zipCode
+}
+
+class GreenSpace {
+    greenSpaceName
+    greenSpaceStreet
+    greenSpaceType
+    greenSpaceManagerEmail
+    greenSpaceArea
+}
+
+class Vehicle{
+    plate
+    brand
+    model
+    type
+    tareWeight
+    grossWeight
+    currentKm
+    registerDate
+    acquisitionDate
+    maintenanceFrequency
+}
+
+class VehicleCheckup{
+    plateNumber
+    date
+    kmAtCheckup
+}
+
+class ToDoList{
+}
+
+class Agenda{
+}
+
+class DocumentType{
+    name
+}
+
+class GreenSpaceType{
+    name
+}
+
+UserPortal "1" - "0..*" Collaborator : uses <
+UserPortal "1" - "1" HumanResourcesManager : uses <
+UserPortal "1" - "1" GreenSpacesManager : uses <
+UserPortal "1" - "1" VehicleFleetManager : uses <
+
+Collaborator "1..*" -- "1" Team : is part of >
+Skill "1..*"--"1" Team : need <
+Job "1"--"1" Collaborator : has <
+Skill "0..*"--"1" Collaborator : has <
+
+Agenda "1"--"0..*" Entry : has >
+Entry "1"--"1" Team : is assigned to <
+Entry "1"--"1" Task : is associated to >
+Entry "1"--"0..*" Vehicle : is assigned to <
+
+Task "0..*"--"1" ToDoList : has <
+Task "1"--"1" GreenSpace : is assigned to <
+
+Vehicle "1"--"0..*" VehicleCheckup : has >
+Address "1"--"1" Collaborator : has <
+Address "1"--"1" GreenSpace : has <
+
+DocumentType "1"--"1" Collaborator : has <
+GreenSpaceType "1"--"1" GreenSpace : has <
+
+GreenSpace "0..*"--"1" GreenSpacesManager : creates <
+Vehicle "0..*"--"1" VehicleFleetManager : creates <
+Collaborator "0..*"--"1" HumanResourcesManager : creates <
+
+HumanResourcesManager "1"--"0..*" Team : generates >
+GreenSpacesManager "1"--"0..*" Entry : creates >
+VehicleFleetManager "1"--"0..*" VehicleCheckup: registers >
+GreenSpacesManager "1"--"0..*" Task : creates >
+Collaborator "1"--"0..*" Task : completes >
+@enduml

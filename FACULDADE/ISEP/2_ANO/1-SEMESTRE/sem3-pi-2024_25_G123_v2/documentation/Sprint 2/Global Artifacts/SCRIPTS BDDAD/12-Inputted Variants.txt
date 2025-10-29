@@ -1,0 +1,17 @@
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (1,2,1,'unit');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (2,22,1,'unit');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (2,36,5,'ml');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (3,23,1,'unit');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (3,36,5,'ml');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (4,24,1,'unit');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (5,25,1,'unit');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (5,5,2,'unit');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (6,3,1,'unit');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (7,26,1,'unit');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (7,36,5,'ml');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (8,27,1,'unit');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (9,28,1,'unit');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (9,6,1,'unit');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (10,29,1,'unit');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (11,16,1,'unit');
+INSERT INTO "Inputted Variants"(input_id,variant_id,quantity,unit) VALUES (11,17,1,'unit');

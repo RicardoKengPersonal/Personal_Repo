@@ -1,0 +1,67 @@
+-- Inserting data into the variant table
+INSERT INTO variant (idProduct, name, description, availableStock)
+VALUES (11, 'Screw M6 35 mm - Variant 1', 'Variant for Screw M6, 35 mm length', 100);
+INSERT INTO variant (idProduct, name, description, availableStock)
+VALUES (12, 'Stainless Steel Sheet 300x300 mm - Variant 1', 'Variant for 5mm stainless steel sheet', 50);
+INSERT INTO variant (idProduct, name, description, availableStock)
+VALUES (13, 'Stainless Steel Sheet 300x300 mm - Variant 1', 'Variant for 1mm stainless steel sheet', 75);
+INSERT INTO variant (idProduct, name, description, availableStock)
+VALUES (14, 'Rivet 6 mm - Variant 1', 'Variant for 6mm rivets', 200);
+INSERT INTO variant (idProduct, name, description, availableStock)
+VALUES (15, 'Stainless Steel Handle Model U6 - Variant 1', 'Variant for U6 handle', 150);
+INSERT INTO variant (idProduct, name, description, availableStock)
+VALUES (16, 'Screw M6 35 mm - Variant 2', 'Variant for Screw M6, 35 mm length', 100);
+INSERT INTO variant (idProduct, name, description, availableStock)
+VALUES (17, 'Stainless Steel Sheet 300x300 mm - Variant 2', 'Variant for 5mm stainless steel sheet', 50);
+INSERT INTO variant (idProduct, name, description, availableStock)
+VALUES (18, 'Stainless Steel Sheet 300x300 mm - Variant 2', 'Variant for 1mm stainless steel sheet', 75);
+INSERT INTO variant (idProduct, name, description, availableStock)
+VALUES (19, 'Rivet 6 mm - Variant 2', 'Variant for 6mm rivets', 200);
+INSERT INTO variant (idProduct, name, description, availableStock)
+VALUES (20, 'Stainless Steel Handle Model U6 - Variant 2', 'Variant for U6 handle', 150);
+
+CREATE SEQUENCE productionOrder_seq
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+-- Insert sample data into the productionOrder table
+INSERT INTO productionOrder (idProductionOrder, idOrder, idVariant, priority)
+VALUES (productionOrder_seq.NEXTVAL, 1, 1, 'High');
+INSERT INTO productionOrder (idProductionOrder, idOrder, idVariant, priority)
+VALUES (productionOrder_seq.NEXTVAL, 1, 2, 'Medium');
+INSERT INTO productionOrder (idProductionOrder, idOrder, idVariant, priority)
+VALUES (productionOrder_seq.NEXTVAL, 2, 3, 'Low');
+INSERT INTO productionOrder (idProductionOrder, idOrder, idVariant, priority)
+VALUES (productionOrder_seq.NEXTVAL, 2, 4, 'High');
+INSERT INTO productionOrder (idProductionOrder, idOrder, idVariant, priority)
+VALUES (productionOrder_seq.NEXTVAL, 2, 5, 'Medium');
+INSERT INTO productionOrder (idProductionOrder, idOrder, idVariant, priority)
+VALUES (productionOrder_seq.NEXTVAL, 3, 6, 'Low');
+INSERT INTO productionOrder (idProductionOrder, idOrder, idVariant, priority)
+VALUES (productionOrder_seq.NEXTVAL, 3, 7, 'High');
+
+INSERT INTO orderedItem (idOrder, idVariant, quantity)
+VALUES (1, 6, 10);
+INSERT INTO orderedItem (idOrder, idVariant, quantity)
+VALUES (1, 7, 5);
+INSERT INTO orderedItem (idOrder, idVariant, quantity)
+VALUES (2, 9, 15);
+INSERT INTO orderedItem (idOrder, idVariant, quantity)
+VALUES (2, 10, 25);
+INSERT INTO orderedItem (idOrder, idVariant, quantity)
+VALUES (3, 6, 10);
+INSERT INTO orderedItem (idOrder, idVariant, quantity)
+VALUES (3, 7, 5);
+
+INSERT INTO part (idProduct, minimumStock, availableStock, idPartType)
+VALUES (16, 100, 50, 1);
+INSERT INTO part (idProduct, minimumStock, availableStock, idPartType)
+VALUES (17, 100, 75, 1);
+INSERT INTO part (idProduct, minimumStock, availableStock, idPartType)
+VALUES (18, 100, 200, 1);
+INSERT INTO part (idProduct, minimumStock, availableStock, idPartType)
+VALUES (19, 100, 150, 1);
+INSERT INTO part (idProduct, minimumStock, availableStock, idPartType)
+VALUES (20, 100, 100, 1);
+

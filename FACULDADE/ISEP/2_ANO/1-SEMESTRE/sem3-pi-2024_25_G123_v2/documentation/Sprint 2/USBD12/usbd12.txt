@@ -1,0 +1,53 @@
+CREATE OR REPLACE FUNCTION get_product_parts(p_product_id IN NUMBER)
+   RETURN SYS_REFCURSOR
+IS
+   -- Declaração do cursor de referência para o resultado
+   v_cursor SYS_REFCURSOR;
+
+BEGIN
+   -- Abre o cursor com a consulta recursiva
+   OPEN v_cursor FOR
+   WITH PartHierarchy (part_id, quantity, unit) AS (
+      -- Base case: partes diretamente associadas ao produto dado
+      SELECT
+         bv.variant_id AS part_id,  -- ID da parte
+         bv.quantity,              -- Quantidade
+         bv.unit                   -- Unidade de medida
+      FROM
+         "Bill of Operations" boo
+         JOIN "Inputted Variants" bv ON boo.Input_id = bv.input_id
+      WHERE
+         boo.finished_variant_id = p_product_id
+      UNION ALL
+      -- Recursive case: partes de subprodutos
+      SELECT
+         bv.variant_id AS part_id,
+         bv.quantity,
+         bv.unit
+      FROM
+         "Bill of Operations" boo
+         JOIN "Inputted Variants" bv ON boo.Input_id = bv.input_id
+         JOIN PartHierarchy ph ON boo.finished_variant_id = ph.part_id
+   )
+   -- Consulta final: soma as quantidades e organiza as unidades
+   SELECT
+      part_id,
+      SUM(quantity) AS total_quantity, -- Soma as quantidades por parte
+      MAX(unit) AS unit                -- Usa a unidade de medida predominante
+   FROM
+      PartHierarchy
+   GROUP BY
+      part_id;
+
+   -- Retorna o cursor
+   RETURN v_cursor;
+
+EXCEPTION
+   -- Caso nenhuma parte seja encontrada
+   WHEN NO_DATA_FOUND THEN
+      RAISE_APPLICATION_ERROR(-20001, 'Invalid product_variant_id or no parts found.');
+   -- Captura outros erros
+   WHEN OTHERS THEN
+      RAISE_APPLICATION_ERROR(-20002, 'An unexpected error occurred: ' || SQLERRM);
+END;
+/

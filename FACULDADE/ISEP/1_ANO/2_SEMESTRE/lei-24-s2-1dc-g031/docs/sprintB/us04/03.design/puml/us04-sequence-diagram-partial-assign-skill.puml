@@ -1,0 +1,29 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'hide footbox
+
+participant "AssignSkillController" as CTRL
+participant Repositories
+participant "repositories\n:Repositories" as REP
+participant "collaboratorsRepository\n:CollaboratorsRepository" as COLREP
+
+autonumber 23
+
+-> CTRL: assignSkill(collaborator, skill)
+activate CTRL
+
+    group Assign Skill
+        CTRL -> COLREP: assignSkill(collaborator, skill)
+        activate COLREP
+            COLREP --> CTRL: success
+        deactivate COLREP
+    end
+
+    <-- CTRL: success
+
+deactivate CTRL
+
+@enduml

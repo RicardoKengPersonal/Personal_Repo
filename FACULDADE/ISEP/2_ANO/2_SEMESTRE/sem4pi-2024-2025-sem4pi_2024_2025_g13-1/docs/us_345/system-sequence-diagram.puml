@@ -1,0 +1,25 @@
+@startuml
+actor "User" as User
+participant "System" as System
+title System Sequence Diagram (SSD) - US345 Drone Plugin
+
+User --> System : Requests to add a language to a drone
+System --> User : Lists the drones
+alt no drone found
+    System --> User : Displays error message
+else drone found
+System --> User : Requests the name of the drone to associate a language with
+User --> System : Enters the name of the drone
+alt error with drone name
+    System --> User : Displays error message
+else success with drone name
+System --> User : Ask to select a drone language
+User --> System : Select the drone language
+alt error with drone language
+    System --> User : Displays error message
+else success with drone language
+System --> User : Displays success message
+end
+end
+end
+@enduml

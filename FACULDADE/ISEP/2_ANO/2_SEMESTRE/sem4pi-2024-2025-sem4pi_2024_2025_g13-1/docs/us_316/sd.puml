@@ -1,0 +1,48 @@
+@startuml
+title US316 - Send Show Proposal (Actual Implementation)
+
+actor "CRM Collaborator" as CRM
+participant SendShowProposalUI as UI
+participant SendShowProposalController as Controller
+participant SendShowProposalService as Service
+participant ShowProposalRepository as Repo
+participant "proposal:ShowProposal" as Proposal
+
+CRM -> UI : Requests to send a proposal
+UI -> Controller : sendProposal(proposalID)
+Controller -> Service : sendProposal(id)
+
+Service -> Repo : ofIdentity(id)
+
+alt Proposal not found
+    Repo --> Service : empty
+    Service --> Controller : throws IllegalArgumentException
+    Controller --> UI : informs of error
+    UI -> CRM : displays error message "Proposal not found"
+else Proposal found
+    Repo --> Service : proposal
+
+    ' A validação é um método privado do serviço que invoca métodos na proposta
+    Service -> Service : validateProposal(proposal)
+    note right
+        This step internally calls:
+        - proposal.videoLink()
+        - proposal.figureEntries()
+        - proposal.getDroneFleet()
+        - proposal.status()
+        If any check fails, it throws IllegalStateException.
+    end note
+
+    ' A lógica de negócio é delegada à entidade de domínio
+    Service -> Proposal : markAsSentAndGenerateAccessCode()
+    Proposal --> Service : accessCode
+
+    ' O serviço persiste a alteração de estado
+    Service -> Repo : save(proposal)
+
+    Service --> Controller : accessCode
+    Controller --> UI : informs of success with access code
+    UI --> CRM : displays "Operation successful. Access Code: [accessCode]"
+end
+
+@enduml

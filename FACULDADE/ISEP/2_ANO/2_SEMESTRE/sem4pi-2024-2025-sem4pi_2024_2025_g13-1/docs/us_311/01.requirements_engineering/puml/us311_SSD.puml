@@ -1,0 +1,21 @@
+@startuml
+actor "CRM Collaborator" as CRM
+participant ":System" as System
+
+activate CRM
+CRM -> System : asks to login
+activate System
+System --> CRM : Authentication successful
+deactivate System
+CRM -> System : asks to add drones to a show proposal
+activate System
+System --> CRM : shows all available drones and asks to select the drones that he desires
+deactivate System
+CRM -> System : selects drones
+activate System
+System --> CRM : asks for confirmation
+deactivate System
+CRM -> System : confirms
+activate System
+System --> CRM : displays operation success
+@enduml

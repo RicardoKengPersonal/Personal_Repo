@@ -1,0 +1,6 @@
+S_Lisbon;S_Porto;1;300
+S_Porto;S_Braga;1;50
+S_Braga;S_Guimaraes;0;25
+S_Guimaraes;S_Lisbon;0;350
+S_Porto;S_Coimbra;1;120
+S_Coimbra;S_Lisbon;1;200

@@ -1,0 +1,4 @@
+terminal:
+    cd C:\...\sem4pi-2024-2025-sem4pi_2024_2025_g13\lprog\us251
+    antlr4 -Dlanguage=Python3 gramatica.g4
+    antlr4-parse gramatica.g4 programa -gui input.txt

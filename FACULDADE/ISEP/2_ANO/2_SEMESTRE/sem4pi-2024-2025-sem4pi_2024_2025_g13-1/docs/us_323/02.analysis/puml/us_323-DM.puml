@@ -1,0 +1,106 @@
+@startuml
+
+skinparam linetype ortho
+
+skinparam package {
+  BackgroundColor #D6EAF8
+  BorderColor Black
+
+}
+
+' ==== DRONE ====
+
+package "shodrone.core.dronemanagement.domain" <<Aggregate>> {
+
+   class Drone <<Entity, AggregateRoot>> {
+   - LocalDate acquisitionDate
+  }
+
+  enum DroneStatus <<Enum>> {
+    ACTIVE,
+    IN_REPAIR,
+    DECOMMISSIONED
+  }
+
+  class DroneMaintenance <<Entity>> {
+    - LocalDate maintenanceDate
+    - LocalDate nextMaintenanceDate
+  }
+
+  Class MaintenanceType <<Entity, AggregateRoot>> {
+  }
+
+  class DroneModel <<Entity, AggregateRoot>> {
+  }
+
+  class DroneModelID <<ValueObject>> {}
+
+    class DroneID <<ValueObject>> {
+    }
+
+}
+
+package "shodrone.core.dronemanagement.service" {
+
+ class DroneModelService <<DomainService>> {
+
+ }
+
+ class DroneService <<DomainService>> {
+Checks availability of drones for specific shows,
+considering inventory status and schedule.
+Manages drone inventory: registration,
+repair status and maintenance scheduling.
+ }
+
+}
+
+package "shodrone.core.dronemanagement.repository" {
+
+interface DroneRepository
+interface DroneModelRepository
+interface MaintenanceTypeRepository
+
+}
+
+' ==== JPA / IN MEMORY REPOSITORY ====
+
+package "shodrone.persistence.JPARepository" {
+
+class JpaDroneRepository
+class JpaDroneModelRepository
+class JpaMaintenanceTypeRepository
+
+}
+
+package "shodrone.persistence.InMemoryRepository" {
+
+class InMemoryDroneRepository
+class InMemoryDroneModelRepository
+class InMemoryMaintenanceTypeRepository
+}
+
+Drone  -->  DroneStatus
+Drone "1" *-- "0...*" DroneMaintenance
+Drone "1" *-- "1...*" DroneModelID
+DroneModel *-- DroneModelID
+Drone  *--  DroneID
+
+DroneMaintenance "0...*" *-- "1" MaintenanceType
+
+DroneService ..> Drone
+DroneModelService ..> DroneModel
+
+DroneRepository <|.. JpaDroneRepository
+DroneRepository <|.. InMemoryDroneRepository
+DroneRepository ..> Drone
+DroneModelRepository <|.. JpaDroneModelRepository
+DroneModelRepository <|.. InMemoryDroneModelRepository
+DroneModelRepository ..> DroneModel
+
+MaintenanceTypeRepository <|.. JpaMaintenanceTypeRepository
+MaintenanceTypeRepository <|.. InMemoryMaintenanceTypeRepository
+MaintenanceTypeRepository ..> MaintenanceType
+
+
+@enduml

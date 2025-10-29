@@ -1,0 +1,145 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Global Use Case Diagram
+
+left to right direction
+
+rectangle "System User" as actors {
+    actor HRM
+    actor VFM
+    actor GSM
+    actor QAM
+    actor GSU
+    actor CLB
+}
+
+rectangle "Use Cases" as usecases{
+    usecase "US01/UC01 - Register a Skill" as UC01
+    HRM --> UC01
+}
+
+rectangle "Use Cases" as usecases{
+    usecase "US02/UC02 - Register a Job" as UC02
+    HRM --> UC02
+}
+
+rectangle "Use Cases" as usecases{
+    usecase "US03/UC03 - Register a collaborator with a job\n and fundamental characteristics." as UC03
+    HRM --> UC03
+}
+
+rectangle "Use Cases" as usecases{
+    usecase "US04/UC04 - Assign skills to a collaborator" as UC04
+    HRM --> UC04
+}
+
+rectangle "Use Cases" as usecases{
+    usecase "US05/UC05 - Generate a team" as UC05
+    HRM --> UC05
+}
+
+rectangle "Use Cases" as usecases{
+    usecase "US06/UC06 - Register a vehicle" as UC06
+    VFM --> UC06
+}
+
+rectangle "Use Cases" as usecases{
+    usecase "US07/UC007 - Register a Vehicle checkup" as UC07
+    VFM --> UC07
+}
+
+rectangle "Use Cases" as usecases{
+    usecase "US08/UC08 - List Vehicles Needing Check-up" as UC08
+    VFM --> UC08
+}
+
+rectangle "Use Cases" as usecases{
+    usecase "US09/UC09 - See the exact costs referring to \nwater consumption of specific green spaces" as UC09
+    GSM --> UC09
+}
+
+rectangle "Use Cases" as usecases{
+    usecase "US10/UC10 - See in a pie chart which piece(s) \nof equipment is/are used in each day" as UC10
+    GSM --> UC10
+}
+rectangle "Use Cases" as usecases{
+    usecase "US11/UC11 - Collect data from the user portal" as UC11
+    GSM --> UC11
+}
+rectangle "Use Cases" as usecases{
+    usecase "US12/UC12 - I want to import a .csv file containing routes" as UC12
+    GSM --> UC12
+}
+rectangle "Use Cases" as usecases{
+    usecase "US13/UC13 - Apply an algorithm that returns the \nroutes to be opened, with minimum cost" as UC13
+    GSM --> UC13
+}
+rectangle "Use Cases" as usecases{
+    usecase "US14/UC14 - Run tests for inputs of variable size,\nto observe the asymptotic behavior of the execution\ntime of the US13" as UC14
+    QAM --> UC14
+}
+
+rectangle "Use Cases" as usecases{
+    usecase "US15/UC15 - Predict the average monthly cost that will \nbe paid for water consumption." as UC15
+    GSM --> UC15
+}
+rectangle "Use Cases" as usecases{
+    usecase "US16/UC16 - Determine the best line that fits the data in US14." as UC16
+    GSM --> UC16
+}
+rectangle "Use Cases" as usecases{
+    usecase "US17/UC17 - Place signs to evacuate to an Assembly Point." as UC17
+    GSM --> UC17
+}
+rectangle "Use Cases" as usecases{
+    usecase "US18/UC18 - Place signs to evacuate to an Meeting Point." as UC18
+    GSM --> UC18
+}
+rectangle "Use Cases" as usecases{
+    usecase "US19/UC19 - Conclude about the worst-case time complexity of the \nprocedures developed in US13, US17, and US18." as UC19
+    QAM --> UC19
+}
+rectangle "Use Cases" as usecases{
+    usecase "US20/UC20 - Register a green space and its respective area." as UC20
+    GSM --> UC20
+}
+rectangle "Use Cases" as usecases{
+    usecase "US21/UC21 - Add a new entry to the To-Do List." as UC21
+    GSM --> UC21
+}
+rectangle "Use Cases" as usecases{
+    usecase "US22/UC22 - Add a new entry in the Agenda." as UC22
+    GSM --> UC22
+}
+rectangle "Use Cases" as usecases{
+    usecase "US23/UC23 - Assign a Team to an entry in the Agenda." as UC23
+    GSM --> UC23
+}
+rectangle "Use Cases" as usecases{
+    usecase "US24/UC24 - Postpone an entry in the Agenda to a future date." as UC24
+    GSM --> UC24
+}
+rectangle "Use Cases" as usecases{
+    usecase "US25/UC25 - Cancel an entry in the Agenda." as UC25
+    GSM --> UC25
+}
+rectangle "Use Cases" as usecases{
+    usecase "US26/UC26 - Assign one or more vehicles to an entry in the Agenda." as UC26
+    GSM --> UC26
+}
+rectangle "Use Cases" as usecases{
+    usecase "US27/UC27 - List all green spaces managed by a GSM." as UC27
+    GSM --> UC27
+}
+rectangle "Use Cases" as usecases{
+    usecase "US28/UC28 - Consult the tasks assigned to a CLB." as UC28
+    CLB --> UC28
+}
+rectangle "Use Cases" as usecases{
+    usecase "US29/UC29 - Record the completion of a task." as UC29
+    CLB --> UC29
+}
+@enduml

@@ -1,0 +1,98 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+'skinparam linetype ortho
+'left to right direction
+skinparam classAttributeIconSize 0
+hide circle
+hide methods
+
+'title Domain Model
+
+class User{
+    name
+    email
+    password
+}
+class Role{
+    name
+    description
+}
+
+class  Map{
+    name
+    width
+    height
+}
+
+class Station{
+    name
+    location
+    upgrades
+}
+
+class StationType{
+    name
+    description
+}
+
+class RailwayLine{
+    number
+    length
+    type
+}
+
+class Train {
+    id
+}
+
+class Locomotive{
+    id
+    power
+    acceleration
+    topSpeed
+    startYearOfOperation
+    aquisitionPrice
+}
+
+class LocomotiveType{
+    name
+    description
+}
+
+class Carriage{
+    id
+    type
+    capacity
+}
+
+class Route{
+    id
+}
+
+class Cargo{
+    type
+    quantity
+}
+
+User "*" -- "1" Role : has
+User "1" -- "*" Map : manages
+
+Map "*" -- "*" Train : has
+Map "1" -- "*" Station : contains
+
+Train "1" -- "1" Locomotive : has
+Train "1" -- "*" Carriage : has
+
+RailwayLine "1" -- "2" Station : connects
+
+Route "*" -- "*" Station : has
+
+Carriage "*" -- "1" Cargo : carries
+
+Station "1" -- "1" StationType : has
+
+Locomotive "*" -- "1" LocomotiveType : has
+
+@enduml

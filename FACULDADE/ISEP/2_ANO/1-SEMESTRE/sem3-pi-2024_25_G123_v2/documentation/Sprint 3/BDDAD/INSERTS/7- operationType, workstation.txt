@@ -1,0 +1,84 @@
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Disc cutting', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5647'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Initial pot base pressing', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5649'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Final pot base pressing', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5651'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Pot base finishing', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5653'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Lid pressing', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5655'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Lid finishing', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5657'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Pot handles riveting', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5659'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Lid handle screw', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5661'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Pot test and packaging', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5663'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Handle welding', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5665'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Lid polishing', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5667'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Pot base polishing', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5669'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Teflon painting', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5671'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Initial pan base pressing', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5681'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Final pan base pressing', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5682'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Pan base finishing', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5683'));
+INSERT INTO operationType (description, idLegacyIdentification) VALUES ('Pan test and packaging', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5688'));
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Press 01', '220-630t cold forging press', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '9875'), 1);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Press 02', '220-630t cold forging press', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '9886'), 1);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Press 03', '220-630t precision cold forging press', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '9847'), 2);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Press 04', '160-1000t precision cold forging press', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '9855'), 2);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Rivet 02', 'Rivet station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '8541'), 4);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Rivet 03', 'Rivet station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '8543'), 4);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Packaging 01', 'Packaging station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '6814'), 5);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Packaging 02', 'Packaging station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '6815'), 5);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Packaging 03', 'Packaging station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '6816'), 5);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Packaging 04', 'Packaging station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '6821'), 5);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Packaging 05', 'Packaging station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '6822'), 6);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Welding 01', 'Spot welding station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '8167'), 8);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Welding 02', 'Spot welding station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '8170'), 8);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Welding 03', 'Spot welding station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '8171'), 8);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Assembly 01', 'Product assembly station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '7235'), 11);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Assembly 02', 'Product assembly station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '7236'), 11);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Assembly 03', 'Product assembly station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '7238'), 11);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Trimming 01', 'Metal trimming station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '5124'), 7);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Polishing 01', 'Metal polishing station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '4123'), 10);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Polishing 02', 'Metal polishing station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '4124'), 10);
+
+INSERT INTO workstation (name, description, idLegacyIdentification, idworkstationtype)
+VALUES ('Polishing 03', 'Metal polishing station', (SELECT idLegacyIdentification FROM legacyIdentification WHERE legacyCode = '4125'), 10);
+
+SELECT * FROM workstation;
+
+SELECT * FROM operationType;

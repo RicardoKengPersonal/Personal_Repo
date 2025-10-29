@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<GridPane hgap="10" stylesheets="@css/CreateCollaboratorAssignJob.css" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.ipp.isep.dei.esoft.project.ui.gui.RegisterMaintenanceGUI">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+    <children>
+        <!-- Form fields for collaborator's details -->
+        <Label styleClass="label" text="Plate:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <TextField fx:id="plateNumberField" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+        <Label styleClass="label" text="Checkup Date:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="dateField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+        <Label styleClass="label" text="Km at Checkup:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <TextField fx:id="kmAtCheckupField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+        <!-- Submit and Go Back buttons -->
+        <Button fx:id="submitButton" onAction="#submit" styleClass="button" text="Submit" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="10" />
+        <Button fx:id="goBackButton" onAction="#goBack" styleClass="button" text="Go Back" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="10" />
+    </children>
+    <columnConstraints>
+        <ColumnConstraints />
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
+</GridPane>

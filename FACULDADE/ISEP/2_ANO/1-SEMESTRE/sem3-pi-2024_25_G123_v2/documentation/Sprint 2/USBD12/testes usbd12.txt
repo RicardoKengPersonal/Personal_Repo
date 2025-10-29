@@ -1,0 +1,58 @@
+-- Testes para a função getProductParts
+
+-- Caso 1:Sucesso
+--DECLARE
+--    v_cursor SYS_REFCURSOR;
+--    v_part_id NUMBER;
+--    v_quantity NUMBER;
+--    v_unit VARCHAR2(50);
+--BEGIN
+--    v_cursor := get_product_parts(13);
+
+    -- Fetch and print results
+--    LOOP
+--        FETCH v_cursor INTO v_part_id, v_quantity, v_unit;
+--        EXIT WHEN v_cursor%NOTFOUND;
+--        DBMS_OUTPUT.PUT_LINE('Part ID: ' || v_part_id || ', Quantity: ' || v_quantity || ', Unit: ' || v_unit);
+--    END LOOP;
+
+--    CLOSE v_cursor;
+--END;
+
+-- Caso 2:part_id não tem bill of operations
+--DECLARE
+--    v_cursor SYS_REFCURSOR;
+--    v_part_id NUMBER;
+--    v_quantity NUMBER;
+--    v_unit VARCHAR2(50);
+--BEGIN
+--    v_cursor := get_product_parts(999);
+--
+    -- Fetch and print results
+--    LOOP
+--        FETCH v_cursor INTO v_part_id, v_quantity, v_unit;
+--        EXIT WHEN v_cursor%NOTFOUND;
+--        DBMS_OUTPUT.PUT_LINE('Part ID: ' || v_part_id || ', Quantity: ' || v_quantity || ', Unit: ' || v_unit);
+--    END LOOP;
+
+--    CLOSE v_cursor;
+--END;
+
+-- Caso 3:invalid input
+--DECLARE
+--    v_cursor SYS_REFCURSOR;
+--    v_part_id NUMBER;
+--    v_quantity NUMBER;
+--    v_unit VARCHAR2(50);
+--BEGIN
+--    v_cursor := get_product_parts('A');
+
+    -- Fetch and print results
+--    LOOP
+--        FETCH v_cursor INTO v_part_id, v_quantity, v_unit;
+--        EXIT WHEN v_cursor%NOTFOUND;
+--        DBMS_OUTPUT.PUT_LINE('Part ID: ' || v_part_id || ', Quantity: ' || v_quantity || ', Unit: ' || v_unit);
+--    END LOOP;
+
+--    CLOSE v_cursor;
+--END;

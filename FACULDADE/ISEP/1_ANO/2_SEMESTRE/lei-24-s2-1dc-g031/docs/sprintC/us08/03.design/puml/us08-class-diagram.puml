@@ -1,0 +1,62 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam linetype orto
+
+class VehicleRepository {
+    - ArrayList<Vehicle> vehiclesArrayList
+    + getVehiclesArrayList()
+    + addVehicle()
+    + getVehiclesNeedingMaintenance()
+    + generateMaintenanceReport()
+}
+
+class Vehicle {
+    - String plate
+    - String brand
+    - String model
+    - double tareWeight
+    - double grossWeight
+    - double currentKm
+    - Date registerDate
+    - Date acquisitionDate
+    - double maintenanceFrequency
+    + getPlate()
+    + getBrand()
+    + getModel()
+    + getCurrentKm()
+    + needsMaintenance()
+}
+
+class VehicleCheckup {
+    - String plateNumber
+    - String date
+    - String kmAtCheckup
+    + VehicleCheckup(plateNumber: String, date: String, kmAtCheckup: String)
+    + getPlate()
+    + setDate(date: String)
+    + getKmAtCheckup()
+    + setKmAtCheckup(kmAtCheckup: String)
+}
+
+class AssignMaintenanceController {
+    - VehiclesRepository vehiclesRepository
+    + getVehiclesRepository()
+    + displayVehiclesList()
+    + getVehiclesNeedingMaintenance()
+}
+
+class AssignMaintenanceUI {
+    + backToVFMUI()
+    + run()
+}
+
+Vehicle "*" <-- "1" VehicleRepository : has
+AssignMaintenanceUI ..> AssignMaintenanceController
+AssignMaintenanceController ..> VehicleRepository
+Vehicle "1   " -- "0..*                        " VehicleCheckup : registers >
+
+@enduml

@@ -1,0 +1,22 @@
+Workstation ID;Workstation Name;Workstation Operation Time
+11;Packaging 05;350
+12;Welding 01;450
+13;Welding 02;450
+14;Welding 03;450
+15;Assembly 01;600
+16;Assembly 02;600
+17;Assembly 03;600
+18;Trimming 01;400
+19;Polishing 01;550
+1;Press 01;100
+2;Press 02;100
+3;Press 03;150
+4;Press 04;150
+5;Rivet 02;250
+6;Rivet 03;250
+7;Packaging 01;300
+8;Packaging 02;300
+9;Packaging 03;300
+20;Polishing 02;550
+10;Packaging 04;300
+21;Polishing 03;550

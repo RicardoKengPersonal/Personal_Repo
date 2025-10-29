@@ -1,0 +1,15 @@
+WITH parts_cte (idProduct, idOperation, sequenceNumber) AS (
+    SELECT b.idProduct, b.idOperation, b.sequenceNumber
+    FROM billOfOperation b
+    WHERE b.idProduct = 13 -- Replace with product ID to test
+
+    UNION ALL
+
+    SELECT p.idProduct, b.idOperation, b.sequenceNumber
+    FROM part p
+    JOIN billOfOperation b ON p.idProduct = b.idProduct
+    JOIN parts_cte c ON p.idProduct = c.idProduct
+)
+SELECT *
+FROM parts_cte
+ORDER BY sequenceNumber;

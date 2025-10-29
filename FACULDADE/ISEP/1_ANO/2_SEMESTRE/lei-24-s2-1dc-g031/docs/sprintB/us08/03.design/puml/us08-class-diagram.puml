@@ -1,0 +1,53 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam linetype orto
+
+class VehiclesRepository {
+    - ArrayList<Vehicle> vehiclesArrayList
+    + getVehiclesArrayList()
+    + addVehicle()
+    + getVehiclesNeedingMaintenance()
+    + generateMaintenanceReport()
+}
+
+class Vehicle {
+    - String plate
+    - String brand
+    - String model
+    - double tareWeight
+    - double grossWeight
+    - double currentKm
+    - Date registerDate
+    - Date acquisitionDate
+    - double maintenanceFrequency
+    + getPlate()
+    + getBrand()
+    + getModel()
+    + getCurrentKm()
+    + needsMaintenance()
+}
+
+class VehicleFleetManager {
+    - VehiclesRepository vehiclesRepository
+    + getVehiclesRepository()
+    + addVehicle()
+    + recordMaintenance()
+    + generateMaintenanceReport()
+}
+
+class AssignMaintenanceUI {
+    + displayVehiclesList()
+    + selectAndRecordMaintenance()
+    + run()
+}
+
+
+Vehicle "*" -> "1" VehiclesRepository : has
+AssignMaintenanceUI ..> VehicleFleetManager
+VehicleFleetManager ..> VehiclesRepository : vehiclesRepository
+
+@enduml

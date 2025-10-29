@@ -1,0 +1,36 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+'hide footbox
+participant "AssignSkillController" as CTRL
+participant Repositories
+participant "repositories\n:Repositories" as REP
+participant "collaboratorsRepository\n:CollaboratorsRepository" as COLREP
+
+autonumber 3
+-> CTRL : getCollaboratorList()
+autonumber 3.1
+activate CTRL
+
+    group Get Collaborators List
+        CTRL -> Repositories: getInstance()
+        activate Repositories
+            Repositories --> CTRL: repositories
+        deactivate Repositories
+
+        CTRL -> REP: getCollaboratorsRepository()
+        activate REP
+            REP --> CTRL: collaboratorsRepository
+        deactivate REP
+
+        CTRL -> COLREP: getCollaboratorsArrayList()
+        activate COLREP
+            COLREP --> CTRL: collaborators list
+        deactivate COLREP
+    end
+    <-- CTRL  : collaborators List
+deactivate CTRL
+
+@enduml

@@ -1,0 +1,187 @@
+@startuml
+
+skinparam linetype ortho
+
+skinparam package {
+  BackgroundColor #D6EAF8
+  BorderColor Black
+
+}
+
+' ==== CUSTOMER ====
+
+package "shodrone.core.customermanagement.domain" <<Aggregate>> {
+
+class Customer <<Entity, AggregateRoot>> {}
+class CustomerName <<ValueObject>> {}
+class CustomerID <<ValueObject>> {}
+class VATNumber <<ValueObject>> {}
+class Address <<ValueObject>> {}
+
+class CustomerRepresentative <<Entity>> {
+- String position
+}
+
+enum CustomerStatus <<Enum>> {
+REGULAR,
+VIP,
+INFRINGEMENT,
+DELETED,
+CREATED
+}
+
+enum CustomerRepresentativeStatus <<Enum>> {
+ACTIVATED,
+DISABLED
+}
+
+}
+
+package "shodrone.core.customermanagement.service" {
+
+  class CustomerService <<DomainService>> {
+Determines customer priority status
+based on customer data and business rules.
+}
+
+class CustomerRepresentativeService <<DomainService>> {
+This Domain Service encapsulates the business logic required to assign a User to a CustomerRepresentative.
+It ensures that only users with the CUSTOMER_REPRESENTATIVE role can be assigned,
+enforcing the domain rule that links user permissions with customer representation.
+}
+
+}
+
+package "shodrone.core.customermanagement.repository" {
+
+interface CustomerRepository
+
+}
+
+' ==== SHOW PROPOSAL ====
+
+package "shodrone.core.showproposalmanagement.domain" <<Aggregate>> {
+
+class ShowProposal <<Entity, AggregateRoot>> {}
+class ShowProposalID <<ValueObject>> {}
+class Video <<ValueObject>> {}
+class ShowProposalTotalDrone <<ValueObject>> {}
+
+class ShowProposalDocument <<ValueObject>> {
+- String name
+- String description
+- String pluginClass
+}
+
+class ShowProposalDuration <<ValueObject>> {}
+
+enum ShowProposalStatus <<Enum>> {
+CREATED,
+SENT,
+ACCEPTED,
+REJECTED
+
+}
+
+}
+
+package "shodrone.core.showproposalmanagement.service" {
+
+class ShowProposalService <<DomainService>> {
+This domain service orchestrates the preparation of a show proposal
+based on a specific ShowRequest. It is responsible for:
+selecting figures from the catalogue or newly created ones,
+assigning drones and mapping them to figure types,
+initiating and attaching a SimulationID for validation,
+generating video previews and formatted templates,
+and managing the proposal’s acceptance or rejection status.
+}
+
+}
+
+package "shodrone.core.showproposalmanagement.repository" {
+
+interface ShowProposalRepository
+
+}
+
+' ==== SHOW REQUEST ====
+
+package "shodrone.core.showrequestmanagement.domain" <<Aggregate>> {
+
+class ShowRequest <<Entity, AggregateRoot>> {}
+class ShowRequestID <<ValueObject>> {}
+class AddressRequest <<ValueObject>> {}
+class Date <<ValueObject>> {}
+class ShowRequestDuration <<ValueObject>> {}
+class ShowRequestDescription <<ValueObject>> {}
+
+enum ShowRequestStatus <<Enum>> {
+SUBMITTED,
+DESIGNER_ASSIGNED,
+PROPOSAL_PREPARED,
+PROPOSAL_SENT,
+SCHEDULED,
+CANCELED
+}
+
+}
+
+package "shodrone.core.showrequestmanagement.service" {
+
+class ShowRequestService <<DomainService>> {
+This domain service handles the management of show requests
+submitted by CRM Collaborators on behalf of customers.
+It enables the creation, editing and state management of requests,
+including the assignment of a Show Designer if new figures are needed.
+It ensures the request includes all required details such as
+place, date, duration, and figure references.
+}
+
+}
+
+package "shodrone.core.showrequestmanagement.repository" {
+
+interface ShowRequestRepository
+
+}
+
+
+' ==== RELATIONSHIPS ====
+
+Customer  *--  VATNumber
+Customer  *--  CustomerName
+Customer  *--  Address
+Customer  -->  CustomerStatus
+Customer "1" *-- "0...*" CustomerRepresentative
+Customer  -->  CustomerID
+
+CustomerRepresentative  -->  CustomerRepresentativeStatus
+
+ShowProposal  -->  ShowProposalStatus
+ShowProposal  *--  Video
+ShowProposal  *--  ShowProposalDocument
+ShowProposal  *--  ShowProposalTotalDrone
+ShowProposal *-- ShowProposalDuration
+ShowProposal *-- ShowProposalID
+ShowProposal --> CustomerID
+ShowProposal --> ShowRequestID
+
+ShowRequest  -->  CustomerID
+ShowRequest  *--  AddressRequest
+ShowRequest  *--  Date
+ShowRequest  *--  ShowRequestDuration
+ShowRequest  *--  ShowRequestDescription
+ShowRequest  -->  ShowRequestStatus
+ShowRequest *-- ShowRequestID
+
+CustomerService ..> Customer
+CustomerRepresentativeService ..> Customer
+ShowProposalService ..> ShowProposal
+ShowRequestService ..> ShowRequest
+
+ShowProposalRepository ..> ShowProposal
+CustomerRepository ..> Customer
+ShowRequestRepository ..> ShowRequest
+
+@enduml

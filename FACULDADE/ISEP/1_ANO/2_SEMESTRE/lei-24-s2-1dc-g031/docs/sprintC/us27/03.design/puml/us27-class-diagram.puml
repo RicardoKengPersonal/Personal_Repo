@@ -1,0 +1,74 @@
+@startuml
+
+class MyGreenSpacesGUI {
+    - greenSpaceList: ListView<GreenSpaceDTO>
+    - myGreenSpacesController: MyGreenSpacesController
+    + MyGreenSpacesGUI(): void
+    + initialize(URL location, ResourceBundle resources): void
+}
+
+class MyGreenSpacesController {
+    - repositories: Repositories
+    + MyGreenSpacesController()
+    + getSortingMethod(): String
+    + bubbleSort(greenSpaces: List<GreenSpace>): List<GreenSpace>
+    + selectionSort(greenSpaces: List<GreenSpace>): List<GreenSpace>
+}
+
+class Repositories {
+    - instance: Repositories
+    - greenSpaceRepository: GreenSpaceRepository
+    - authenticationRepository: AuthenticationRepository
+    + getInstance(): Repositories
+    + getGreenSpaceRepository(): GreenSpaceRepository
+    + getAuthenticationRepository(): AuthenticationRepository
+}
+
+class GreenSpaceRepository {
+    + getGreenSpaceByManagerEmail(email: String): List<GreenSpace>
+}
+
+class AuthenticationRepository {
+    + getCurrentUserSession(): UserSession
+}
+
+class GreenSpace {
+    - greenSpaceName: String
+    - greenSpaceStreet: String
+    - greenSpaceType: GreenSpaceType
+    - greenSpaceManagerEmail: String
+    - greenSpaceArea: int
+    + GreenSpace(greenSpaceName: String, greenSpaceStreet: String, greenSpaceType: GreenSpaceType, greenSpaceManagerEmail: String, greenSpaceArea: int)
+    + getGreenSpaceName(): String
+    + setGreenSpaceName(greenSpaceName: String): void
+    + getGreenSpaceStreet(): String
+    + setGreenSpaceStreet(greenSpaceStreet: String): void
+    + getGreenSpaceManagerEmail(): String
+    + setGreenSpaceManagerEmail(greenSpaceManagerEmail: String): void
+    + getGreenSpaceArea(): int
+    + setGreenSpaceArea(greenSpaceArea: int): void
+    + toString(): String
+    }
+
+class GreenSpaceMapper {
+    + toDTO(greenSpaceList: List<GreenSpace>): List<GreenSpaceDTO>
+    + toDomain(greenSpaceDTO: GreenSpaceDTO): GreenSpace
+}
+
+class GreenSpaceDTO {
+    + name: String
+    + location: String
+    + areaInHectares: double
+}
+
+Repositories --> Repositories : instance
+MyGreenSpacesGUI ..> MyGreenSpacesController
+Repositories "1" --|> "1" GreenSpaceRepository
+Repositories "1" --|> "1" AuthenticationRepository
+MyGreenSpacesController --> Repositories
+MyGreenSpacesController --> GreenSpaceMapper
+GreenSpaceMapper ..> GreenSpaceDTO
+GreenSpaceMapper ..> GreenSpace
+GreenSpaceRepository --> GreenSpace
+
+@enduml

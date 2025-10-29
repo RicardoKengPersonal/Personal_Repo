@@ -1,0 +1,63 @@
+@startuml
+title Class Diagram - US346 Drone Program Validation
+
+' Skin params for clean output
+skinparam classAttributeIconSize 0
+skinparam shadowing true
+
+' Actors and UI
+class DroneTech <<actor>>
+
+class ValidateDroneLanguageAction {
+    +doShow() : boolean
+}
+
+class ValidateDroneLanguageUI {
+    +doShow() : boolean
+}
+
+' Controller and Service
+class ListDronesWithLanguagesDTOController {
+    +dronesWithLanguages() : Iterable<DroneLanguagesDTO>
+}
+
+class ListDronesWithLanguagesDTOService {
+    +listAllDronesWithLanguages() : Iterable<DroneLanguagesDTO>
+}
+
+' Domain
+class DroneRepository {
+    +findAllWithProgrammingLanguage() : Iterable<Drone>
+}
+
+class DroneLanguagesDTO {
+    +getProgrammingLanguage() : String
+    +getId() : String
+}
+
+class DroneLanguageValidatorController {
+    +validateDroneProgram(path : String, lang : String) : boolean
+}
+
+class DroneInventoryService {
+    +validateDroneProgram(path : String, lang : String) : boolean
+}
+
+class DronePluginClass {
+    +droneOnePlugin(path : String) : boolean
+    +droneTwoPlugin(path : String) : boolean
+}
+
+' Relationships
+DroneTech --> ValidateDroneLanguageAction
+ValidateDroneLanguageAction --> ValidateDroneLanguageUI : uses
+ValidateDroneLanguageUI --> ListDronesWithLanguagesDTOController
+ListDronesWithLanguagesDTOController --> ListDronesWithLanguagesDTOService
+ListDronesWithLanguagesDTOService --> DroneRepository
+ListDronesWithLanguagesDTOService --> DroneLanguagesDTO
+
+ValidateDroneLanguageUI --> DroneLanguageValidatorController
+DroneLanguageValidatorController --> DroneInventoryService
+DroneInventoryService --> DronePluginClass
+
+@enduml

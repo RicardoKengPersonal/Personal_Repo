@@ -1,0 +1,105 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "Green Space Manager" as GSM
+participant ":AgendaGUI" as UI
+participant ":AgendaController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "agenda:\nAgenda" as Agenda
+participant "task:\nTask" as Task
+participant "AgendaEntryMapper" as AgendaEntryMapper
+participant "AgendaEntryDTO" as AgendaEntryDTO
+
+activate GSM
+
+        GSM -> UI : requests list of Agenda Entries
+        activate UI
+
+            UI -> CTRL** : create
+
+            UI -> CTRL : populateEntries()
+            activate CTRL
+
+                CTRL -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                    RepositorySingleton --> CTRL: repositories
+                deactivate RepositorySingleton
+
+                CTRL -> PLAT : getAgenda()
+                activate PLAT
+
+                    PLAT --> CTRL: Agenda
+                deactivate PLAT
+
+                CTRL -> Agenda : getAgendaEntriesByUserEmail(String email)
+                activate Agenda
+
+                    Agenda --> CTRL : agendaEntriesByUserEmail
+                deactivate Agenda
+
+                CTRL -> AgendaEntryMapper : toDTO(agendaEntriesList)
+                activate AgendaEntryMapper
+loop for each entry in agendaEntriesByUserEmail
+                AgendaEntryMapper -> AgendaEntryDTO** : create
+
+                activate AgendaEntryDTO
+
+                    AgendaEntryDTO --> AgendaEntryMapper : agendaEntryDTO
+
+                deactivate AgendaEntryDTO
+end
+                    AgendaEntryMapper --> CTRL : agendaEntryDTOList
+                deactivate AgendaEntryMapper
+
+                CTRL --> UI : agendaEntryDTOList
+
+            UI --> GSM : displays list of available Agenda Entries and requests selection of one
+        deactivate UI
+
+    GSM -> UI : selects an agenda entry
+
+    activate UI
+
+    UI --> GSM : asks confirmation to cancel the Agenda Entry
+
+    GSM -> UI : confirms cancellation
+
+            UI -> CTRL : cancelTask (selectedEntryDTO)
+
+            CTRL -> AgendaEntryMapper : toDomain(selectedEntryDTO)
+            activate AgendaEntryMapper
+                AgendaEntryMapper -> AgendaEntry** : create
+                activate AgendaEntry
+
+                    AgendaEntry --> AgendaEntryMapper : selectedEntry
+                deactivate AgendaEntry
+
+
+                AgendaEntryMapper --> CTRL : selectedEntry
+            deactivate AgendaEntryMapper
+
+            CTRL -> Task : task.setTaskStatus(TaskStatus.CANCELLED)
+
+                        activate Task
+
+                            Task --> CTRL : task status successfully changed
+
+                        deactivate Task
+
+                                CTRL--> UI : task status successfully changed
+
+                                deactivate CTRL
+
+                                UI --> GSM : displays operation success
+
+                deactivate UI
+
+            deactivate GSM
+
+            @enduml

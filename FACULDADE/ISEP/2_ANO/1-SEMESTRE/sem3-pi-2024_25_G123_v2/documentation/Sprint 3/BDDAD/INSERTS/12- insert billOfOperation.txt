@@ -1,0 +1,75 @@
+-- For AS12946S22
+INSERT INTO billOfOperation (idProduct, idOperation, idInput, idOutput, idNextOperation, sequenceNumber, idOperationType, idNextOperationType)
+VALUES ((SELECT p.idProduct
+         FROM product p
+         JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = 'AS12946S22'),
+        1, 1, 1, 2, 1,
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5647'),
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5649'));
+
+INSERT INTO billOfOperation (idProduct, idOperation, idInput, idOutput, idNextOperation, sequenceNumber, idOperationType, idNextOperationType)
+VALUES ((SELECT p.idProduct
+         FROM product p
+         JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = 'AS12946S22'),
+        2, 2, 2, 3, 2,
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5649'),
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5651'));
+
+INSERT INTO billOfOperation (idProduct, idOperation, idInput, idOutput, idNextOperation, sequenceNumber, idOperationType, idNextOperationType)
+VALUES ((SELECT p.idProduct
+         FROM product p
+         JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = 'AS12946S22'),
+        3, 3, 3, 4, 3,
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5651'),
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5653'));
+
+INSERT INTO billOfOperation (idProduct, idOperation, idInput, idOutput, idNextOperation, sequenceNumber, idOperationType, idNextOperationType)
+VALUES ((SELECT p.idProduct
+         FROM product p
+         JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = 'AS12946S22'),
+        4, 4, 4, 5, 4,
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5653'),
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5659'));
+
+INSERT INTO billOfOperation (idProduct, idOperation, idInput, idOutput, idNextOperation, sequenceNumber, idOperationType, idNextOperationType)
+VALUES ((SELECT p.idProduct
+         FROM product p
+         JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = 'AS12946S22'),
+        5, 5, 5, NULL, 5,
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5659'),
+        NULL);
+
+-- For AS12947S22
+INSERT INTO billOfOperation (idProduct, idOperation, idInput, idOutput, idNextOperation, sequenceNumber, idOperationType, idNextOperationType)
+VALUES ((SELECT p.idProduct
+         FROM product p
+         JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = 'AS12947S22'),
+        6, 6, 6, 7, 1,
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5647'),
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5655'));
+
+INSERT INTO billOfOperation (idProduct, idOperation, idInput, idOutput, idNextOperation, sequenceNumber, idOperationType, idNextOperationType)
+VALUES ((SELECT p.idProduct
+         FROM product p
+         JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = 'AS12947S22'),
+        7, 7, 7, 8, 2,
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5655'),
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5657'));
+
+INSERT INTO billOfOperation (idProduct, idOperation, idInput, idOutput, idNextOperation, sequenceNumber, idOperationType, idNextOperationType)
+VALUES ((SELECT p.idProduct
+         FROM product p
+         JOIN legacyIdentification l ON p.idLegacyIdentification = l.idLegacyIdentification
+         WHERE l.legacyCode = 'AS12947S22'),
+        8, 8, 8, 9, 3,
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5657'),
+        (SELECT o.idOperationType FROM operationType o JOIN legacyIdentification l ON o.idLegacyIdentification = l.idLegacyIdentification WHERE l.legacyCode = '5661'));
+
+select * FROM billOfOperation;

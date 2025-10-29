@@ -1,0 +1,132 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam packageStyle folder
+
+skinparam classAttributeIconSize 0
+
+'left to right direction
+
+package UI {
+    class RegisterGreenSpaceGUI {
+
+    - TextField greenSpaceName
+            - TextField greenSpaceStreet
+            - ComboBox<String> greenSpaceType
+            - TextField greenSpaceArea
+            - RegisterGreenSpaceController registerGreenSpaceController
+            + RegisterGreenSpaceGUI()
+            + goBack()
+            + registerGreenSpace()
+    }
+}
+
+package Controller {
+    class RegisterGreenSpaceController {
+        - GreenSpacesRepository greenSpaceRepository
+                - AuthenticationRepository authenticationRepository
+                + RegisterGreenSpaceController()
+                + getGreenSpaceRepository() : GreenSpacesRepository
+                + createGreenSpace(greenSpaceName: String, greenSpaceStreet: String, greenSpaceType: GreenSpaceType, greenSpaceSize: String) : boolean
+            }
+}
+
+package Repository {
+    class Repositories {
+        - Repositories()
+                + getInstance() : Repositories
+                + getGreenSpaceRepository() : GreenSpacesRepository
+                + getGreenSpaceSizeRepository()
+                + getAuthenticationRepository() : AuthenticationRepository
+  }
+
+    class GreenSpaceRepository {
+        - ArrayList<GreenSpace> greenSpacesArrayList
+               + getGreenSpacesArrayList() : ArrayList<GreenSpace>
+               - greenSpaceAlreadyExist(greenSpaceName: String) : boolean
+               + addGreenSpace(greenSpaceName: String, greenSpaceStreet: String, greenSpaceType: GreenSpaceType, greenSpaceManagerEmail: String, greenSpaceArea: int) : boolean
+               + getGreenSpaceByManagerEmail(greenSpaceManagerEmail: String) : ArrayList<GreenSpace>
+           }
+
+       class   AuthenticationRepository {
+        - AuthFacade authenticationFacade
+               + AuthenticationRepository()
+               + readObject(ois: ObjectInputStream)
+               + doLogin(email: String, pwd: String) : boolean
+               + doLogout()
+               + getCurrentUserSession() : UserSession
+               + addUserRole(id: String, description: String) : boolean
+               + addUserWithRole(name: String, email: String, pwd: String, roleId: String) : boolean
+               + facade() : AuthFacade
+        }
+}
+
+package Domain {
+    class GreenSpace {
+         - String greenSpaceName
+               - String greenSpaceStreet
+               - GreenSpaceType greenSpaceType
+               - String greenSpaceManagerEmail
+               - int greenSpaceArea
+               + GreenSpace(greenSpaceName: String, greenSpaceStreet: String, greenSpaceType: GreenSpaceType, greenSpaceManagerEmail: String, greenSpaceArea: int)
+               + getGreenSpaceName() : String
+               + setGreenSpaceName(greenSpaceName: String)
+               + getGreenSpaceStreet() : String
+               + setGreenSpaceStreet(greenSpaceStreet: String)
+               + getGreenSpaceType() : GreenSpaceType
+               + setGreenSpaceType(greenSpaceType: GreenSpaceType)
+               + getGreenSpaceManagerEmail() : String
+               + setGreenSpaceManagerEmail(greenSpaceManagerEmail: String)
+               + getGreenSpaceArea() : int
+               + setGreenSpaceArea(greenSpaceArea: int)
+               + toString() : String
+          }
+
+          class GreenSpaceType {
+                  GARDEN
+                  MEDIUM_SIZED_PARK
+                  LARGE_SIZED_PARK
+                  + fromString(text: String) : GreenSpaceType
+              }
+
+    class Address {
+        - String street
+        - int doorNumber
+        - String zipcode
+        - String city
+        + Address(street: String, doorNumber: int, zipCode: String, city: String)
+    }
+}
+
+package Mapper {
+    class GreenSpaceMapper {
+        + toDomain(greenSpaceDTO: GreenSpaceDTO) : GreenSpace
+    }
+}
+
+package DTO {
+    class GreenSpaceDTO {
+        - String name
+        - String size
+        - double area
+        - Address address
+        + GreenSpaceDTO(name: String, size: String, area: double, address: Address)
+    }
+}
+
+Repositories --> Repositories : instance
+RegisterGreenSpaceGUI .> RegisterGreenSpaceController
+RegisterGreenSpaceGUI .> GreenSpaceDTO
+RegisterGreenSpaceController .> Repositories : repositories
+RegisterGreenSpaceController .> GreenSpaceRepository
+Repositories --|> GreenSpaceRepository
+GreenSpaceRepository --> "*" GreenSpace
+GreenSpace "1"-->  "has 1  " Address
+RegisterGreenSpaceController .> GreenSpaceMapper
+GreenSpaceMapper ..> GreenSpaceDTO
+ RegisterGreenSpaceController ..> GreenSpaceDTO
+GreenSpace --|> GreenSpaceType
+Repositories --|>  AuthenticationRepository
+@enduml

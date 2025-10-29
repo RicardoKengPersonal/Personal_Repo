@@ -1,0 +1,21 @@
+CREATE OR REPLACE TRIGGER trg_avoid_circular_boo
+BEFORE INSERT OR UPDATE ON billOfOperation
+FOR EACH ROW
+DECLARE
+    v_input_product_id product.idProduct%TYPE;
+BEGIN
+    -- Fetch the product ID from the inputProduct table using idInput
+    SELECT ip.idProduct
+    INTO v_input_product_id
+    FROM inputProduct ip
+    WHERE ip.idInput = :NEW.idInput;
+
+    -- Check if the product being added is its own input
+    IF :NEW.idProduct = v_input_product_id THEN
+        RAISE_APPLICATION_ERROR(
+            -20001,
+            'Circular reference detected: A product cannot be its own input in a Bill of Operation.'
+        );
+    END IF;
+END trg_avoid_circular_boo;
+/

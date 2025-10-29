@@ -1,0 +1,17 @@
+@startuml
+actor "User" as User
+participant "System" as System
+title System Sequence Diagram (SSD) - US340 DSL Plugin
+
+activate User
+activate System
+
+User --> System : Select public figure and DSL file
+System --> System : Update DSL path on selected Figure
+System --> System : Save updated Figure to repository
+System --> System : Load and interpret DSL script
+System --> User : Show interpretation result or errors
+
+deactivate System
+deactivate User
+@enduml

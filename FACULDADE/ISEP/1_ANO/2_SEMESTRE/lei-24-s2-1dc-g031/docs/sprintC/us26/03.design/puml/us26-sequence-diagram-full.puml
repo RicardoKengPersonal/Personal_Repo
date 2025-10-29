@@ -1,0 +1,195 @@
+
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+
+autonumber
+
+actor "Green Space Manager" as GSM
+participant ":CreateVehicleGUI" as GUI
+participant ":CreateVehicleController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "agenda\n:Agenda" as AgendaRepo
+participant "vehicleRepository\n:VehicleRepository" as VehicleRepository
+participant ":AgendaMapper" as AgendaMapper
+participant "agendaEntryDto\n:AgendaEntryDto" as AgendaEntryDto
+participant "agendaEntry\n:AgendaEntry" as AgendaEntry
+participant ":VehicleMapper" as VehicleMapper
+participant "vehicleDto\n:VehicleDto" as VehicleDto
+participant "vehicle\n:Vehicle" as Vehicle
+
+
+activate GSM
+
+    GSM -> GUI : asks to assign vehicles to an entry in the Agenda
+    activate GUI
+
+        GUI -> CTRL** : create
+                activate CTRL
+
+                    CTRL -> RepositorySingleton : getInstance()
+                    activate RepositorySingleton
+
+                        RepositorySingleton --> CTRL : repositories
+                    deactivate RepositorySingleton
+
+                    CTRL -> PLAT : getEntryRepository()
+                    activate PLAT
+
+                        PLAT --> CTRL : entryRepository
+                    deactivate PLAT
+
+                     deactivate CTRL
+
+
+        GUI -> CTRL: getAgendaEntryList(GSM)
+        activate CTRL
+
+            CTRL -> AgendaRepo: getAgendaEntryListByGSM(GSM)
+            deactivate CTRL
+            activate AgendaRepo
+
+            AgendaRepo --> CTRL: agendaEntryList
+            deactivate AgendaRepo
+            activate CTRL
+
+                            CTRL -> AgendaMapper : toDtoList(agendaEntryList)
+                            deactivate CTRL
+                            activate AgendaMapper
+
+                            loop
+                                AgendaMapper -> AgendaEntryDto** : create
+                                activate AgendaEntryDto
+
+                                AgendaEntryDto --> AgendaMapper : agendaEntryDto
+                                deactivate AgendaEntryDto
+                            end
+
+                            AgendaMapper --> CTRL : agendaEntryDto
+                            deactivate AgendaMapper
+                            activate CTRL
+
+                        CTRL --> GUI : agendaEntryDtoList
+                        deactivate CTRL
+                        deactivate GUI
+
+        GUI -> CTRL : getVehiclesList()
+        activate GUI
+        activate CTRL
+
+                CTRL -> VehicleRepository : getVehiclesList()
+                activate VehicleRepository
+
+                VehicleRepository -> CTRL : vehiclesList
+                deactivate VehicleRepository
+
+                CTRL -> VehicleMapper: toDtoList
+                deactivate CTRL
+                activate VehicleMapper
+
+                loop
+
+                    VehicleMapper -> VehicleDto**: create
+                    activate VehicleDto
+
+                    VehicleDto --> VehicleMapper: vehicleDto
+                    deactivate VehicleDto
+
+                end loop
+
+                VehicleMapper --> CTRL: vehiclesDtoList
+                deactivate VehicleMapper
+                activate CTRL
+
+                CTRL -> GUI : vehiclesDtoList
+                deactivate CTRL
+
+    GUI --> GSM : shows the entries in the agenda and asks to select one
+    deactivate GUI
+
+    GSM -> GUI : select the entry
+    activate GUI
+
+    loop until all information is verified
+    loop until all vehicles are selected
+
+    GUI --> GSM : shows vehicles and asks to select one or more
+    deactivate GUI
+
+    GSM -> GUI: selects vehicles
+    activate GUI
+
+    end loop
+
+    GUI --> GSM : shows all data and requests confirmation
+    deactivate GUI
+
+    GSM -> GUI: confirms
+    activate GUI
+
+        GUI -> CTRL : assignVehiclesToEntry(agendaEntryDto, vehiclesDtoList)
+                        deactivate GUI
+                        activate CTRL
+
+                            CTRL -> AgendaMapper: toDomain
+                            deactivate CTRL
+                            activate AgendaMapper
+
+                                AgendaMapper -> AgendaEntry**: create
+                                activate AgendaEntry
+
+                                AgendaEntry --> AgendaMapper: agendaEntry
+                                deactivate AgendaEntry
+
+                        AgendaMapper --> CTRL: agendaEntry
+                        deactivate AgendaMapper
+                        activate CTRL
+
+                            CTRL -> VehicleMapper: toDomainList
+                            deactivate CTRL
+                            activate VehicleMapper
+
+                                loop
+
+                                VehicleMapper -> Vehicle**: create
+                                activate Vehicle
+
+                                Vehicle --> VehicleMapper: vehicle
+                                deactivate Vehicle
+
+                                end loop
+
+                            VehicleMapper --> CTRL: vehiclesList
+                            deactivate VehicleMapper
+                            activate CTRL
+
+
+
+
+                            CTRL -> AgendaRepo : updateAgendaEntryVehicles(agendaEntry, VehiclesList)
+                            deactivate CTRL
+                            activate AgendaRepo
+
+
+
+                                AgendaRepo -> AgendaRepo : updateEntryVehicles(agendaEntry, Vehicles[])
+
+                            AgendaRepo --> CTRL : success
+                            deactivate AgendaRepo
+                            activate CTRL
+
+        CTRL --> GUI : success
+        deactivate CTRL
+        activate GUI
+        end
+
+    GUI --> GSM : displays success message (Vehicles assigned successfully)
+    deactivate GUI
+
+
+deactivate GSM
+
+@enduml

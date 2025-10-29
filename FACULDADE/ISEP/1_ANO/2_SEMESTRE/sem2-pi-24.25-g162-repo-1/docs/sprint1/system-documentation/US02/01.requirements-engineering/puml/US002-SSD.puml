@@ -1,0 +1,37 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "Editor" as Editor
+participant ":System" as System
+
+activate Editor
+
+    Editor -> System : Requests to add an industry
+    activate System
+
+    System --> Editor : Displays list of types of available industries for the selected (current) map and requests to choose one
+    deactivate System
+
+    Editor -> System : Selects the industry type
+    activate System
+
+    System --> Editor : Provides information about the selected industry type and requests confirmation
+    deactivate System
+
+    Editor -> System : Confirms the industry type selection
+    activate System
+
+    System --> Editor : Requests the industry placement (XY coordinates)
+    deactivate System
+
+    Editor -> System : Provides the industry's location (XY coordinates)
+    activate System
+
+    System --> Editor : Displays operation success
+    deactivate System
+
+@enduml

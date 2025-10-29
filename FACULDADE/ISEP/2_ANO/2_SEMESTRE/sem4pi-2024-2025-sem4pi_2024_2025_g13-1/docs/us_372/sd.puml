@@ -1,0 +1,52 @@
+@startuml
+title US372 - Check Shows Dates (with Filter)
+
+actor "Customer Representative" as CR
+
+participant CheckShowsDatesUI
+participant CheckShowsDatesController
+participant CheckShowDatesService
+participant "TCP Socket Client"
+participant CustomerCommandServer
+participant CustomerCommandHandler
+participant ShowRepository
+participant Show
+participant ShowDTO
+
+CR -> CheckShowsDatesUI : selects "Check Shows Dates"
+
+CheckShowsDatesUI -> CheckShowsDatesController : getAllShows()
+CheckShowsDatesController -> CheckShowDatesService : listMyScheduledShows()
+
+group Get all shows from server
+    CheckShowDatesService -> "TCP Socket Client" : openSocket(host=localhost, port=8889)
+    CheckShowDatesService -> "TCP Socket Client" : send("LIST_SHOWS <email>")
+
+    "TCP Socket Client" -> CustomerCommandServer : TCP connection established
+    CustomerCommandServer -> CustomerCommandHandler : spawn handler thread(socket)
+
+    CustomerCommandHandler -> ShowRepository : findByCustomerRepresentativeEmail(email)
+    ShowRepository --> CustomerCommandHandler : List<Show>
+
+    loop for each Show
+        CustomerCommandHandler -> Show : getID(), getDate(), getTime(), getLocation(), getStatus()
+    end
+
+    CustomerCommandHandler -> "TCP Socket Client" : sends formatted show lines
+    "TCP Socket Client" --> CheckShowDatesService : lines received
+    "TCP Socket Client" --> CheckShowDatesService : receives lines until "END"
+
+    CheckShowDatesService -> ShowDTO : creates a DTO for each line
+    loop
+        ShowDTO -> ShowDTO : stores showID, date, time, location, status
+    end
+    CheckShowDatesService -> CheckShowDatesService : filter by SCHEDULED & date >= today
+    CheckShowDatesService -> CheckShowDatesService : sort by date
+    CheckShowDatesService -> CheckShowsDatesController : return List<ShowDTO>
+end
+
+CheckShowsDatesController -> CheckShowsDatesUI : return shows
+CheckShowsDatesUI -> CR : displays the sorted shows
+
+
+@enduml

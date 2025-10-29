@@ -1,0 +1,45 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+participant ":AssignMaintenanceUI" as UI
+participant ":VehicleFleetManager" as VFM
+participant "repositories\n:Repositories" as REP
+participant "vehiclesRepository:\nVehiclesRepository" as VehiclesRepository
+
+activate UI
+
+UI -> VFM : create
+UI -> VFM : getVehiclesList()
+
+activate VFM
+VFM -> REP: getInstance()
+activate REP
+REP --> VFM: repositories
+deactivate REP
+VFM -> REP: getVehiclesRepository()
+activate REP
+REP --> VFM: vehicles repository
+deactivate REP
+VFM -> VehiclesRepository: getVehiclesNeedingMaintenance()
+activate VehiclesRepository
+VehiclesRepository --> VFM: vehicles needing maintenance list
+deactivate VehiclesRepository
+VFM --> UI: vehicles needing maintenance list
+deactivate VFM
+
+UI -> VFM: recordMaintenance(vehicle)
+
+activate VFM
+VFM -> VehiclesRepository: recordMaintenance(vehicle)
+activate VehiclesRepository
+VehiclesRepository --> VFM: success
+deactivate VehiclesRepository
+VFM --> UI: success
+deactivate VFM
+
+deactivate UI
+@enduml

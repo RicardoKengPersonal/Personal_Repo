@@ -1,0 +1,74 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+
+autonumber
+
+actor "Player" as PLAYER
+participant ":GameScreen" as UI
+participant ":GameController" as CTRL
+participant ":UpgradeCatalog" as CATALOG
+participant ":BuildingUpgradeMapper" as MAPPER
+participant ":BuildingUpgradeDTO" as DTO
+participant ":CurrentGame" as CURRENT_GAME
+participant ":BuildingUpgrade" as BUILDING_UPGRADE
+participant "currentMap\n:Map" as CURRENT_MAP
+participant "stations\n:Stations" as STATIONS
+participant "station\n:Station" as STATION
+
+activate PLAYER
+
+    PLAYER -> UI : selected a station in game time and wants to upgrade it
+    activate UI
+        UI -> CTRL : getBuildingUpgrades()
+        activate CTRL
+            CTRL -> CATALOG : getUpgradesCatalog()
+            activate CATALOG
+                CATALOG --> CTRL : ArrayList<BuildingUpgrade>
+            deactivate CATALOG
+            CTRL -> MAPPER : toDTOList(ArrayList<BuildingUpgrade>)
+            activate MAPPER
+                loop for each upgrade
+                    MAPPER -> DTO **: toDTO(upgrade)
+                    activate DTO
+                    DTO --> MAPPER : BuildingUpgradeDTO
+                    deactivate DTO
+                end
+                MAPPER --> CTRL : ArrayList<BuildingUpgradeDTO>
+            deactivate MAPPER
+            CTRL --> UI : ArrayList<BuildingUpgradeDTO>
+            UI --> PLAYER : display available upgrades
+        deactivate CTRL 
+    deactivate UI
+    PLAYER -> UI : selects an upgrade
+    activate UI
+        UI -> CTRL : upgradeStation(stationDTO, upgradeDTO)
+        activate CTRL
+            CTRL -> CURRENT_GAME : upgradeStation(stationDTO, upgradeDTO)
+            activate CURRENT_GAME
+                CURRENT_GAME -> BUILDING_UPGRADE : getCost()
+                activate BUILDING_UPGRADE
+                    BUILDING_UPGRADE --> CURRENT_GAME : double
+                deactivate BUILDING_UPGRADE
+                CURRENT_GAME -> CURRENT_GAME : check if player has enough resources
+                CURRENT_GAME -> CURRENT_MAP : upgradeStation(stationDTO, upgradeDTO)
+                activate CURRENT_MAP
+                    CURRENT_MAP -> STATIONS : upgradeStation(stationDTO, upgradeDTO)
+                    activate STATIONS
+                        STATIONS -> STATIONS : getStation(stationDTO)
+                        STATIONS -> STATION : addUpgrade(upgradeDTO)
+                        activate STATION
+                            STATION --> STATIONS : void
+                        deactivate STATION
+                        STATIONS --> CURRENT_MAP : void
+                    deactivate STATIONS
+                    CURRENT_MAP --> CURRENT_GAME : void
+                deactivate CURRENT_MAP
+                CURRENT_GAME --> CTRL : void
+            deactivate CURRENT_GAME
+            CTRL --> UI : void
+        deactivate CTRL
+        UI --> PLAYER : upgrade successful
+    deactivate UI
+@enduml

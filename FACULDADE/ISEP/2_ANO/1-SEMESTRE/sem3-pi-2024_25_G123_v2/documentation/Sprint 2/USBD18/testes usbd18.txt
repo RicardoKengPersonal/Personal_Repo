@@ -1,0 +1,21 @@
+--Testes para funçao Deactivate_Customer
+
+--Caso 1: Sucesso
+--select * FROM Customer WHERE customer_id = 3;
+--BEGIN
+--    DBMS_OUTPUT.PUT_LINE(Deactivate_Customer_Function(3));
+--END;
+
+
+--Caso 2: cliente não pode ser desativado por que tem encomendas por entregar
+--select * FROM "Order" WHERE customer_id = 1;
+--BEGIN
+--    DBMS_OUTPUT.PUT_LINE(Deactivate_Customer_Function(1));
+--END;
+
+--Caso 3: customer_id não existe
+--BEGIN
+--    DBMS_OUTPUT.PUT_LINE(Deactivate_Customer_Function(NULL));
+--END;
+
+

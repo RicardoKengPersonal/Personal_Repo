@@ -1,0 +1,46 @@
+@startuml
+actor "GSM" as user
+participant "AgendaGUI" as gui
+participant "AgendaController" as controller
+participant "Repositories" as repositories
+participant "TeamsRepository" as teamsRepo
+participant "TeamDTO" as teamDTO
+participant "AgendaEntryDTO" as entryDTO
+participant "SendMailController" as mailController
+
+user -> gui : Clicks on "Assign Team" button
+activate gui
+gui -> controller : getTeams()
+activate controller
+controller -> repositories : getInstance()
+activate repositories
+repositories --> controller : returns instance
+deactivate repositories
+controller -> teamsRepo : getTeams()
+activate teamsRepo
+teamsRepo --> controller : returns list of teamDTOs
+deactivate teamsRepo
+controller --> gui : returns list of TeamDTOs
+deactivate controller
+gui -> user : Shows list of teams
+deactivate gui
+user -> gui : Selects a team
+activate gui
+gui -> controller : isTeamAvailable(selectedTeam, entryDTO)
+activate controller
+controller --> gui : returns availability of team
+deactivate controller
+alt if team is available
+    gui -> entryDTO : setTeam(selectedTeam)
+    activate entryDTO
+    entryDTO --> gui : team is set
+    deactivate entryDTO
+    gui -> mailController : sendMail(selectedTeam, "Team Assignment", message)
+    activate mailController
+    mailController --> gui : email is sent
+    deactivate mailController
+else if team is not available
+    gui -> user : Shows error message
+end
+deactivate gui
+@enduml

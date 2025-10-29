@@ -1,0 +1,8 @@
+INSERT INTO "Order"(customer_id,order_date,delivery_date,order_status) VALUES (2,TO_DATE('2024-09-15', 'YYYY-MM-DD'),TO_DATE('2024-09-23', 'YYYY-MM-DD'),'Delivered');
+INSERT INTO "Order"(customer_id,order_date,delivery_date,order_status) VALUES (3,TO_DATE('2024-09-15', 'YYYY-MM-DD'),TO_DATE('2024-09-26', 'YYYY-MM-DD'),'Delivered');
+INSERT INTO "Order"(customer_id,order_date,delivery_date,order_status) VALUES (4,TO_DATE('2024-09-15', 'YYYY-MM-DD'),TO_DATE('2024-09-25', 'YYYY-MM-DD'),'Delivered');
+INSERT INTO "Order"(customer_id,order_date,delivery_date,order_status) VALUES (2,TO_DATE('2024-09-18', 'YYYY-MM-DD'),TO_DATE('2024-09-25', 'YYYY-MM-DD'),'Delivered');
+INSERT INTO "Order"(customer_id,order_date,delivery_date,order_status) VALUES (3,TO_DATE('2024-09-18', 'YYYY-MM-DD'),TO_DATE('2024-09-25', 'YYYY-MM-DD'),'Delivered');
+INSERT INTO "Order"(customer_id,order_date,delivery_date,order_status) VALUES (4,TO_DATE('2024-09-18', 'YYYY-MM-DD'),TO_DATE('2024-09-26', 'YYYY-MM-DD'),'Delivered');
+INSERT INTO "Order"(customer_id,order_date,delivery_date,order_status) VALUES (1,TO_DATE('2024-09-21', 'YYYY-MM-DD'),TO_DATE('2024-09-26', 'YYYY-MM-DD'),'Placed');
+select * FROM "Order";

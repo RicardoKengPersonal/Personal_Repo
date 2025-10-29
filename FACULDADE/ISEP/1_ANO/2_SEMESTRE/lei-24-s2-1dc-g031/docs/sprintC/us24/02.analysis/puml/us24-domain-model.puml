@@ -1,0 +1,65 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Domain Model - US24
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+class GreenSpaceManager {
+}
+
+class Agenda {
+    agendaEntries
+}
+
+class AgendaEntry {
+   associatedTask
+   team
+   date
+   vehicles
+}
+
+class Team {
+   skills
+   collaborators
+}
+
+class Collaborator {
+   name
+   birthDate
+   admissionDate
+   address
+   mobileNumber
+   email
+   taxPayerNumber
+   identificationDocumentType
+   documentIdentificationNumber
+   skills
+   job
+}
+
+class Vehicle {
+   plate
+   brand
+   model
+   type
+   tareWeight
+   grossWeight
+   currentKm
+   registerDate
+   acquisitionDate
+   maintenanceFrequency
+}
+
+GreenSpaceManager "1" -- "1" Agenda : uses >
+Agenda "1" -- "0..*" AgendaEntry : contains >
+AgendaEntry "1" -- "1" Team : has a >
+Team "1" -- "0..*" Collaborator : consists of >
+AgendaEntry "0..*" -- "0..*" Vehicle : uses >
+
+@enduml

@@ -1,0 +1,85 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+actor "DroneTech" as DroneTech
+participant ":EditMaintenanceTypeAction" as Action
+participant ":EditMaintenanceTypeUI" as UI
+participant ":EditMaintenanceTypeController" as CTRL
+participant ":DroneInventoryService" as SRVC
+participant "Repositories" As REPOS
+participant ":JpaMaintenanceTypeRepository" as MREPO
+participant ":JpaDroneRepository" AS DREPO
+participant ":MaintenanceType" as MT
+
+    DroneTech -> Action : asks to list maintenance types
+    activate Action
+        Action -> UI : show()
+    deactivate Action
+            activate UI
+            UI -> REPOS : findAll()
+            activate REPOS
+                REPOS -> MREPO : findAll()
+                activate MREPO
+                    MREPO -> MT : findAll()
+                activate MT
+                MT -> MREPO : maintenanceTypesList
+                deactivate MT
+                MREPO -> REPOS : maintenanceTypesList
+                deactivate MREPO
+                REPOS -> UI : maintenanceTypesList
+                deactivate REPOS
+               UI -> DroneTech : displays list and requests id to edit
+           deactivate UI
+           DroneTech -> UI : provides requested data
+           activate UI
+           UI --> CTRL** : create()
+           UI -> CTRL : findMaintenanceTypeById(id)
+           activate CTRL
+           CTRL -> SRVC : findMaintenanceTypeById(id)
+           activate SRVC
+           SRVC -> MREPO : findMaintenanceTypeById(Long id)
+           activate MREPO
+            MREPO -> SRVC : id
+           deactivate MREPO
+           SRVC -> CTRL : id
+           deactivate SRVC
+           CTRL -> UI : id
+           deactivate CTRL
+           UI -> CTRL : canEditMaintenanceType(maintenanceType)
+           activate CTRL
+           CTRL -> SRVC : existsMaintenanceRecordsByType(maintenanceType)
+           activate SRVC
+           SRVC -> DREPO : existsMaintenanceRecordsByType(maintenanceType).isPresent()
+           activate DREPO
+           DREPO -> SRVC : Optional<Drone>
+           deactivate DREPO
+           SRVC -> CTRL : Optional<Drone>
+           deactivate SRVC
+           CTRL -> UI : Optional<Drone>
+           deactivate CTRL
+           UI -> DroneTech : requests the new data
+           DroneTech -> UI : provides new data
+           UI -> CTRL : editMaintenanceType(id,newName,newDescription)
+           activate CTRL
+           CTRL -> SRVC : editMaintenanceType(id, newName, newDescription)
+           activate SRVC
+           SRVC -> MT : update(newName, newDescription, isInUse)
+           activate MT
+           activate MREPO
+           MT -> MREPO : save(maintenanceType)
+           deactivate MT
+           MREPO -> SRVC : maintenanceType
+           deactivate MREPO
+           SRVC -> CTRL : maintenanceType
+           deactivate SRVC
+           CTRL -> UI : maintenanceType
+           deactivate CTRL
+           UI -> DroneTech : (In)SuccessMessage
+deactivate DroneTech
+
+@enduml

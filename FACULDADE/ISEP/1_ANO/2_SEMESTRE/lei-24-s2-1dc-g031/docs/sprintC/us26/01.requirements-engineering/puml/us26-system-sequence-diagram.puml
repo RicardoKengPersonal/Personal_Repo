@@ -1,0 +1,49 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US26
+
+autonumber
+
+actor "Green Space Manager" as GSM
+participant ":System" as System
+
+activate GSM
+
+    GSM -> System : requests assignment of vehicles to an Agenda entry
+    activate System
+
+        System --> GSM : displays list of agenda entries
+        System --> GSM : requests selection of one
+    deactivate System
+
+    GSM -> System : selects an Agenda entry
+    activate System
+
+        System --> GSM : displays list of available vehicles
+        System --> GSM : requests selection of one
+    deactivate System
+
+    loop until all information is verified
+    loop until all vehicles are selected
+
+        GSM -> System : selects a vehicle
+        activate System
+
+            System --> GSM : displays selected vehicle and asks if more vehicles are to be selected
+        deactivate System
+
+    end
+
+    GSM -> System : confirms vehicle selection
+    activate System
+
+        System -> System : verifies vehicle availability
+        System -> System : assigns vehicles to agenda entry
+ end
+        System --> GSM : displays operation success
+    deactivate System
+
+@enduml

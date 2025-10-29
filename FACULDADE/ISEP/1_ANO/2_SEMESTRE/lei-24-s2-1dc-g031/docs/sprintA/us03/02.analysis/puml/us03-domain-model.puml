@@ -1,0 +1,38 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+title Domain Model US03
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+class HumanResourcesManager {
+}
+
+class User {
+   Name
+   BirthDate
+   AdmissionDate
+   Address
+   MobileNumber
+   Email
+   TaxPayerNumber
+   DocumentIdentificationNumber
+
+}
+
+class Job {
+    Name
+    Description
+}
+
+class UserPortal {
+}
+HumanResourcesManager "1" -- "0..*" User : registers >
+User "1" - "1" UserPortal: entry >
+User "1" -- "0..*" Job : has a >
+
+@enduml

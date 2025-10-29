@@ -1,0 +1,50 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+title Domain Model US05
+
+
+class HumanResorcesManager {
+}
+
+
+
+class Team {
+   size
+}
+
+class User {
+    Name
+    BirthDate
+    AdmissionDate
+    Address
+    MobileNumber
+    Email
+    TaxPayerNumber
+    DocumentIdentificationNumber
+}
+
+class Job {
+    Tittle
+    Description
+
+    }
+
+class Skill{
+    NameOfTheSkill
+    DescriptionOfTheSkill
+}
+
+
+HumanResorcesManager "1" - "1..*" Team : proposes
+Team "1" -- "1..*" User: has >
+User "1" -- "1" Job : has a >
+User "1" - "*" Skill: have a >
+@enduml

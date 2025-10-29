@@ -1,0 +1,11 @@
+INSERT INTO "Bill of Operations" (finished_variant_id,operation_id,input_id,output_id,sequence_number) VALUES (13,1,1,2,1);
+INSERT INTO "Bill of Operations" (finished_variant_id,operation_id,input_id,output_id,sequence_number) VALUES (13,2,2,2,2);
+INSERT INTO "Bill of Operations" (finished_variant_id,operation_id,input_id,output_id,sequence_number) VALUES (13,3,3,3,3);
+INSERT INTO "Bill of Operations" (finished_variant_id,operation_id,input_id,output_id,sequence_number) VALUES (13,7,5,5,4);
+INSERT INTO "Bill of Operations" (finished_variant_id,operation_id,input_id,output_id,sequence_number) VALUES (14,1,6,6,1);
+INSERT INTO "Bill of Operations" (finished_variant_id,operation_id,input_id,output_id,sequence_number) VALUES (14,5,7,7,2);
+INSERT INTO "Bill of Operations" (finished_variant_id,operation_id,input_id,output_id,sequence_number) VALUES (14,6,8,8,3);
+INSERT INTO "Bill of Operations" (finished_variant_id,operation_id,input_id,output_id,sequence_number) VALUES (14,8,9,9,4);
+INSERT INTO "Bill of Operations" (finished_variant_id,operation_id,input_id,output_id,sequence_number) VALUES (14,11,10,10,5);
+INSERT INTO "Bill of Operations" (finished_variant_id,operation_id,input_id,output_id,sequence_number) VALUES (15,9,11,11,1);
+select * FROM "Bill of Operations";

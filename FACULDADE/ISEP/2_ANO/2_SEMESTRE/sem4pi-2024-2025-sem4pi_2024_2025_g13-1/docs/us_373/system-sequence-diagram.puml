@@ -1,0 +1,16 @@
+@startuml
+actor User
+participant System
+
+title System Sequence Diagram (SSD) - US373 Get show info
+
+activate User
+activate System
+    User --> System : Requests to view detailed show info
+    System --> User : Ask to enter the show ID
+    User --> System : Enter the show ID
+
+    System --> System : getShowInfo(showId, userEmail)
+    System --> User : Show info displayed (ShowExtendedDTO)
+
+@enduml

@@ -1,0 +1,85 @@
+
+@startuml
+
+skinparam linetype ortho
+
+skinparam package {
+  BackgroundColor #D6EAF8
+  BorderColor Black
+}
+
+
+
+
+
+package "shodrone.core.showproposalmanagement.domain" <<Aggregate>> {
+
+class ShowProposal <<Entity, AggregateRoot>> {}
+class ShowProposalID <<ValueObject>> {}
+class Video <<ValueObject>> {}
+class ShowProposalTotalDrone <<ValueObject>> {}
+class ShowProposalTemplate <<ValueObject>> {}
+class ShowProposalDuration <<ValueObject>> {}
+class ShowProposalID <<ValueObject>> {}
+
+enum ShowProposalStatus <<Enum>> {
+ACCEPTED,
+REJECTED
+}
+
+}
+
+ShowProposal "1...*" --> "1...*" FigureVersionID
+ShowProposal *-- ShowRequestID
+ShowProposal  -->  ShowProposalStatus
+ShowProposal  *--  Video
+ShowProposal  *--  ShowProposalTemplate
+ShowProposal  *--  ShowProposalTotalDrone
+ShowProposal "1" --> "1...*" SimulationID
+ShowProposal *-- ShowProposalDuration
+ShowProposal *-- DomainDateTime
+ShowProposal *-- ShowProposalID
+
+
+package "shodrone.core.droneinventorymanagement.domain" <<Aggregate>> {
+    class Drone <<Entity, AggregateRoot>> {}
+    class DroneModel <<Entity>> {}
+    class DroneState <<Enum>> {
+        ACTIVE
+        INACTIVE
+        DAMAGED
+        MAINTENANCE
+    }
+    class DroneSerialNumber <<ValueObject>> {}
+    class DroneModelID <<ValueObject>> {}
+    class DroneID <<ValueObject>> {}
+    class DroneStateChange <<Entity>> {}
+    class DroneStateChangeReason <<Enum>> {
+        FAILURE
+        MAINTENANCE
+        DECOMMISSION
+    }
+    class MaintenanceType <<Entity>> {}
+}
+
+Drone *-- DroneSerialNumber
+Drone *-- DroneID
+Drone --> DroneModel
+Drone --> DroneState
+Drone --> "0..*" DroneStateChange
+
+DroneStateChange --> DroneState
+DroneStateChange --> DroneStateChangeReason
+DroneStateChange *-- DomainDateTime
+
+DroneModel *-- DroneModelID
+
+
+note right
+The classes that are out of the blue box
+means they are in a different directory of
+the project that is not that much relevant
+for this specific user story.
+Check the domain model for more information.
+end note
+@enduml

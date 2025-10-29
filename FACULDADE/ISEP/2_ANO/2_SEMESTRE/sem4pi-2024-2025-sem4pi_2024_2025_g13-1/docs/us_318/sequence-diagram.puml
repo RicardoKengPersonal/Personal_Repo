@@ -1,0 +1,61 @@
+@startuml
+title Sequence Diagram - US318
+
+actor "CRM Manager" as CRM
+participant ConfigureShowProposalAction
+participant ConfigureShowProposalUI
+participant ConfigureShowProposalController
+participant AuthzRegistry
+participant ShowProposalRepository
+participant ConfigureShowProposalService
+participant ShowProposal
+
+
+CRM --> ConfigureShowProposalAction : Requests to configure a show proposal
+ConfigureShowProposalAction --> ConfigureShowProposalUI: show()
+ConfigureShowProposalUI --> ShowProposalRepository : findAllReadyToTest()
+
+alt No proposals
+    ShowProposalRepository -> ConfigureShowProposalUI : empty list
+    ConfigureShowProposalUI -> CRM : Show message "No proposals ready to be tested."
+else there are proposals
+    ShowProposalRepository -> ConfigureShowProposalUI : List<ShowProposal>
+    ConfigureShowProposalUI -> CRM : Ask to select a proposal
+    CRM -> ConfigureShowProposalUI : Select a proposal
+
+    alt Invalid selection
+        ConfigureShowProposalUI -> CRM : Show a message "Invalid selection"
+        else Valid answer
+        ConfigureShowProposalUI -> CRM : Display all show proposal models available and ask to select one
+        CRM -> ConfigureShowProposalUI : Select a show proposal model
+
+            loop while wrong answer
+                ConfigureShowProposalUI -> CRM : Ask again (model 1-3)
+                CRM -> ConfigureShowProposalUI : Select again a show proposal model
+            end
+
+        ConfigureShowProposalUI -> ConfigureShowProposalController : configure(proposalID, modelOpc)
+
+        ConfigureShowProposalController -> AuthzRegistry : authenticatedUser()
+        AuthzRegistry --> ConfigureShowProposalController : SystemUser (name, role)
+
+        ConfigureShowProposalController -> ConfigureShowProposalService : configure(proposalID, modelOpc, userName, userRole)
+
+        ConfigureShowProposalService -> ShowProposalRepository : ofIdentity(proposalID)
+        ShowProposalRepository -> ConfigureShowProposalService : ShowProposal
+
+        alt Proposal status != TESTED
+              ConfigureShowProposalService -> ConfigureShowProposalController : throws IllegalStateException
+        else Proposal is TESTED
+              ConfigureShowProposalService -> ShowProposal : assignTemplateAndAuditor(templateId, userName, userRole)
+              ConfigureShowProposalService -> ShowProposal : updateStatus(READY_TO_SEND)
+              ConfigureShowProposalService -> ShowProposalRepository : save(proposal)
+        end
+
+        ConfigureShowProposalUI -> CRM : Show an error or success message
+
+    end
+end
+
+
+@enduml

@@ -1,0 +1,51 @@
+@startuml
+
+autonumber
+
+actor "CRM Collaborator" as CRM
+participant ":CreateShowProposalUI" as UI
+participant ":CreateShowProposalController" as Controller
+participant ":ShowProposalParser" as Parser
+participant ":ShowProposalService" as Service
+participant ":ShowProposalRepository" as Repo
+participant ":ShowRequestRepository" as ReqRepo
+participant ":ShowProposalDTO" as DTO
+
+
+activate CRM
+CRM -> UI : create show proposal
+activate UI
+
+    UI -> Controller : addShowProposal(dto)
+    activate Controller
+
+
+        Controller -> Parser : valueOf(dto)
+        activate Parser
+
+            Parser -> DTO : getRequestId()
+            DTO --> Parser : requestId
+
+            Parser -> ReqRepo : ofIdentity(requestId)
+            ReqRepo --> Parser : ShowRequest
+
+            Parser -> Repo : findMaxId()
+            Repo --> Parser : maxId
+
+            Parser --> Controller : new ShowProposal
+        deactivate Parser
+
+        Controller -> Service : registerNewShowProposal(proposal)
+        activate Service
+
+            Service -> Repo : save(proposal)
+            Repo --> Service : saved
+        deactivate Service
+
+    deactivate Controller
+
+UI --> CRM : Proposal created successfully
+deactivate UI
+deactivate CRM
+
+@enduml

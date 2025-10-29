@@ -1,0 +1,50 @@
+@startuml
+class AgendaController {
+    -agenda: Agenda
+    -repositories: Repositories
+    +addAgendaEntry(task: Task, entryDate: String): boolean
+    +getActiveAgendaEntries(): ArrayList<AgendaEntry>
+    +getUnassignedVehicles(ae: AgendaEntry): ArrayList<Vehicle>
+    -addMinutesToSchedule(schedule: ArrayList<DaySchedule>, date: LocalDate, minutes: int): void
+    -getUsedMinutesForDate(schedule: ArrayList<DaySchedule>, date: LocalDate): int
+    -calculateTaskEndDate(startDate: LocalDate, durationInMinutes: int): LocalDate
+}
+
+class Agenda {
+    -agendaEntries: ArrayList<AgendaEntry>
+}
+
+class AgendaEntry {
+    -associatedTask: Task
+    -team: Team
+    -date: LocalDate
+    -vehicles: ArrayList<Vehicle>
+}
+
+class Repositories {
+    -instance: Repositories
+    -collaboratorsRepository: CollaboratorsRepository
+    -skillsRepository: SkillsRepository
+    -jobsRepository: JobsRepository
+    -authenticationRepository: AuthenticationRepository
+}
+
+class DaySchedule {
+    -date: LocalDate
+    -minutes: int
+}
+
+class Task {
+    -description: String
+    -taskName: String
+    -greenSpace: GreenSpace
+    -estimatedDuration: int
+    -taskUrgencyDegree: TaskUrgencyDegree
+    -taskStatus: TaskStatus
+}
+
+AgendaController "1" -- "1" Agenda
+AgendaController "1" -- "1" Repositories
+Agenda "1" -- "*" AgendaEntry
+AgendaEntry "1" -- "1" Task
+@enduml

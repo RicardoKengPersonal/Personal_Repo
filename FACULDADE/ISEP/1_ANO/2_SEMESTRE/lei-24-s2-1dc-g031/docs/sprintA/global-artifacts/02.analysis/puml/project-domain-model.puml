@@ -1,0 +1,115 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+hide circle
+hide methods
+
+
+class User {
+     Name
+     BirthDate
+     AdmissionDate
+     Address
+     MobileNumber
+     Email
+     TaxPayerNumber
+     DocumentIdentificationNumber
+}
+
+class UserType {
+     NameOfUserType
+}
+
+class Feedback {
+     Commentary
+     Report
+}
+
+class UserPortal {
+}
+
+class Team {
+}
+
+class Job {
+     Name
+     Description
+}
+
+class Skill {
+     NameOfTheSkill
+     DescriptionOfTheSkill
+}
+
+class Task {
+     TaskDescription
+
+}
+
+class Entry {
+     DateOfEntry
+}
+
+class GreenSpace {
+     TypeOfGreenSpace
+}
+
+class Diary {
+}
+
+class Vehicle{
+     VehiclePlateID
+     VehicleModel
+     VehicleBrand
+     VehicleType
+     VehicleTare
+     VehicleGrossWeight
+     VehicleCurrentKm
+     VehicleRegisterDate
+     VehicleAcquisitionDate
+     VehicleMaintenanceCheckUpFrequency
+}
+
+class Machines {
+   TypeOfMachines
+
+}
+
+class Equipment {
+
+}
+
+
+
+User "*" -- "1" UserType : has >
+User "1" - "*" Feedback: sends >
+User "*" -- "1" UserPortal: uses >
+UserPortal "1" -- "*" Feedback : reeceives >
+User "*" -- "1" Team: associated <
+User "*" -- "1" Job: has a >
+User "*" - "*" Skill: has >
+
+
+Team "1" - "*" Task: performs >
+Job "1" -- "*" Task: has >
+Skill "*" - "1" Task: requires <
+
+
+Task "1" - "1" Entry: defines <
+Task "1" -- "*" Machines: needs >
+Task "1" -- "*" Vehicle: needs <
+Task "1" -- "*" Equipment: needs >
+
+
+Entry "1" -- "1" GreenSpace: located >
+Entry "*" -- "*" Diary: has <
+
+
+
+Vehicle -- Machines: transports >
+Vehicle -- Equipment: transports >
+
+
+@enduml

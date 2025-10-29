@@ -1,0 +1,74 @@
+@startuml
+title Sequence Diagram - US346 Validation of a Drone Program
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing true
+
+autonumber
+
+actor "DroneTech" as DT
+
+participant "ValidateDroneLanguageAction" as Action
+participant "ValidateDroneLanguageUI" as UI
+participant "ListDronesWithLanguagesDTOController" as CTRL
+participant "ListDronesWithLanguagesDTOService" as SRVC
+participant "DroneRepository" as REPO
+participant "DroneLanguagesDTO" as DTO
+participant "DroneLanguageValidatorController" as VAL
+participant "DroneInventoryService" as DRN_SRVC
+participant "Drone\n:DronePluginClass" as PLGN
+
+activate DT
+
+    DT -> Action : requqests validation of a drone program
+        activate Action
+        Action -> UI : doShow()
+        deactivate Action
+            activate UI
+            loop for each drone with language
+
+            UI -> CTRL : dronesWithLanguages()
+                activate CTRL
+                CTRL -> SRVC : listAllDronesWithLanguages()
+                    activate SRVC
+                    SRVC -> REPO : findAllWithProgrammingLanguage()
+                        activate REPO
+                        REPO --> SRVC : drone
+                        deactivate REPO
+                    SRVC --> CTRL : drone
+                    deactivate SRVC
+                CTRL --> UI : drone
+                deactivate CTRL
+            UI -> UI : droneList::add()
+            end loop
+            UI -> DT : displays list and request to choose one drone
+            deactivate UI
+
+    DT -> UI : selects drone by number
+        activate UI
+        UI -> DTO : getProgrammingLanguage()
+            activate DTO
+            DTO --> UI : programmingLanguage
+            deactivate DTO
+        UI -> UI : filepath
+
+        UI -> VAL : validateDroneProgram(filePath, lang)
+            activate VAL
+            VAL -> DRN_SRVC : validateDroneProgram(filePath, languageType)
+                activate DRN_SRVC
+                alt Language is "One"
+                DRN_SRVC -> PLGN : drones.Drone.droneOnePlugin(filePath)
+                else Language is "Two"
+                DRN_SRVC -> PLGN : drones.Drone.droneTwoPlugin(filePath)
+                end
+                    activate PLGN
+                    PLGN --> DRN_SRVC : true
+                    deactivate PLGN
+                DRN_SRVC --> VAL : true
+                deactivate DRN_SRVC
+            VAL --> UI : true
+            deactivate VAL
+        UI --> DT : Validation successful for drone language
+    deactivate DT
+
+@enduml

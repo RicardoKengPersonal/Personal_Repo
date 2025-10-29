@@ -1,0 +1,13 @@
+INSERT INTO Product (product_name) VALUES ('Screw');
+INSERT INTO Product (product_name) VALUES ('Sheet');
+INSERT INTO Product (product_name) VALUES ('Rivet');
+INSERT INTO Product (product_name) VALUES ('Handle');
+INSERT INTO Product (product_name,family_id,product_description) VALUES ('Pro Pot',1,'Stainless steel pots and their bottoms');
+INSERT INTO Product (product_name,family_id,product_description) VALUES ('La Belle Pot',2,'Aluminum and Teflon-coated pots');
+INSERT INTO Product (product_name,family_id,product_description) VALUES ('Pro Lid',4,'Stainless steel lids');
+INSERT INTO Product (product_name,family_id,product_description) VALUES ('Glass Lid',5,'Glass lids');
+INSERT INTO Product (product_name,family_id,product_description) VALUES ('Pro Pan',3,'Saucepans');
+INSERT INTO Product (product_name) VALUES ('Disc');
+INSERT INTO Product (product_name) VALUES ('Pot base');
+INSERT INTO Product (product_name) VALUES ('Coolube');
+select * FROM Product;

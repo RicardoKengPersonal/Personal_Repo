@@ -1,0 +1,31 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+title Domain Model US20
+
+skinparam classAttributeIconSize 0
+
+hide circle
+hide methods
+
+class GreenSpaceMenager {
+}
+
+class GreenSpace {
+   nameCategoryType
+   sizeOfCategoryType
+   areaOfCategoryType
+}
+
+class Address {
+    streetName
+    zipCodeInformation
+    cityName
+}
+
+GreenSpaceMenager "1" -- "0..*" GreenSpace : registers >
+
+GreenSpace "1" - "0..*" Address : has a >
+
+@enduml

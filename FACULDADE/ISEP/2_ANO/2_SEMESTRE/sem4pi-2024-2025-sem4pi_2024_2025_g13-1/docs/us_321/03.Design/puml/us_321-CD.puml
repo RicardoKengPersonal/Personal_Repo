@@ -1,0 +1,75 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+
+skinparam classAttributeIconSize 0
+
+'left to right direction
+
+class MaintenanceTypeCreationAction{
+}
+
+class MaintenanceTypeCreationUI {
+}
+
+class MaintenanceTypeCreationController {
+    - AuthorizationService : authzAuthorizationService
+    - service : DroneInventoryService
+    +addMaintenanceType(name,description)
+}
+
+class DroneInventoryService {
+    - categoryRepository : DroneModelRepository
+    - droneRepository : DroneRepository
+    - maintenanceTypeRepository : MaintenanceTypeRepository
+    +addMaintenanceType(name,description)
+}
+
+class JpaMaintenanceTypeRepository {
+    + JpaMaintenanceTypeRepository(puname)
+    + JpaMaintenanceTypeRepository(autoTx)
+    + findByNameIgnoreCase(String name) : Optional<MaintenanceType>
+    + findAllTypes() : Iterable<MaintenanceType>
+}
+
+class JpaRepositoryFactory {
+    + maintenanceType() : MaintenanceTypeRepository
+    + maintenanceType(autoTX) : MaintenanceTypeRepository
+
+}
+
+class MaintenanceType {
+    - id
+    - name
+    - description
+
+    + MaintenanceType(name,description)
+    + MaintenanceType()
+    + name() : String
+    + description() : String
+    + sameAs(Object other) : boolean
+    + identity() : Long
+    + hashCode() : int
+    + equals(Object o) : boolean
+    + toString() : String
+
+}
+
+
+
+MaintenanceTypeCreationAction .> MaintenanceTypeCreationUI
+
+MaintenanceTypeCreationUI --> MaintenanceTypeCreationController
+
+MaintenanceTypeCreationController -> DroneInventoryService
+
+DroneInventoryService -> MaintenanceType
+DroneInventoryService --> JpaMaintenanceTypeRepository
+
+
+JpaMaintenanceTypeRepository -> JpaRepositoryFactory
+
+@enduml

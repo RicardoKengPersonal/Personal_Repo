@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="pt.ipp.isep.dei.esoft.project.ui.gui.CreateAgendaEntryGUI"
+          hgap="10" vgap="10"
+          stylesheets="@css/CreateAgendaEntry.css">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Entry Date:" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="label"/>
+    <TextField fx:id="entryDateField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+    <Label text="Entry Task:" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="label"/>
+    <ComboBox fx:id="entryTaskComboBox" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="200"/>
+
+    <!-- Submit and Go Back buttons -->
+    <Button fx:id="submitButton" text="Submit" onAction="#submit" GridPane.columnIndex="0" GridPane.rowIndex="10" GridPane.halignment="LEFT" styleClass="button"/>
+    <Button fx:id="goBackButton" text="Go Back" onAction="#goBack" GridPane.columnIndex="1" GridPane.rowIndex="10" GridPane.halignment="RIGHT" styleClass="button"/>
+</GridPane>

@@ -1,0 +1,21 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #AED6F1
+  BorderColor Black
+}
+
+actor "Admin" as CRM
+participant "ListUsersUI " as UI
+participant "ListUsersController" as Controller
+participant "UserManagementService" as Service
+participant "UserRepository" as registry
+
+
+    CRM -> UI : Asks for users list
+    UI -> Controller : Send user permissions and asks for list of all users
+    Controller -> Service :  Asks for users list
+    Service -> registry : Retrieves Users from  repository
+    registry -> CRM :  Returns operation result
+
+@enduml

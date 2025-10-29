@@ -1,0 +1,159 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+
+autonumber
+
+actor "Player" as PLAYER
+
+participant "BuyLocomotiveUI" as UI
+participant "BuyLocomotiveController" as CTRL
+
+participant ":Repositories" as REPOS
+participant "repositories\n:Repositories" as REPOS_SINGLETON
+participant "ApplicationSession" as APP_SESSION
+participant "appSession\n:ApplicationSession" as APP_SESSION_SINGLETON
+participant "currentSession\n:UserSession" as CURRENT_SESSION
+
+participant "mapRepository\n:MapRepository" as MAP_REPO
+participant "Map\n:Map" as MAP
+
+participant "locomotiveRepository\n:LocomotiveRepository" as LOC_REPO
+participant "Locomotive\n:Locomotive" as LOC_CLASS
+
+participant "Scenario\n:Scenario" as SCENARIO
+
+participant "Player\n:Player" as PLAYER_CLASS
+
+participant "obj : Locomotives" as LOCOMOTIVE
+participant "ListLocomotive : List<Locomotive>" as LOCOMOTIVE_LIST
+participant "LocomotiveMapper" as LOCOMOTIVE_MAPPER
+
+participant "System Clock\n:SystemClock" as SYSTEM_CLOCK
+
+activate PLAYER
+
+PLAYER -> UI : requests to buy a locomotive
+
+    activate UI
+    UI --> CTRL** : create()
+    UI -> CTRL : displayAvailableLocomotives()
+
+        activate CTRL
+        CTRL -> REPOS : getInstance()
+            activate REPOS
+            REPOS --> CTRL : repositories
+            deactivate REPOS
+
+        CTRL -> CTRL : getMapFromSession()
+        activate CTRL
+            CTRL -> APP_SESSION : getInstance()
+            activate APP_SESSION
+                APP_SESSION --> CTRL : appSession
+            deactivate APP_SESSION
+        CTRL -> APP_SESSION_SINGLETON : getCurrentSession()
+            activate APP_SESSION_SINGLETON
+            APP_SESSION_SINGLETON --> CTRL : currentSession
+            deactivate APP_SESSION_SINGLETON
+        CTRL -> CURRENT_SESSION : getCurrentMapName()
+            activate CURRENT_SESSION
+            CURRENT_SESSION --> CTRL : currentMapName
+            deactivate CURRENT_SESSION
+        CTRL -> REPOS : getInstance()
+            activate REPOS
+            REPOS --> CTRL : repositories
+            deactivate REPOS
+        CTRL -> REPOS_SINGLETON : getMapRepository()
+            activate REPOS_SINGLETON
+            REPOS_SINGLETON --> CTRL :mapRepository
+            deactivate REPOS_SINGLETON
+        CTRL -> MAP_REPO : getMapByName(mapName)
+            activate MAP_REPO
+            MAP_REPO --> CTRL : map
+            deactivate MAP_REPO
+        deactivate CTRL
+        CTRL -> MAP : getCurrentScenario()
+            activate MAP
+            MAP --> CTRL : scenario
+            deactivate MAP
+        CTRL -> SCENARIO : getAvailableLocomotivesList()
+            activate SCENARIO
+            SCENARIO --> LOCOMOTIVE_LIST** : create()
+            loop for each locomotive
+            SCENARIO -> LOCOMOTIVE_LIST : getLocomotive()
+                activate LOCOMOTIVE_LIST
+                LOCOMOTIVE_LIST --> LOCOMOTIVE_LIST : addToList()
+            end loop
+                LOCOMOTIVE_LIST --> SCENARIO : locomotiveList
+                deactivate LOCOMOTIVE_LIST
+            SCENARIO --> CTRL : locomotiveList
+            deactivate SCENARIO
+        CTRL -> LOCOMOTIVE_MAPPER : toDTO(locomotiveList)
+            activate LOCOMOTIVE_MAPPER
+            ref over LOCOMOTIVE_MAPPER
+            SD_toDTO_ListLocomotives
+            end ref
+            LOCOMOTIVE_MAPPER --> CTRL : listLocomotivesDTO
+            deactivate LOCOMOTIVE_MAPPER
+        CTRL --> UI : listLocomotivesDTO
+        deactivate CTRL
+    UI --> PLAYER : displays list of locomotives and asks to select one
+    deactivate UI
+
+PLAYER -> UI : selects locomotive
+
+    activate UI
+    UI -> CTRL : getLocomotiveDetails(locomotiveName)
+        activate CTRL
+        CTRL -> REPOS : getLocomotiveRepository()
+            activate REPOS
+            REPOS --> CTRL : locomotiveRepository
+            deactivate REPOS
+        CTRL -> LOC_REPO : getLocomotiveByName(locomotiveName)
+            activate LOC_REPO
+            LOC_REPO --> CTRL : locomotive
+            deactivate LOC_REPO
+        CTRL -> LOC_CLASS : toString()
+            activate LOC_CLASS
+            LOC_CLASS --> CTRL : details
+            deactivate LOC_CLASS
+        CTRL --> UI : details
+        deactivate CTRL
+    UI --> PLAYER : displays details and requests confirmation
+    deactivate UI
+
+PLAYER -> UI : confirms selection
+
+    activate UI
+    UI -> CTRL : buyLocomotive(locomotive)
+        activate CTRL
+        CTRL -> LOC_CLASS : getAcquisitionPrice()
+            activate LOC_CLASS
+            LOC_CLASS --> CTRL : acquisitionPrice
+            deactivate LOC_CLASS
+        CTRL -> CURRENT_SESSION : getCurrentPlayer()
+            activate CURRENT_SESSION
+            CURRENT_SESSION --> CTRL : player
+            deactivate CURRENT_SESSION
+        CTRL -> PLAYER_CLASS : debit(acquisitionPrice)
+            activate PLAYER_CLASS
+            PLAYER_CLASS -> PLAYER_CLASS : validates purchase
+            PLAYER_CLASS --> CTRL : true
+            deactivate PLAYER_CLASS
+
+        CTRL -> SYSTEM_CLOCK : getCurrentDate()
+            activate SYSTEM_CLOCK
+            SYSTEM_CLOCK --> CTRL : currentDate
+            deactivate SYSTEM_CLOCK
+
+        CTRL -> LOC_CLASS : setStartYear(currentYear)
+            activate LOC_CLASS
+            LOC_CLASS --> CTRL : confirmation
+            deactivate LOC_CLASS
+        CTRL --> UI : confirmation
+        deactivate CTRL
+    UI --> PLAYER : displays operation success
+
+deactivate PLAYER
+@enduml

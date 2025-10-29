@@ -1,0 +1,28 @@
+@startuml
+title SSD - US341 Validate figure description
+
+actor "User" as User
+participant System
+
+
+User -> System : Select figure + DSL file
+
+System -> System : interpretFigureScript(path)
+System -> System : validate(path)
+
+alt Syntax is invalid
+    System -> System : Validation failed
+    System -> User : Show error message
+else Syntax OK
+    System -> System : tokenize DSL
+    System -> System : parse token stream
+    System -> System : parse tree
+
+    System -> System : visit(parseTree)
+    System --> System : interpretation result
+
+    System -> System : Interpretation completed
+    System -> User : Show success message
+end
+
+@enduml

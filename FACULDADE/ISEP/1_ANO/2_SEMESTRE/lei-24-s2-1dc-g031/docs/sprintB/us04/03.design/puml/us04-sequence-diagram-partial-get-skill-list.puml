@@ -1,0 +1,40 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+'hide footbox
+
+participant "AssignSkillController" as CTRL
+participant Repositories
+participant "repositories\n:Repositories" as REP
+participant "skillsRepository\n:SkillsRepository" as SkillsREP
+
+autonumber 13
+
+ -> CTRL : getSkillsList()
+autonumber 13.1
+activate CTRL
+    group Get Skills List
+        CTRL -> Repositories: getInstance()
+        activate Repositories
+            Repositories --> CTRL: repositories
+        deactivate Repositories
+        CTRL -> REP: getSkillsRepository()
+        activate REP
+            REP --> CTRL: skillsRepository
+        deactivate REP
+        CTRL -> SkillsREP: getSkillsArrayList()
+        activate SkillsREP
+            SkillsREP --> CTRL: skills list
+        deactivate SkillsREP
+
+    end
+    autonumber 4
+    <-- CTRL  : skills List
+deactivate CTRL
+
+
+@enduml

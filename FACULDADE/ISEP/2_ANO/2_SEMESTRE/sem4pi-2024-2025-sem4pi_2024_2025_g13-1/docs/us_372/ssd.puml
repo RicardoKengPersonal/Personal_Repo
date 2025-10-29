@@ -1,0 +1,10 @@
+@startuml
+title SSD - US372 - Check Shows Dates (with Filter)
+
+actor "Customer Representative" as CR
+participant "System" as System
+
+CR -> System : selects "Check Shows Dates"
+System -> CR : shows the list of scheduled shows (filtered date and ordered by date)
+
+@enduml

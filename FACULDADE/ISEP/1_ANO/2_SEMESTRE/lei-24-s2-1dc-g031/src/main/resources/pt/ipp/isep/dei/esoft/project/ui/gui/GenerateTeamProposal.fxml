@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="pt.ipp.isep.dei.esoft.project.ui.gui.GenerateTeamProposalGUI"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@css/GenerateTeamProposal.css">
+
+    <center>
+        <VBox spacing="10" alignment="CENTER" styleClass="vbox">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <Label text="Minimum number of collaborators:" styleClass="label"/>
+            <TextField fx:id="minCollaboratorsField" />
+
+            <Label text="Maximum number of collaborators:" styleClass="label"/>
+            <TextField fx:id="maxCollaboratorsField" />
+
+            <Label text="Available skills:" styleClass="label"/>
+            <ListView fx:id="skillsListView" prefWidth="300" />
+
+            <HBox spacing="10" alignment="CENTER">
+                <Button text="Add Skill" onAction="#addSkill" styleClass="button"/>
+                <Button text="Generate Team Proposal" onAction="#generateTeamProposal" styleClass="button"/>
+                <Button text="Clear Skills" onAction="#clearSkills" styleClass="button"/>
+            </HBox>
+        </VBox>
+    </center>
+
+    <bottom>
+        <HBox alignment="BOTTOM_RIGHT" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10" />
+            </padding>
+            <Button text="Go Back" onAction="#goBack" styleClass="button"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

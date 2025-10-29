@@ -1,0 +1,32 @@
+@startuml
+actor Customer
+participant System
+
+title System Sequence Diagram (SSD) - US370 Analyse a Proposal
+activate Customer
+Customer --> System : I want to analyse a proposal
+activate System
+System --> Customer : Prompt for Access Code
+deactivate System
+Customer --> System : Enter Access Code
+activate System
+System --> Customer : Downloading proposal from server...
+deactivate System
+alt if server returns error
+
+System --> Customer : Show error message
+activate System
+else
+System --> Customer : Show download success message
+deactivate System
+alt Desktop supported
+
+System --> Customer : Open file with default application
+activate System
+else
+System --> Customer : Show manual file location
+deactivate System
+end
+
+end
+@enduml

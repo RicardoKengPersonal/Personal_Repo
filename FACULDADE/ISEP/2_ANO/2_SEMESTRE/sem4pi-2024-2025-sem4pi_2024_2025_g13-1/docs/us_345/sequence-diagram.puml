@@ -1,0 +1,58 @@
+@startuml
+title Sequence Diagram - US345 Drone Plugin
+
+actor DroneTech
+participant DroneLanguageAction
+participant DroneLanguageUI
+participant ListActiveDronesByModelController
+participant Drone
+participant DroneInventoryService
+participant DroneRepository
+
+
+DroneTech --> DroneLanguageAction : Requests to add a language to a drone
+DroneLanguageAction --> DroneLanguageUI: doShow()
+DroneLanguageUI --> ListActiveDronesByModelController : findAllDrones()
+ListActiveDronesByModelController --> DroneInventoryService : findAllDrones()
+DroneInventoryService --> DroneRepository : findAll()
+alt no drone found
+    DroneRepository --> DroneLanguageUI : no drone found
+    DroneLanguageUI --> DroneTech : Message "No drone found" and exit
+else all drones listed
+    ListActiveDronesByModelController --> DroneLanguageUI : drones listed
+    DroneLanguageUI --> DroneTech : Requests the name of the drone to associate a language with
+
+DroneTech --> DroneLanguageUI : Enters the name of the drone
+
+DroneLanguageUI --> DroneRemoveFromInventoryController : findDroneByName(droneName)
+
+DroneRemoveFromInventoryController --> DroneInventoryService : findDroneByName(droneName)
+
+DroneInventoryService --> DroneRepository : findByDroneNameIgnoreCase(droneName)
+
+alt error with name
+    DroneRemoveFromInventoryController --> DroneLanguageUI : no drone found with that name
+
+    DroneLanguageUI --> DroneTech : Message "No drone found with that name" and exit
+
+else success in the name of the drone
+
+    DroneRemoveFromInventoryController --> DroneLanguageUI : success (drone found with that name)
+    DroneLanguageUI --> DroneLanguageUI : selectLanguageForDrone()
+
+    loop while the language selection is invalid
+        DroneLanguageUI --> DroneTech : ask to select a drone language
+        DroneTech --> DroneLanguageUI : select the drone language
+    end
+
+    alt language "One"
+        DroneLanguageUI --> Drone : droneOnePlugin(pathOneLanguage)
+    else language "Two"
+        DroneLanguageUI --> Drone : droneTwoPlugin(pathTwoLanguage)
+
+end
+DroneLanguageUI --> DroneTech : Displays success message
+end
+end
+
+@enduml

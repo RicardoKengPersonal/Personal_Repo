@@ -1,0 +1,6 @@
+INSERT INTO "Product Family" (family_legacy_id, family_name) VALUES (125, 'Stainless Steel Pots and Bottoms');
+INSERT INTO "Product Family" (family_legacy_id, family_name) VALUES (130, 'Aluminum and Teflon-Coated Pots');
+INSERT INTO "Product Family" (family_legacy_id, family_name) VALUES (132, 'Saucepans');
+INSERT INTO "Product Family" (family_legacy_id, family_name) VALUES (145, 'Stainless Steel Lids');
+INSERT INTO "Product Family" (family_legacy_id, family_name) VALUES (146, 'Glass Lids');
+select * FROM "Product Family";

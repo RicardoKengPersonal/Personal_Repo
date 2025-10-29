@@ -1,0 +1,94 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam classAttributeIconSize 0
+
+class HRM {
+    +requestTeamProposal()
+}
+
+class GenerateTeamProposalUI {
+    - controller: GenerateTeamProposalController
+    - skillsRepository: SkillsRepository
+    - min: int
+    - max: int
+    - skills: ArrayList<Skill>
+    + GenerateTeamProposalUI()
+    + run(): void
+    + requestData(): void
+    + submitData(): void
+    + displayAvailableSkills(List<Skill>): void
+    + requestSkills(ArrayList<Skill>): ArrayList<Skill>
+}
+
+class GenerateTeamProposalController {
+    - skillRepository: SkillsRepository
+    - teamRepository: TeamRepository
+    - teamProposalService: CreateTeamProposalService
+    + GenerateTeamProposalController()
+    + getSkillsList(): ArrayList<Skill>
+    + createTeamProposal(int, int, ArrayList<Skill>): Team
+}
+
+class Repositories {
+    - instance: Repositories
+    - skillsRepository: SkillsRepository
+    - teamsRepository: TeamRepository
+    - collaboratorsRepository: CollaboratorsRepository
+    + getInstance(): Repositories
+    + getSkillsRepository(): SkillsRepository
+    + getTeamsRepository(): TeamRepository
+    + getCollaboratorsRepository(): CollaboratorsRepository
+}
+
+class CollaboratorsRepository {
+    - collaboratorsArrayList: ArrayList<Collaborator>
+    + getCollaboratorsArrayList(): ArrayList<Collaborator>
+    + addCollaborator(String, String, String, String, int, String, String, String, DocumentType, Job, CollaboratorStatus): boolean
+    + isValidPhone(int): boolean
+    + isValidDateFormat(String): boolean
+    - isNumeric(String): boolean
+    - isValidName(String): boolean
+    + getDeactivatedCollaboratorsBySkill(ArrayList<Skill>): ArrayList<Collaborator>
+    + addSkill(Collaborator, ArrayList<Skill>): boolean
+}
+
+class SkillsRepository {
+    - skillsArrayList: ArrayList<Skill>
+    + getSkillsArrayList(): ArrayList<Skill>
+    - skillAlreadyExist(Skill): boolean
+    - skillNameIsValid(String): boolean
+    + addSkill(String): void
+}
+
+class TeamRepository {
+    - teams: ArrayList<Team>
+    + registerTeam(Team): boolean
+    - teamAlreadyExists(Team): boolean
+}
+
+class Team {
+    - skills: ArrayList<Skill>
+    - collaborators: ArrayList<Collaborator>
+    + Team(collaborators: ArrayList<Collaborator>,
+            skills: ArrayList<Skill>)
+    + getSkills(): ArrayList<Skill>
+    + setSkills(skills: ArrayList<Skill>): void
+    + getCollaborators(): ArrayList<Collaborator>
+    + setCollaborators(collaborators: ArrayList<Collaborator>): void
+    + toString(): String
+}
+
+GenerateTeamProposalController ..> HRM
+GenerateTeamProposalUI ..> GenerateTeamProposalController
+GenerateTeamProposalController ..> Repositories
+GenerateTeamProposalController ..> CollaboratorsRepository
+GenerateTeamProposalController ..> SkillsRepository
+GenerateTeamProposalController ..> TeamRepository
+TeamRepository --> Team
+TeamRepository --|> Repositories
+HRM ..> Team
+SkillsRepository --|> Repositories
+CollaboratorsRepository --|> Repositories
+@enduml

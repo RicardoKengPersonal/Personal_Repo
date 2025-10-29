@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://www.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>eapli</groupId>
+        <artifactId>shodrone</artifactId>
+        <version>4.0.0</version>       <!-- version do seu POM pai -->
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <groupId>eapli.shodrone.infrastructure</groupId>
+    <artifactId>base.infrastructure.application</artifactId>
+    <packaging>jar</packaging>
+    <name>shodrone.infrastructure.application</name>
+
+    <properties>
+    </properties>
+
+    <dependencies>
+    </dependencies>
+</project>

@@ -1,0 +1,51 @@
+@startuml
+title Sequence Diagram - US340 DSL Plugin
+
+actor "User" as User
+participant "FigurePluginUI" as UI
+participant "AddDslPathController" as Controller
+participant "FigureService" as Service
+participant "Figure" as Figure
+participant "FigureRepository" as Repo
+participant "FigurePlugin" as Plugin
+participant "figureLexer" as Lexer
+participant "figureParser" as Parser
+participant "FigureInterpreterVisitor" as Visitor
+
+activate User
+activate UI
+
+User -> UI : Select figure + DSL file
+UI -> Controller : updateDslLink(figure, path)
+activate Controller
+Controller -> Service : updateDslLink(figure, path)
+activate Service
+Service -> Figure : addDslPathTo(path)
+Service -> Repo : save(figure)
+deactivate Service
+deactivate Controller
+
+UI -> Plugin : interpretFigureScript(path)
+activate Plugin
+Plugin -> Lexer : create lexer with file content
+Lexer -> Lexer : tokenize input
+Lexer --> Plugin : tokens
+deactivate Lexer
+
+Plugin -> Parser : create parser with tokens
+Parser -> Parser : build parse tree
+Parser --> Plugin : parse tree
+deactivate Parser
+
+Plugin -> Visitor : visit(parse tree)
+Visitor -> Visitor : interpret commands
+Visitor --> Plugin : interpretation result
+deactivate Visitor
+
+Plugin --> UI : success or error
+UI -> User : Show result
+
+deactivate Plugin
+deactivate UI
+deactivate User
+@enduml

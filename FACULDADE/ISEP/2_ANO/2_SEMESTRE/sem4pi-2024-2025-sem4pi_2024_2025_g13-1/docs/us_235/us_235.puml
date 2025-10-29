@@ -1,0 +1,29 @@
+@startuml
+skinparam linetype ortho
+skinparam package {
+  BackgroundColor #AED6F1
+  BorderColor Black
+}
+
+actor "CRM Collaborator / Customer Representative" as User
+participant "ListShowRequestsUI" as UI
+participant "ListShowRequestsController" as Controller
+participant "ShowRequestService" as Service
+participant "ShowRequestRepository" as Repo
+participant "CustomerRepository" as CustomerRepo
+participant "AuthorizationService" as Auth
+
+User -> UI : Request to list show requests (customer VAT)
+UI -> Controller : listRequests(customerVat)
+Controller -> Auth : ensureAuthenticated()
+Controller -> CustomerRepo : findByVat(customerVat)
+CustomerRepo --> Controller : Customer
+Controller -> Auth : ensureCanAccessCustomer(customer)
+Controller -> Service : listRequestsForCustomer(customer)
+Service -> Repo : findByCustomerAndStatusNot(customer, DELETED)
+Repo --> Service : List<ShowRequest>
+Service --> Controller : List<ShowRequest>
+Controller --> UI : List<ShowRequest>
+UI -> User : display requests
+
+@enduml

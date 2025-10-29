@@ -1,0 +1,52 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam classAttributeIconSize 0
+
+class MarkProposalAcceptedUI {
+}
+
+class MarkProposalAcceptedController {
+  - service : ShowProposalService
+  + markProposalAsAccepted(showProposalId: ShowProposalID) : void
+}
+
+class ShowProposalService {
+  - repository : ShowProposalRepository
+  + markAsAccepted(showProposalId: ShowProposalID) : void
+}
+
+interface ShowProposalRepository {
+  + findById(id: ShowProposalID) : Optional<ShowProposal>
+  + save(proposal: ShowProposal) : ShowProposal
+}
+
+class JpaShowProposalRepository {
+  + findById(id: ShowProposalID) : Optional<ShowProposal>
+  + save(proposal: ShowProposal) : ShowProposal
+}
+
+class ShowProposal {
+  - status : ShowProposalStatus
+  + markShowProposalAsAccepted() : void
+  + status() : ShowProposalStatus
+}
+
+enum ShowProposalStatus {
+  ACCEPTED
+  REJECTED
+}
+
+class ShowProposalID
+
+' Relationships
+MarkProposalAcceptedUI --> MarkProposalAcceptedController
+MarkProposalAcceptedController --> ShowProposalService
+ShowProposalService --> ShowProposalRepository
+JpaShowProposalRepository ..|> ShowProposalRepository
+ShowProposalService --> ShowProposal
+ShowProposal --> ShowProposalStatus
+ShowProposal --> ShowProposalID
+
+@enduml

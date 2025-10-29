@@ -1,0 +1,34 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber 7
+
+participant ":jobRepository" as jobRepository
+participant ":Job" as Job
+
+-> jobRepository: createJob(description)
+
+activate jobRepository
+    group Create job
+
+        jobRepository -> Job**: create(description)
+deactivate jobRepository
+
+        activate Job
+            Job -> Job : verifyFilled(job)
+            activate Job
+                Job -> Job : verifySpecialCharacters(job)
+            deactivate Job
+
+            Job --> jobRepository : job
+        deactivate Job
+        activate jobRepository
+
+            jobRepository -> jobRepository : check for duplicates
+        deactivate Job
+    end
+
+    <-- jobRepository : job
+@enduml

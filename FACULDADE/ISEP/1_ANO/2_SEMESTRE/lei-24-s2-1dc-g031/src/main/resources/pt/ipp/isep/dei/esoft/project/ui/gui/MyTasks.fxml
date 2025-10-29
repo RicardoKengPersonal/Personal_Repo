@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="pt.ipp.isep.dei.esoft.project.ui.gui.MyTasksGUI"
+      stylesheets="@css/MyTasks.css"
+      prefHeight="400.0" prefWidth="600.0">
+    <HBox spacing="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10" />
+        </padding>
+        <TextField fx:id="startDateField" promptText="Start Date"/>
+        <TextField fx:id="endDateField" promptText="End Date"/>
+        <ComboBox fx:id="taskStatusComboBox" promptText="Task Status"/>
+        <Button text="Apply Filter" onAction="#handleApplyFilterButtonAction" styleClass="button"/>
+    </HBox>
+    <TableView fx:id="agendaEntriesTable" prefHeight="372.0" prefWidth="572.0">
+        <columns>
+            <TableColumn fx:id="entryColumn" prefWidth="572.0" text="Agenda Entries"/>
+        </columns>
+    </TableView>
+    <HBox alignment="BOTTOM_RIGHT" spacing="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10" />
+        </padding>
+        <Button fx:id="markAsDoneButton" text="Mark as Done" onAction="#handleMarkTaskAsDone" styleClass="button"/>
+        <Button text="Go Back" onAction="#goBack" styleClass="button"/>
+    </HBox>
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+</VBox>
