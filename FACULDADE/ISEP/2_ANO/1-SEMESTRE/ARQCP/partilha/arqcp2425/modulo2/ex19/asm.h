@@ -1,0 +1,1 @@
+short needed_time();

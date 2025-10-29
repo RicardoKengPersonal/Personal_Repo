@@ -1,0 +1,1 @@
+int count_odd_matrix(short **m, int y, int k);

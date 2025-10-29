@@ -1,0 +1,1 @@
+char fn(int* ptr);

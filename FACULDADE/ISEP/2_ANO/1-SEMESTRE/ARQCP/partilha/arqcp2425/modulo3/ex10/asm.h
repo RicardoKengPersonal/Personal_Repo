@@ -1,0 +1,1 @@
+void str_cat(char* ptr1, char* ptr2, char* ptr3);
